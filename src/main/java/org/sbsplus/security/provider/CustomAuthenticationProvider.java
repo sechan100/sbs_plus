@@ -1,7 +1,7 @@
 package org.sbsplus.security.provider;
 
-import org.sbsplus.user.entity.Account;
-import org.sbsplus.security.principal.AccountContext;
+import org.sbsplus.user.entity.User;
+import org.sbsplus.security.principal.UserContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -29,8 +29,8 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String username = authentication.getName();
         String password = (String) authentication.getCredentials();
 
-        AccountContext accountContext = (AccountContext) userDetailsService.loadUserByUsername(username);
-        Account account = accountContext.getAccount();
+        UserContext accountContext = (UserContext) userDetailsService.loadUserByUsername(username);
+        User account = accountContext.getUser();
 
         // password matche
         if(!passwordEncoder.matches(password, account.getPassword())){

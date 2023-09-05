@@ -6,14 +6,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.Getter;
-import org.sbsplus.user.entity.Account;
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
+import org.sbsplus.user.entity.User;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.annotation.RequestScope;
 
 import java.io.IOException;
@@ -27,15 +24,9 @@ public class Rq {
     private final HttpServletRequest request;
     private final HttpServletResponse response;
     private final HttpSession session;
-    private final Account account;
+    private final User user;
 
-
-    /**
-     * Bean Constructor
-     * @param request
-     * @param response
-     * @param session
-     */
+    
     public Rq(HttpServletRequest request, HttpServletResponse response, HttpSession session){
         this.request = request;
         this.response = response;
@@ -44,9 +35,9 @@ public class Rq {
         // get UserDetails: Account
         SecurityContext context = (SecurityContext) session.getAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY);
         Authentication authentication = context.getAuthentication();
-        Account account = (Account)authentication.getPrincipal();
+        User user = (User)authentication.getPrincipal();
 
-        this.account = account;
+        this.user = user;
     }
     
     // forwarding

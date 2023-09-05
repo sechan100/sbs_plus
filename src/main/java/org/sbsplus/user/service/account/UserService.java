@@ -1,11 +1,11 @@
-package org.sbsplus.user.service.validation;
+package org.sbsplus.user.service.account;
 
-import org.sbsplus.user.dto.AccountDto;
-import org.sbsplus.user.entity.Account;
+import org.sbsplus.user.dto.UserDto;
+import org.sbsplus.user.entity.User;
 
-public interface AccountService {
+public interface UserService {
 
-    Account findById(Integer id);
+    User findById(Integer id);
 
     int countByUsername(String username);
 
@@ -35,8 +35,8 @@ public interface AccountService {
      * @param role USER, ADMIN etc..
      * @return Account Entity
      */
-    Account convertToEntityWithRole(AccountDto accountDto, String role);
+    User convertToEntityWithRole(UserDto accountDto, String role);
 
-    void save(Account account);
+    void save(User account);
 
 }

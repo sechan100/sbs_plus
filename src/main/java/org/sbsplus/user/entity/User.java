@@ -1,19 +1,21 @@
-package org.sbsplus.user.dto;
+package org.sbsplus.user.entity;
 
 
+import jakarta.persistence.*;
 import lombok.Data;
+import org.sbsplus.subject.Subject;
 
 @Data
-public class AccountDto {
+@Entity
+public class User {
 
-    private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer Id;
 
     private String username;
 
     private String password;
-
-    // difference with Account Entity
-    private String confirmPassword;
 
     private String name;
 
@@ -22,8 +24,8 @@ public class AccountDto {
 
     private String email;
 
-    // String type subject
-    private String subject;
+    @Enumerated(EnumType.STRING)
+    private Subject subject;
 
     // phone number format: ex) 010-1111-2222
     // Needed 'auto formater' in frontEnd using html and JS..

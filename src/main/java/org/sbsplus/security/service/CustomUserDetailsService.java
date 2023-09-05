@@ -1,9 +1,9 @@
 package org.sbsplus.security.service;
 
 import lombok.RequiredArgsConstructor;
-import org.sbsplus.user.entity.Account;
-import org.sbsplus.security.principal.AccountContext;
-import org.sbsplus.user.repository.AccountRepository;
+import org.sbsplus.user.entity.User;
+import org.sbsplus.security.principal.UserContext;
+import org.sbsplus.user.repository.UserRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,24 +19,24 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private final AccountRepository accountRepository;
+    private final UserRepository accountRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        Account account = accountRepository.findByUsername(username);
+        User user = accountRepository.findByUsername(username);
 
         // username not found check
-        if(account == null) {
+        if(user == null) {
             throw new UsernameNotFoundException("UsernameNotFoundException");
         }
 
         List<GrantedAuthority> roles = new ArrayList<>();
-        roles.add(new SimpleGrantedAuthority("ROLE_" + account.getRole()));
+        roles.add(new SimpleGrantedAuthority("ROLE_" + user.getRole()));
 
-        AccountContext accountContext = new AccountContext(account, roles);
+        UserContext userContext = new UserContext(user, roles);
 
-        return accountContext;
+        return userContext;
     }
 }
 

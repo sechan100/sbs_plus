@@ -4,11 +4,11 @@ package org.sbsplus.user.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.sbsplus.security.principal.AccountContext;
+import org.sbsplus.security.principal.UserContext;
 import org.sbsplus.subject.Subject;
-import org.sbsplus.user.dto.AccountDto;
-import org.sbsplus.user.entity.Account;
-import org.sbsplus.user.service.validation.AccountService;
+import org.sbsplus.user.dto.UserDto;
+import org.sbsplus.user.entity.User;
+import org.sbsplus.user.service.account.UserService;
 import org.sbsplus.util.Rq;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,26 +24,26 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 @RequiredArgsConstructor
-public class AccountModificationController {
+public class UserModificationController {
     
     private final UserDetailsService userDetailsService;
-    private final AccountService accountValidationService;
+    private final UserService userService;
     private final PasswordEncoder passwordEncoder;
     private final Rq rq;
 
     @GetMapping("/{username}/modification")
     public String modification(@PathVariable("username") String username, HttpServletRequest request, Model model){
 
-        // url로 요청한 username과 session의 Account principal의 username이 동일하지 않은 경우..
-        if(!username.equals(rq.getAccount().getUsername())){
+        // url로 요청한 username과 session의 User principal의 username이 동일하지 않은 경우..
+        if(!username.equals(rq.getUser().getUsername())){
             throw new AccessDeniedException("해당 계정에 대한 수정 권한이 없습니다.");
         }
 
         ModelMapper modelMapper = new ModelMapper();
-        AccountDto account = modelMapper.map(rq.getAccount(), AccountDto.class);
+        UserDto userDto = modelMapper.map(rq.getUser(), UserDto.class);
         
         // Dto
-        model.addAttribute("account", account);
+        model.addAttribute("user", userDto);
         
         // 수업 유형 리스트
         model.addAttribute("subjects", Subject.getSubjects());
@@ -55,21 +55,20 @@ public class AccountModificationController {
     // modification process
     @PostMapping("/modification")
     @Transactional
-    public String modificationPrcs(AccountDto accountDto) {
+    public String modificationPrcs(UserDto userDto) {
 
-        // Account Entity for dirty checking
-        Account account = accountValidationService.findById(accountDto.getId());
-//        Account account = rq.getAccount();
+        // User Entity for dirty checking
+        User user = userService.findById(userDto.getId());
         
         // password 칸에 빈 문자열이 오지 않았을 경우..
-        if(!accountDto.getPassword().isEmpty()){
+        if(!userDto.getPassword().isEmpty()){
             
             // password confirm
-            if(accountValidationService.confirmPassword(accountDto.getPassword(), accountDto.getConfirmPassword())) {
-                return String.format("redirect:/%s/modification?error=true&type=password", rq.getAccount().getUsername());
+            if(userService.confirmPassword(userDto.getPassword(), userDto.getConfirmPassword())) {
+                return String.format("redirect:/%s/modification?error=true&type=password", rq.getUser().getUsername());
             } else {
                 // password encode and modify entity
-                account.setPassword(passwordEncoder.encode(accountDto.getPassword()));
+                user.setPassword(passwordEncoder.encode(userDto.getPassword()));
             }
             
         }
@@ -81,22 +80,22 @@ public class AccountModificationController {
          *************************
          */
         // email이 1개인 경우: 수정이 발생하지 않은 경우. (DB에 본인 Email값이 본인 레코드에 1개 있기에 1개로 매칭됨)
-        if(1 != accountValidationService.countByEmail(accountDto.getEmail())){
+        if(1 != userService.countByEmail(userDto.getEmail())){
             
             // DB 데이터와 Dto 데이터 매칭
-            if(!account.getEmail().equals(accountDto.getEmail())) {
-                return String.format("redirect:/%s/modification?error=true&type=email", rq.getAccount().getUsername());
+            if(!user.getEmail().equals(userDto.getEmail())) {
+                return String.format("redirect:/%s/modification?error=true&type=email", rq.getUser().getUsername());
             }
             
         // email이 0개인 경우: 수정이 발생
-        } else if(0 != accountValidationService.countByEmail(accountDto.getEmail())){
+        } else if(0 != userService.countByEmail(userDto.getEmail())){
             
             // Entity 수정
-            account.setEmail(accountDto.getEmail());
+            user.setEmail(userDto.getEmail());
             
         } else {
             // Error로 Redirect
-            return String.format("redirect:/%s/modification?error=true&type=email", rq.getAccount().getUsername());
+            return String.format("redirect:/%s/modification?error=true&type=email", rq.getUser().getUsername());
         }
         
         
@@ -106,22 +105,22 @@ public class AccountModificationController {
          *************************
          */
         // phone이 1개인 경우: 수정이 발생하지 않은 경우. (DB에 본인 phone값이 본인 레코드에 1개 있기에 1개로 매칭됨)
-        if(1 != accountValidationService.countByPhone(accountDto.getPhone())){
+        if(1 != userService.countByPhone(userDto.getPhone())){
             
             // DB 데이터와 Dto 데이터 매칭
-            if(!account.getPhone().equals(accountDto.getPhone())) {
-                return String.format("redirect:/%s/modification?error=true&type=phone", rq.getAccount().getUsername());
+            if(!user.getPhone().equals(userDto.getPhone())) {
+                return String.format("redirect:/%s/modification?error=true&type=phone", rq.getUser().getUsername());
             }
             
         // phone이 0개인 경우: 수정이 발생
-        } else if(0 != accountValidationService.countByPhone(accountDto.getPhone())){
+        } else if(0 != userService.countByPhone(userDto.getPhone())){
             
             // Entity 수정
-            account.setPhone(accountDto.getPhone());
+            user.setPhone(userDto.getPhone());
             
         } else {
             // Error로 Redirect
-            return String.format("redirect:/%s/modification?error=true&type=phone", rq.getAccount().getUsername());
+            return String.format("redirect:/%s/modification?error=true&type=phone", rq.getUser().getUsername());
         }
         
         
@@ -130,9 +129,9 @@ public class AccountModificationController {
          * name 변동 체크
          *************************
          */
-        if(!account.getName().equals(accountDto.getName())) {
+        if(!user.getName().equals(userDto.getName())) {
             // Entity 수정
-            account.setPhone(accountDto.getPhone());
+            user.setPhone(userDto.getPhone());
         }
         
         /*
@@ -140,9 +139,9 @@ public class AccountModificationController {
          * nickname 변동 체크
          *************************
          */
-        if(!account.getNickname().equals(accountDto.getNickname())) {
+        if(!user.getNickname().equals(userDto.getNickname())) {
             // Entity 수정
-            account.setNickname(accountDto.getNickname());
+            user.setNickname(userDto.getNickname());
         }
         
         /*
@@ -150,22 +149,22 @@ public class AccountModificationController {
          * subject 변동 체크
          *************************
          */
-        if(!account.getSubject().getSubjectStr().equals(accountDto.getSubject())) {
+        if(!user.getSubject().getSubjectStr().equals(userDto.getSubject())) {
             
             // Entity 수정
-            account.setSubject(Subject.convertStringToEnum(accountDto.getSubject()));
+            user.setSubject(Subject.convertStringToEnum(userDto.getSubject()));
         }
         
         
-        AccountContext accountContext = (AccountContext) userDetailsService.loadUserByUsername(account.getUsername());
+        UserContext accountContext = (UserContext) userDetailsService.loadUserByUsername(user.getUsername());
         
         UsernamePasswordAuthenticationToken newAuthentication = new UsernamePasswordAuthenticationToken(
-                account, null, accountContext.getAuthorities()
+                user, null, accountContext.getAuthorities()
         );
         
         SecurityContextHolder.getContext().setAuthentication(newAuthentication);
 
-        return String.format("redirect:/%s/modification", rq.getAccount().getUsername());
+        return String.format("redirect:/%s/modification", rq.getUser().getUsername());
     }
 
 }

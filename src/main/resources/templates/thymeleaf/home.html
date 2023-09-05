@@ -20,12 +20,16 @@
             <a th:href="|/${@rq.account.username}/modification|">계정 정보 수정</a>
         </li>
 
+        <li>
+            <a th:href="@{/article}">게시판</a>
+        </li>
+
         <li sec:authorize="isAuthenticated()">
             <a th:href="@{/logout}">로그아웃</a>
         </li>
 
-        <li>
-            <a th:href="@{/article}">게시판</a>
+        <li sec:authorize="isAuthenticated()">
+            <a th:href="@{/withdrawal}">회원탈퇴</a>
         </li>
     </ul>
 

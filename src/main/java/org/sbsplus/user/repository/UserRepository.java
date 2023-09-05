@@ -1,10 +1,10 @@
 package org.sbsplus.user.repository;
 
-import org.sbsplus.user.entity.Account;
+import org.sbsplus.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
-public interface AccountRepository extends JpaRepository<Account, Integer> {
+public interface UserRepository extends JpaRepository<User, Integer> {
 
     int countByUsername(String username);
 
@@ -12,5 +12,5 @@ public interface AccountRepository extends JpaRepository<Account, Integer> {
 
     int countByPhone(String phone);
 
-    Account findByUsername(String username);
+    User findByUsername(String username);
 }

@@ -4,9 +4,9 @@ package org.sbsplus.user.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.sbsplus.subject.Subject;
-import org.sbsplus.user.entity.Account;
-import org.sbsplus.user.dto.AccountDto;
-import org.sbsplus.user.service.validation.AccountService;
+import org.sbsplus.user.dto.UserDto;
+import org.sbsplus.user.entity.User;
+import org.sbsplus.user.service.account.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,14 +17,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 @RequiredArgsConstructor
 public class RegisterController {
 
-    private final AccountService accountValidationService;
+    private final UserService userService;
 
 
     // get request register form page
     @GetMapping("/register")
     public String register(Model model) {
 
-        model.addAttribute("account", new AccountDto());
+        model.addAttribute("user", new UserDto());
         model.addAttribute("subjects", Subject.getSubjects());
         return "/user/register";
     }
@@ -32,31 +32,31 @@ public class RegisterController {
 
     // register process
     @PostMapping("/register")
-    public String register_prcs(AccountDto accountDto) {
+    public String register_prcs(UserDto userDto) {
 
 
         // username invalid
-        if(!accountValidationService.isValidUsername(accountDto.getUsername())){
+        if(!userService.isValidUsername(userDto.getUsername())){
             return "redirect:/register?error=true&type=username";
 
         // email invalid
-        } else if(accountValidationService.isValidEmail(accountDto.getEmail())) {
+        } else if(userService.isValidEmail(userDto.getEmail())) {
             return "redirect:/register?error=true&type=email";
 
         // phone invalid
-        } else if(accountValidationService.isValidPhone(accountDto.getPhone())) {
+        } else if(userService.isValidPhone(userDto.getPhone())) {
             return "redirect:/register?error=true&type=phone";
 
         // match password with confirmPassword
-        } else if(accountValidationService.confirmPassword(accountDto.getPassword(), accountDto.getConfirmPassword())) {
+        } else if(userService.confirmPassword(userDto.getPassword(), userDto.getConfirmPassword())) {
             return "redirect:/register?error=true&type=password";
         }
 
 
-        // Convert AccountDto -> Account(Entity)
-        Account account = accountValidationService.convertToEntityWithRole(accountDto, "USER");
+        // Convert UserDto -> User(Entity)
+        User user = userService.convertToEntityWithRole(userDto, "USER");
 
-        accountValidationService.save(account);
+        userService.save(user);
 
         return "redirect:/login";
     }
