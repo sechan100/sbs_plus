@@ -17,7 +17,7 @@
 
         <li sec:authorize="isAuthenticated()">
 <!--            <a th:href="|/${session.SPRING_SECURITY_CONTEXT.authentication.principal.username}/modification}|">계정 정보 수정</a>-->
-            <a th:href="|/${@rq.account.username}/modification|">계정 정보 수정</a>
+            <a th:href="|/${@rq.user.username}/modification|">계정 정보 수정</a>
         </li>
 
         <li>

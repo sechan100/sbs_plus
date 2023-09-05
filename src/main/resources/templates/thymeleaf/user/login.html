@@ -16,7 +16,7 @@
                     Login
                 </div>
                 <div class="card-body">
-                    <form method="post" th:action="@{/login}" th:object="${account}">
+                    <form method="post" th:action="@{/login}" th:object="${user}">
                         <div class="form-group">
                             <label for="username">Username</label>
                             <input type="text" class="form-control" id="username" th:field="*{username}" required>

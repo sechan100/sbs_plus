@@ -19,12 +19,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private final UserRepository accountRepository;
+    private final UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        User user = accountRepository.findByUsername(username);
+        User user = userRepository.findByUsername(username);
 
         // username not found check
         if(user == null) {

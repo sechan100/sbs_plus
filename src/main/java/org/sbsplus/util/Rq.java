@@ -24,7 +24,7 @@ public class Rq {
     private final HttpServletRequest request;
     private final HttpServletResponse response;
     private final HttpSession session;
-    private final User user;
+    private User user;
 
     
     public Rq(HttpServletRequest request, HttpServletResponse response, HttpSession session){
@@ -35,9 +35,10 @@ public class Rq {
         // get UserDetails: Account
         SecurityContext context = (SecurityContext) session.getAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY);
         Authentication authentication = context.getAuthentication();
-        User user = (User)authentication.getPrincipal();
-
-        this.user = user;
+        if(authentication.getPrincipal() != null){
+            User user = (User)authentication.getPrincipal();
+            this.user = user;
+        }
     }
     
     // forwarding

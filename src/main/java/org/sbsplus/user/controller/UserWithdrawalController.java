@@ -12,7 +12,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.Map;
 
 @Controller
 @Slf4j
@@ -31,14 +35,16 @@ public class UserWithdrawalController {
     }
     
     @PostMapping("/withdrawal")
-    public String withdrawal(String password){
+    public String withdrawal(@RequestParam Map<String, String> passwordForm){
         
         User withdrawalTargetUser = rq.getUser();
         String encodedLoginedUserPassword = rq.getUser().getPassword();
         
+        // convert null to empty String: ""
+        String inputPassword = (passwordForm.get("password") == null ? "" : passwordForm.get("password"));
         
         // password incorrect
-        if(!passwordEncoder.matches(password, encodedLoginedUserPassword)){
+        if(!passwordEncoder.matches(inputPassword, encodedLoginedUserPassword)){
             throw new BadCredentialsException("BadCredentialsException");
         }
         

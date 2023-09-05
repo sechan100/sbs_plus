@@ -8,7 +8,7 @@
   <div class="container mt-5">
     <h2>회원 탈퇴</h2>
 
-    <h3 class="form-group">[[ ${@rq.account.nickname} ]]님</h3>
+    <h3 class="form-group">[[ ${@rq.user.username} ]]님</h3>
 
     <form th:action="@{/withdrawal}" method="post">
 

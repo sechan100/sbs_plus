@@ -1,5 +1,6 @@
 package org.sbsplus.home.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.sbsplus.util.Rq;
 import org.springframework.stereotype.Controller;
@@ -20,9 +21,9 @@ public class GeneralController {
 
 
     @GetMapping("/access_denied")
-    public String accessDenied(Model model){
+    public String accessDenied(Model model, HttpServletRequest request){
 
-        String msg = (String) rq.getRequest().getAttribute("msg");
+        String msg = (String) request.getAttribute("msg");
 
         model.addAttribute("msg", msg);
 

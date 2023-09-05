@@ -15,14 +15,13 @@ import java.io.IOException;
 
 @Component
 @Slf4j
-public class CustomAuthenticationFailureHandler implements AuthenticationFailureHandler {
+public class LoginFailureHandler implements AuthenticationFailureHandler {
     
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         
         String errorType = "AuthenticationFailureType";
         
-        // BadCredentialsException
         if(exception instanceof BadCredentialsException){
             errorType = "password";
         }
@@ -33,8 +32,8 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
         }
         
         
-        // redirect
-        response.sendRedirect(  request.getRequestURI() + "?error=true&type=" + errorType);
+        // forwarding with request attribute: exceptionMsg..
+        response.sendRedirect( "/login?error=true&type=" + errorType);
         
     }
 }

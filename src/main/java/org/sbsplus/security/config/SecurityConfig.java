@@ -24,7 +24,7 @@ public class SecurityConfig {
 
     private final AuthenticationProvider customAuthenticationProvider;
     private final AccessDeniedHandler defaultAccessDeniedHandler;
-    private final AuthenticationFailureHandler defaultAuthenticationFailureHandler;
+    private final AuthenticationFailureHandler loginFailureHandler;
     private final AuthenticationEntryPoint customAuthenticationEntryPoint;
 
     @Autowired
@@ -37,7 +37,7 @@ public class SecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/register*", "/login*").permitAll()
+                        .requestMatchers("/", "/register*", "/login*", "/access_denied").permitAll()
                         .anyRequest().authenticated()
                 )
 
@@ -45,7 +45,7 @@ public class SecurityConfig {
                         .loginPage("/login")
                         .loginProcessingUrl("/login")
                         .defaultSuccessUrl("/", false)
-                        .failureHandler(defaultAuthenticationFailureHandler)
+                        .failureHandler(loginFailureHandler)
                         .permitAll()
                 )
 
