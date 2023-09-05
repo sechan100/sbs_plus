@@ -25,3 +25,4 @@ build/
 
 ### application-prod.properties ###
 application-prod.properties
+application-sechan.properties
