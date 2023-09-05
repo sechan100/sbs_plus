@@ -3,7 +3,7 @@ package org.sbsplus.user.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.sbsplus.subject.Subject;
+import org.sbsplus.type.Subject;
 import org.sbsplus.user.dto.UserDto;
 import org.sbsplus.user.entity.User;
 import org.sbsplus.user.service.account.UserService;

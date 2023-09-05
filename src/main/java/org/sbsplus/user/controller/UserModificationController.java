@@ -5,7 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.sbsplus.security.principal.UserContext;
-import org.sbsplus.subject.Subject;
+import org.sbsplus.type.Subject;
 import org.sbsplus.user.dto.UserDto;
 import org.sbsplus.user.entity.User;
 import org.sbsplus.user.service.account.UserService;
@@ -149,7 +149,7 @@ public class UserModificationController {
          * subject 변동 체크
          *************************
          */
-        if(!user.getSubject().getSubjectStr().equals(userDto.getSubject())) {
+        if(!user.getSubject().getSubject_str().equals(userDto.getSubject())) {
             
             // Entity 수정
             user.setSubject(Subject.convertStringToEnum(userDto.getSubject()));

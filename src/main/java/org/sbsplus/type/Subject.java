@@ -1,4 +1,4 @@
-package org.sbsplus.subject;
+package org.sbsplus.type;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -44,7 +44,7 @@ public enum Subject {
 
 
 
-    private final String subjectStr;
+    private final String subject_str;
     private final String categoryName;
 
     @Getter
