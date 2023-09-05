@@ -2,7 +2,6 @@ package org.sbsplus.type;
 
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 @Getter
 public enum LikeTargetType {

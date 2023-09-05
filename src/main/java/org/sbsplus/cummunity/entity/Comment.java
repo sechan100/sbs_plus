@@ -7,7 +7,6 @@ import lombok.EqualsAndHashCode;
 import org.sbsplus.user.entity.User;
 import org.sbsplus.util.Datetime;
 
-import java.time.LocalDateTime;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity

@@ -2,7 +2,6 @@ package org.sbsplus.security.config;
 
 
 import lombok.RequiredArgsConstructor;
-import org.sbsplus.security.entrypoint.CustomAuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.reactive.PathRequest;
 import org.springframework.context.annotation.Bean;
