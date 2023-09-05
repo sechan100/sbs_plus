@@ -43,10 +43,6 @@ public class RegisterController {
         } else if(userService.isValidEmail(userDto.getEmail())) {
             return "redirect:/register?error=true&type=email";
 
-        // phone invalid
-        } else if(userService.isValidPhone(userDto.getPhone())) {
-            return "redirect:/register?error=true&type=phone";
-
         // match password with confirmPassword
         } else if(userService.confirmPassword(userDto.getPassword(), userDto.getConfirmPassword())) {
             return "redirect:/register?error=true&type=password";

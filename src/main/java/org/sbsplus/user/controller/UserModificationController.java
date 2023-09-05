@@ -97,32 +97,7 @@ public class UserModificationController {
             // Error로 Redirect
             return String.format("redirect:/%s/modification?error=true&type=email", rq.getUser().getUsername());
         }
-        
-        
-        /*
-         *************************
-         * phone 변동 체크
-         *************************
-         */
-        // phone이 1개인 경우: 수정이 발생하지 않은 경우. (DB에 본인 phone값이 본인 레코드에 1개 있기에 1개로 매칭됨)
-        if(1 != userService.countByPhone(userDto.getPhone())){
-            
-            // DB 데이터와 Dto 데이터 매칭
-            if(!user.getPhone().equals(userDto.getPhone())) {
-                return String.format("redirect:/%s/modification?error=true&type=phone", rq.getUser().getUsername());
-            }
-            
-        // phone이 0개인 경우: 수정이 발생
-        } else if(0 != userService.countByPhone(userDto.getPhone())){
-            
-            // Entity 수정
-            user.setPhone(userDto.getPhone());
-            
-        } else {
-            // Error로 Redirect
-            return String.format("redirect:/%s/modification?error=true&type=phone", rq.getUser().getUsername());
-        }
-        
+       
         
         /*
          *************************
@@ -131,25 +106,16 @@ public class UserModificationController {
          */
         if(!user.getName().equals(userDto.getName())) {
             // Entity 수정
-            user.setPhone(userDto.getPhone());
+            user.setName(userDto.getName());
         }
         
-        /*
-         *************************
-         * nickname 변동 체크
-         *************************
-         */
-        if(!user.getNickname().equals(userDto.getNickname())) {
-            // Entity 수정
-            user.setNickname(userDto.getNickname());
-        }
         
         /*
          *************************
          * subject 변동 체크
          *************************
          */
-        if(!user.getSubject().getSubject_str().equals(userDto.getSubject())) {
+        if(!user.getSubject().getSubjectStr().equals(userDto.getSubject())) {
             
             // Entity 수정
             user.setSubject(Subject.convertStringToEnum(userDto.getSubject()));

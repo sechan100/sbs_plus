@@ -44,7 +44,7 @@ public enum Subject {
 
 
 
-    private final String subject_str;
+    private final String subjectStr;
     private final String categoryName;
 
     @Getter

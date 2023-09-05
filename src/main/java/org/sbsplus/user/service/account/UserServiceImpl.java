@@ -37,12 +37,8 @@ public class UserServiceImpl implements UserService {
     public int countByEmail(String email) {
         return userRepository.countByEmail(email);
     }
-
-    @Override
-    public int countByPhone(String phone) {
-        return userRepository.countByPhone(phone);
-    }
-
+    
+    
     @Override
     public boolean isValidUsername(String username) {
         int registeredUsername = userRepository.countByUsername(username);
@@ -58,22 +54,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean isValidPhone(String phone) {
-        int registeredPhone = userRepository.countByPhone(phone);
-
-        return (registeredPhone != 0);
-    }
-
-    @Override
     public boolean confirmPassword(String password, String confirmPassword) {
         return !password.equals(confirmPassword);
-    }
-
-    @Override
-    public boolean isVaildPhoneFormat(String phone) {
-        // 구현 보류
-        // cross checking with front
-        return true;
     }
     
     

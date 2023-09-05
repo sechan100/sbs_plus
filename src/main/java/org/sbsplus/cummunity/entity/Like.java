@@ -3,11 +3,11 @@ package org.sbsplus.cummunity.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.sbsplus.type.LikeTargetType;
-import org.sbsplus.user.entity.User;
 
 @Entity
 @Data
-public class like {
+@Table(name = "likes")
+public class Like {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -5,16 +5,16 @@ import jakarta.persistence.*;
 import lombok.Data;
 import org.sbsplus.type.Subject;
 import org.sbsplus.user.entity.User;
-import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Data
-public class article {
+public class Article {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     
+    @ManyToOne
     private User author;
     
     @Enumerated(EnumType.STRING)
