@@ -2,11 +2,11 @@ package org.sbsplus.user.dto;
 
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter @Setter
 public class UserDto {
-
-    private Integer id;
 
     private String username;
 
@@ -16,6 +16,8 @@ public class UserDto {
     private String confirmPassword;
 
     private String name;
+    
+    private String nickname;
 
     private String email;
 

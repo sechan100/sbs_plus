@@ -18,7 +18,8 @@ public class Comment extends Datetime {
     private Integer id;
     
     @ManyToOne
-    private User author;
+    @JoinColumn(name = "user_id")
+    private User user;
     
     private Integer articleId;
     

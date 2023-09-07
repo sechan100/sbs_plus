@@ -21,17 +21,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-
-    @Override
-    public User findById(Integer id) {
-        Optional<User> account_ = userRepository.findById(id);
-        return account_.orElseThrow(()-> new EntityNotFoundException("존재하지 않는 사용자입니다."));
-    }
-
-    @Override
-    public int countByUsername(String username) {
-        return userRepository.countByUsername(username);
-    }
+    
 
     @Override
     public int countByEmail(String email) {
@@ -41,9 +31,9 @@ public class UserServiceImpl implements UserService {
     
     @Override
     public boolean isValidUsername(String username) {
-        int registeredUsername = userRepository.countByUsername(username);
+        User userWithIdenticalUsername = userRepository.findByUsername(username);
 
-        return (registeredUsername == 0);
+        return (userWithIdenticalUsername == null);
     }
 
     @Override
@@ -88,4 +78,20 @@ public class UserServiceImpl implements UserService {
                 + "\n################################"
         );
     }
+    
+    @Override
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
 }
+
+
+
+
+
+
+
+
+
+
+

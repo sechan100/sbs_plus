@@ -58,7 +58,7 @@ public class UserModificationController {
     public String modificationPrcs(UserDto userDto) {
 
         // User Entity for dirty checking
-        User user = userService.findById(userDto.getId());
+        User user = userService.findByUsername(userDto.getUsername());
         
         // password 칸에 빈 문자열이 오지 않았을 경우..
         if(!userDto.getPassword().isEmpty()){
@@ -79,23 +79,17 @@ public class UserModificationController {
          * email 변동 체크
          *************************
          */
-        // email이 1개인 경우: 수정이 발생하지 않은 경우. (DB에 본인 Email값이 본인 레코드에 1개 있기에 1개로 매칭됨)
-        if(1 != userService.countByEmail(userDto.getEmail())){
+        // 기존 email과 dto email이 다른 경우: 수정이 발생
+        if(!user.getEmail().equals(userDto.getEmail())){
             
-            // DB 데이터와 Dto 데이터 매칭
-            if(!user.getEmail().equals(userDto.getEmail())) {
+            // 겹치지 않는 email인 경우
+            if(userService.isValidEmail(userDto.getEmail())){
+                // Entity 수정
+                user.setEmail(userDto.getEmail());
+            } else {
                 return String.format("redirect:/%s/modification?error=true&type=email", rq.getUser().getUsername());
             }
             
-        // email이 0개인 경우: 수정이 발생
-        } else if(0 != userService.countByEmail(userDto.getEmail())){
-            
-            // Entity 수정
-            user.setEmail(userDto.getEmail());
-            
-        } else {
-            // Error로 Redirect
-            return String.format("redirect:/%s/modification?error=true&type=email", rq.getUser().getUsername());
         }
        
         
@@ -107,6 +101,16 @@ public class UserModificationController {
         if(!user.getName().equals(userDto.getName())) {
             // Entity 수정
             user.setName(userDto.getName());
+        }
+        
+        /*
+         *************************
+         * nickname 변동 체크
+         *************************
+         */
+        if(!user.getNickname().equals(userDto.getNickname())) {
+            // Entity 수정
+            user.setNickname(userDto.getNickname());
         }
         
         

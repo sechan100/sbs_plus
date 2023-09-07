@@ -15,7 +15,6 @@ import java.util.List;
 @Getter
 public enum Subject {
 
-
     // 해당 수업 과정 없음
       NONE("NONE", "과정 없음")
 

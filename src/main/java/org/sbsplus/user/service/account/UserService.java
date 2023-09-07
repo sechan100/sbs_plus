@@ -5,10 +5,6 @@ import org.sbsplus.user.entity.User;
 
 public interface UserService {
 
-    User findById(Integer id);
-
-    int countByUsername(String username);
-
     int countByEmail(String email);
     
     // 이미 존재하는 username 확인
@@ -30,5 +26,6 @@ public interface UserService {
     User convertToEntityWithRole(UserDto accountDto, String role);
 
     void save(User account);
-
+    
+    User findByUsername(String username);
 }

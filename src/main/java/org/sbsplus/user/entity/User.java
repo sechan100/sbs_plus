@@ -8,15 +8,17 @@ import org.sbsplus.type.Subject;
 @Data
 @Entity
 public class User {
-
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer Id;
-
+    private Long id;
+    
     private String username;
 
     private String password;
 
+    private String nickname;
+    
     private String name;
 
     private String email;
