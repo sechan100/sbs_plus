@@ -1,16 +1,16 @@
 package org.sbsplus.cummunity.entity.like;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 import org.sbsplus.type.LikeTargetType;
 
 import static jakarta.persistence.GenerationType.*;
 import static jakarta.persistence.InheritanceType.*;
 
+@Getter
+@Setter
 @Entity
-@Data
-@Builder
+@NoArgsConstructor
 @Table(name = "likes")
 @Inheritance(strategy = SINGLE_TABLE)
 @DiscriminatorColumn(name = "target_type")

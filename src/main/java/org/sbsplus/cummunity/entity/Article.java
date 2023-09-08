@@ -18,10 +18,9 @@ import static jakarta.persistence.FetchType.*;
 import static jakarta.persistence.GenerationType.*;
 
 @EqualsAndHashCode(callSuper = true)
+@Getter @Setter
 @Entity
-@Getter
-@Setter
-@Builder
+@NoArgsConstructor
 public class Article extends Datetime {
     
     @Id

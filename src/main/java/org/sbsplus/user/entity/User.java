@@ -2,13 +2,12 @@ package org.sbsplus.user.entity;
 
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 import org.sbsplus.type.Subject;
 
-@Data
+@Getter @Setter
 @Entity
-@Builder
+@NoArgsConstructor
 public class User {
     
     @Id

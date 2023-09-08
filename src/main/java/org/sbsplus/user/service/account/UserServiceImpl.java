@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
     public boolean isValidEmail(String email) {
         int registeredEmail = userRepository.countByEmail(email);
 
-        return (registeredEmail != 0);
+        return (registeredEmail == 0);
     }
 
     @Override

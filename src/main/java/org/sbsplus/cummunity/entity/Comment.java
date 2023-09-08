@@ -2,9 +2,7 @@ package org.sbsplus.cummunity.entity;
 
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import org.sbsplus.user.entity.User;
 import org.sbsplus.util.Datetime;
 
@@ -13,9 +11,10 @@ import static jakarta.persistence.GenerationType.*;
 
 
 @EqualsAndHashCode(callSuper = true)
+@Getter
+@Setter
 @Entity
-@Data
-@Builder
+@NoArgsConstructor
 public class Comment extends Datetime {
     
     @Id

@@ -40,7 +40,7 @@ public class RegisterController {
             return "redirect:/register?error=true&type=username";
 
         // email invalid
-        } else if(userService.isValidEmail(userDto.getEmail())) {
+        } else if(!userService.isValidEmail(userDto.getEmail())) {
             return "redirect:/register?error=true&type=email";
 
         // match password with confirmPassword

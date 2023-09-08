@@ -6,7 +6,4 @@ import lombok.Data;
 @Entity
 @DiscriminatorValue("article")
 public class ArticleLike extends Like{
-    ArticleLike(Integer id, Integer userId) {
-        super(id, userId);
-    }
 }
