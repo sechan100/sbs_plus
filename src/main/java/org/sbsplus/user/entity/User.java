@@ -2,11 +2,13 @@ package org.sbsplus.user.entity;
 
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 import org.sbsplus.type.Subject;
 
 @Data
 @Entity
+@Builder
 public class User {
     
     @Id
@@ -29,4 +31,6 @@ public class User {
     private String role;
 
     private int point;
+    
+    private int accumulatedPoint;
 }

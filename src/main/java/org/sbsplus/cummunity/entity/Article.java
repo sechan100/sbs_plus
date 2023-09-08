@@ -2,33 +2,45 @@ package org.sbsplus.cummunity.entity;
 
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.sbsplus.cummunity.entity.like.ArticleLike;
+import org.sbsplus.cummunity.entity.like.Like;
 import org.sbsplus.type.Subject;
 import org.sbsplus.user.entity.User;
 import org.sbsplus.util.Datetime;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import static jakarta.persistence.CascadeType.*;
+import static jakarta.persistence.EnumType.*;
+import static jakarta.persistence.FetchType.*;
+import static jakarta.persistence.GenerationType.*;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
-@Getter @Setter
+@Getter
+@Setter
+@Builder
 public class Article extends Datetime {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = IDENTITY)
     private Integer id;
     
-    @ManyToOne
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private User user;
     
-    @OneToMany
-    private List<Comment> comments;
+    @OneToMany(cascade = ALL, orphanRemoval = true)
+    @JoinColumn(name = "article_id")
+    private List<Comment> comments = new ArrayList<>();
     
-    @Enumerated(EnumType.STRING)
+    @OneToMany(cascade = ALL, orphanRemoval = true)
+    @JoinColumn(name = "target_id")
+    private List<Like> like = new ArrayList<>();
+    
+    @Enumerated(STRING)
     private Subject categoty;
     
     private String title;
