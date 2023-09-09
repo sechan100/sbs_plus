@@ -46,7 +46,11 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
             
             redirectUri = "/access_denied";
             queryString = "";
-            request.setAttribute("msg", "로그인 후 이용해주세요");
+            
+            if(request.getRequestURI().startsWith("/admin"))
+                request.setAttribute("msg", "관리자 권한으로 이용해주세요.");
+            else
+                request.setAttribute("msg", "로그인 후 이용해주세요");
             
             // forward
             request.getRequestDispatcher(redirectUri + queryString).forward(request, response);

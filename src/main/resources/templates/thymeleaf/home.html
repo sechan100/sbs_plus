@@ -15,8 +15,7 @@
             <a th:href="@{/register}">회원가입</a>
         </li>
 
-        <li sec:authorize="isAuthenticated()">
-<!--            <a th:href="|/${session.SPRING_SECURITY_CONTEXT.authentication.principal.username}/modification}|">계정 정보 수정</a>-->
+        <li sec:authorize="hasRole('USER')">
             <a th:href="|/${@rq.user.username}/modification|">계정 정보 수정</a>
         </li>
 

@@ -3,9 +3,11 @@ package org.sbsplus.security.provider;
 import org.sbsplus.user.entity.User;
 import org.sbsplus.security.principal.UserContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,7 +19,12 @@ import org.springframework.stereotype.Component;
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     @Autowired
+    @Qualifier("userDetailsService")
     private UserDetailsService userDetailsService;
+    
+    @Autowired
+    @Qualifier("inMemoryAdminDetailsService")
+    private UserDetailsService inMemoryAdminDetailsService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -28,6 +35,16 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
         String username = authentication.getName();
         String password = (String) authentication.getCredentials();
+        
+        
+        if(username.equals("admin")){
+            DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider(passwordEncoder);
+            daoAuthenticationProvider.setUserDetailsService(inMemoryAdminDetailsService);
+            return daoAuthenticationProvider.authenticate(authentication);
+        }
+        
+        
+        
 
         UserContext userContext = (UserContext) userDetailsService.loadUserByUsername(username);
         User user = userContext.getUser();
