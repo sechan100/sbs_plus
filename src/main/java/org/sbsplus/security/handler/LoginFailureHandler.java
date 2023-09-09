@@ -14,13 +14,13 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 @Component
-@Slf4j
-public class LoginFailureHandler implements AuthenticationFailureHandler {
+@Slf4j // Lombok 어노테이선. 로그를 기록하기 위한 Logger 인스턴스를 자동으로 생성
+public class LoginFailureHandler implements AuthenticationFailureHandler { //로그인 실패시 처리
     
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
-        
-        String errorType = "AuthenticationFailureType";
+        // AuthenticationException : 로그인 인증 실패 예외 객체
+        String errorType = "AuthenticationFailureType"; //실패한 인증의 유형
         
         if(exception instanceof BadCredentialsException){
             errorType = "password";
@@ -33,6 +33,8 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
         
         
         // forwarding with request attribute: exceptionMsg..
+        // 실패한 인증의 유형(errorType)dmf URL 파라미터로 포함해 /login페이지로 redirect.
+        // 페이지에서 실패 인증의 유형에 따른 오류 페이지 표시
         response.sendRedirect( "/login?error=true&type=" + errorType);
         
     }

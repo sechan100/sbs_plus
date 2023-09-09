@@ -36,23 +36,24 @@ public class SecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http
                 .authorizeHttpRequests(auth -> auth
-                        // 메인 페이지, 회원가입, 로그인, 권한 없음 페이지 permit all
+                        // 메인 페이지, 회원가입, 로그인, QnA, 권한 없음 페이지 permit all
                         .requestMatchers("/", "/register*", "/login*", "/access_denied", "/question/**").permitAll()
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .anyRequest().authenticated()
+                        //위 경로에 대한 접근은 모두 허용
+                        .requestMatchers("/admin/**").hasRole("ADMIN") //admin역할을 가진 사용자만 허용
+                        .anyRequest().authenticated() // 그 외의 모든 요청은 인증된 사용자만 접근
                 )
 
                 .formLogin(form -> form
-                        .loginPage("/login")
-                        .loginProcessingUrl("/login")
-                        .defaultSuccessUrl("/", false)
+                        .loginPage("/login") //사용자 정의 로그인페이지 설정
+                        .loginProcessingUrl("/login") //로그인처리url지정
+                        .defaultSuccessUrl("/", false) //로그인 성공시 메인, 실패시 loginFailuerHandler로 실패 처리
                         .failureHandler(loginFailureHandler)
                         .permitAll()
                 )
 
-                .exceptionHandling(exception -> exception
-                        .accessDeniedHandler(defaultAccessDeniedHandler)
-                        .authenticationEntryPoint(customAuthenticationEntryPoint)
+                .exceptionHandling(exception -> exception //예외처리 구성
+                        .accessDeniedHandler(defaultAccessDeniedHandler) //접근 거부 핸들러
+                        .authenticationEntryPoint(customAuthenticationEntryPoint) //사용자 정의 인증 진입점 설정
                 );
 
 
