@@ -37,7 +37,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(auth -> auth
                         // 메인 페이지, 회원가입, 로그인, 권한 없음 페이지 permit all
-                        .requestMatchers("/", "/register*", "/login*", "/access_denied").permitAll()
+                        .requestMatchers("/", "/register*", "/login*", "/access_denied", "/question*").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
@@ -68,32 +68,3 @@ public class SecurityConfig {
                 .ignoring().requestMatchers(String.valueOf(PathRequest.toStaticResources().atCommonLocations()));
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
