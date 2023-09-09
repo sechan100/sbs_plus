@@ -36,7 +36,9 @@ public class SecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http
                 .authorizeHttpRequests(auth -> auth
+                        // 메인 페이지, 회원가입, 로그인, 권한 없음 페이지 permit all
                         .requestMatchers("/", "/register*", "/login*", "/access_denied").permitAll()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
 
