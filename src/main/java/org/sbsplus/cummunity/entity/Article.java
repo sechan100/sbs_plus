@@ -36,7 +36,7 @@ public class Article extends Datetime {
     
     @OneToMany(cascade = ALL, orphanRemoval = true)
     @JoinColumn(name = "target_id")
-    private List<Like> like = new ArrayList<>();
+    private List<Like> likes = new ArrayList<>();
     
     @Enumerated(STRING)
     private Category category;

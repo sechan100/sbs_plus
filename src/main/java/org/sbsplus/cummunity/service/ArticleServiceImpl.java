@@ -2,6 +2,8 @@ package org.sbsplus.cummunity.service;
 
 
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.sbsplus.cummunity.dto.ArticleDto;
 import org.sbsplus.cummunity.entity.Article;
 import org.sbsplus.cummunity.repository.ArticleRepository;
 import org.springframework.data.domain.Page;
@@ -16,11 +18,13 @@ public class ArticleServiceImpl implements ArticleService {
     private final ArticleRepository articleRepository;
     
     @Override
-    public Page<Article> findAll(int page){
+    public Page<ArticleDto> findAll(int page){
         
         PageRequest pageRequest = PageRequest.of(page, 20, Sort.by(Sort.Direction.DESC, "createAt"));
+        Page<Article> articles_ = articleRepository.findAll(pageRequest);
         
-        return articleRepository.findAll(pageRequest);
+        
+        return articles_.map(article -> (new ModelMapper()).map(article, ArticleDto.class));
     }
 
 }

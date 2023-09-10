@@ -2,7 +2,7 @@ package org.sbsplus.cummunity.controller;
 
 
 import lombok.RequiredArgsConstructor;
-import org.sbsplus.cummunity.entity.Article;
+import org.sbsplus.cummunity.dto.ArticleDto;
 import org.sbsplus.cummunity.service.ArticleService;
 import org.sbsplus.type.Category;
 import org.springframework.data.domain.Page;
@@ -29,7 +29,7 @@ public class ArticleController {
             ){
         
         List<Category> categories = Category.getCategories();
-        Page<Article> articles = articleService.findAll(page-1);
+        Page<ArticleDto> articles = articleService.findAll(page-1);
         
         
         model.addAttribute("categories", categories);

@@ -7,6 +7,10 @@
 <body>
   <h1>home</h1>
     <ul>
+        <li>
+            <a th:href="@{/article}">커뮤니티</a>
+        </li>
+
         <li sec:authorize="isAnonymous()">
             <a th:href="@{/login}">로그인</a>
         </li>
