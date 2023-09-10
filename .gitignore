@@ -3,6 +3,9 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+*.class
+*.jar
+*.project
 
 ### IntelliJ IDEA ###
 .idea
@@ -22,7 +25,3 @@ build/
 
 ### VS Code ###
 .vscode/
-
-### application-prod.properties ###
-application-prod.properties
-application-sechan.properties
