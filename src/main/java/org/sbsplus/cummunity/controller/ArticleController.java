@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.sbsplus.cummunity.dto.ArticleDto;
 import org.sbsplus.cummunity.service.ArticleService;
 import org.sbsplus.type.Category;
+import org.sbsplus.util.Pager;
+import org.sbsplus.util.Rq;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +22,7 @@ import java.util.List;
 public class ArticleController {
     
     private final ArticleService articleService;
+    private final Rq rq;
     
     
     @GetMapping("")
@@ -30,10 +33,21 @@ public class ArticleController {
         
         List<Category> categories = Category.getCategories();
         Page<ArticleDto> articles = articleService.findAll(page-1);
+        Integer totalPage = articles.getTotalPages();
+        
+        if(page < 1 || page > totalPage){
+            rq.handleUnexpectedRequest("존재하지 않는 페이지입니다.");
+        }
+        
+        
+        List<Integer> pageRange = Pager.getPageRange(page, totalPage);
         
         
         model.addAttribute("categories", categories);
         model.addAttribute("articles", articles);
+        model.addAttribute("pageRange", pageRange);
+        
+        
         
         
         return "/article/articleList";

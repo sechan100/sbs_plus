@@ -1,11 +1,15 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>access denied</title>
 </head>
 <body>
   <h1 th:text="${msg}"></h1>
-  <button onclick="history.back()">확인</button>
+  <button onclick="history.back()">뒤로가기</button>
+  <button sec:authorize="isAnanymous()" onclick="location.href = '/login'">로그인</button>
+  <button sec:authorize="isAuthenticated()" onclick="location.href = '/'">메인화면</button>
 </body>
 </html>

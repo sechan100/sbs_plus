@@ -59,11 +59,11 @@ public class DataCreator {
     
     public void createArticles(){
         
-        for(int i = 0; i < 50; i++){
+        for(int i = 0; i < 200; i++){
             Article article = new Article();
             article.setUser(userRepository.findById(random.nextInt(5) + 1).orElse(null));
             article.setCategory(Category.IT);
-            article.setTitle("게시글 " + i+1 + "번");
+            article.setTitle("게시글 " + (i+1) + "번");
             article.setContent("내용내용내용내용내용내용내용");
             article.setHit(random.nextInt(100));
             

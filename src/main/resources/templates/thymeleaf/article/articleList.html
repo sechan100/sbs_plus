@@ -2,6 +2,8 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
     <title>Title</title>
 </head>
 <body>
@@ -16,21 +18,27 @@
         </li>
     </ul>
     <br><br>
+        <button
+                th:each="num : ${pageRange}"
+                th:text="${num}"
+                class="pageBtn">
+        </button>
 
-    <button onclick="">이전</button>
-        <button>1</button>
-        <button>2</button>
-        <button>3</button>
-        <button>4</button>
-        <button>5</button>
-    <button>다음</button>
 
 <script th:inline="javascript">
-    <![CDATA[
+    /* <![CDATA[ */
+    const totalPage = [[ ${articles.getTotalPages()} ]];
+    const urlSearch = new URLSearchParams(location.search);
+    const currentPage = urlSearch.get("page");
+
+    // 페이지 이동
+    $(".pageBtn").on( 'click', (event) => {
+        location.href = "/article?page=" + event.target.innerHTML;
+    })
 
 
 
-    ]]>
+    /* ]]> */
 </script>
 
 </body>
