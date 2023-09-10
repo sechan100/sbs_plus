@@ -3,7 +3,7 @@ package org.sbsplus.user.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.sbsplus.type.Subject;
+import org.sbsplus.type.Category;
 import org.sbsplus.user.dto.UserDto;
 import org.sbsplus.user.entity.User;
 import org.sbsplus.user.service.account.UserService;
@@ -25,7 +25,8 @@ public class RegisterController {
     public String register(Model model) {
 
         model.addAttribute("user", new UserDto());
-        model.addAttribute("subjects", Subject.getSubjects());
+        model.addAttribute("categories", Category.getCategories());
+        
         return "/user/register";
     }
 

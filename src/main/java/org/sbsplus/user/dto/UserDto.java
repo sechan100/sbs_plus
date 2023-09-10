@@ -1,7 +1,6 @@
 package org.sbsplus.user.dto;
 
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,7 +21,7 @@ public class UserDto {
     private String email;
 
     // String type subject
-    private String subject;
+    private String category;
 
     private String role;
 

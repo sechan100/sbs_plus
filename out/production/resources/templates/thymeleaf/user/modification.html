@@ -48,9 +48,9 @@
     <div th:if="${param.error} and ${#strings.equals(param.type, 'email')}">이미 사용중인 이메일입니다.</div>
 
     <div class="form-group">
-      <label for="subject">수업유형</label>
-      <select class="form-control" id="subject" name="subject">
-        <option th:each="subject : ${subjects}" th:value="${subject.subjectStr}">[[ ${subject.categoryName} ]]</option>
+      <label for="category">수업유형</label>
+      <select class="form-control" id="category" name="category">
+        <option th:each="category : ${categories}" th:value="${category.value}">[[ ${category.categoryName} ]]</option>
       </select>
     </div>
 
@@ -60,26 +60,9 @@
 
 <script th:inline="javascript">
   /* <![CDATA[ */
-    const oldSubject = [[ ${user.subject} ]]
-    $("#subject > option[value="+oldSubject+"]").attr("selected", true);
 
-
-    $("passwordModificationForm").submit( (event) => {
-
-        event.preventDefault();
-
-        $.ajax({
-            type: "POST"
-          , url: "/password_modification_prcs"
-          , data: $(this).serialize()
-          , success: (response) => {
-              alert("비밀번호가 변경되었습니다.")
-          }
-          , error: (xhr, status, error) => {
-            console.error(xhr, status, error)
-          }
-        });
-      });
+    const oldCategory = "[( ${user.category} )]";
+    $("#category > option[value="+oldCategory+"]").attr("selected", true);
 
   /* ]]> */
 </script>

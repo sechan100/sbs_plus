@@ -4,8 +4,9 @@ package org.sbsplus.user.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeMap;
 import org.sbsplus.security.principal.UserContext;
-import org.sbsplus.type.Subject;
+import org.sbsplus.type.Category;
 import org.sbsplus.user.dto.UserDto;
 import org.sbsplus.user.entity.User;
 import org.sbsplus.user.service.account.UserService;
@@ -29,6 +30,7 @@ public class UserModificationController {
     private final UserDetailsService userDetailsService;
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
+    private final ModelMapper mapper;
     private final Rq rq;
 
     @GetMapping("/{username}/modification")
@@ -38,15 +40,14 @@ public class UserModificationController {
         if(!username.equals(rq.getUser().getUsername())){
             throw new AccessDeniedException("해당 계정에 대한 수정 권한이 없습니다.");
         }
-
-        ModelMapper modelMapper = new ModelMapper();
-        UserDto userDto = modelMapper.map(rq.getUser(), UserDto.class);
+        
+        UserDto userDto = mapper.map(rq.getUser(), UserDto.class);
         
         // Dto
         model.addAttribute("user", userDto);
         
         // 수업 유형 리스트
-        model.addAttribute("subjects", Subject.getSubjects());
+        model.addAttribute("categories", Category.getCategories());
 
         return "/user/modification";
     }
@@ -116,13 +117,13 @@ public class UserModificationController {
         
         /*
          *************************
-         * subject 변동 체크
+         * category 변동 체크
          *************************
          */
-        if(!user.getSubject().getSubjectStr().equals(userDto.getSubject())) {
+        if(!user.getCategory().getValue().equals(userDto.getCategory())) {
             
             // Entity 수정
-            user.setSubject(Subject.convertStringToEnum(userDto.getSubject()));
+            user.setCategory(Category.convertStringToEnum(userDto.getCategory()));
         }
         
         

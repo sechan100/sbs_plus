@@ -2,6 +2,7 @@ package org.sbsplus.type;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.List;
  */
 @RequiredArgsConstructor
 @Getter
-public enum Subject {
+public enum Category {
 
     // 해당 수업 과정 없음
       NONE("NONE", "과정 없음")
@@ -43,49 +44,51 @@ public enum Subject {
 
 
 
-    private final String subjectStr;
+    private final String value;
     private final String categoryName;
-
+    
     @Getter
-    private static List<Subject> subjects = new ArrayList<>();
+    private static List<Category> categories = new ArrayList<>();
+    
         static {
-            subjects.add(NONE);
-            subjects.add(CERTIFICATE);
-            subjects.add(MAYA);
-            subjects.add(INTERIOR);
-            subjects.add(IT);
-            subjects.add(DTP);
-            subjects.add(PRODUCT);
-            subjects.add(DESIGN);
+            categories.add(NONE);
+            categories.add(CERTIFICATE);
+            categories.add(MAYA);
+            categories.add(INTERIOR);
+            categories.add(IT);
+            categories.add(DTP);
+            categories.add(PRODUCT);
+            categories.add(DESIGN);
         }
 
 
 
-    public static Subject convertStringToEnum(String subject_){
-        switch(subject_) {
+    public static Category convertStringToEnum(String category){
+        
+        switch(category) {
             case "CERTIFICATE" -> {
-                return Subject.CERTIFICATE;
+                return Category.CERTIFICATE;
             }
             case "MAYA" -> {
-                return Subject.MAYA;
+                return Category.MAYA;
             }
             case "INTERIOR" -> {
-                return Subject.INTERIOR;
+                return Category.INTERIOR;
             }
             case "IT" -> {
-                return Subject.IT;
+                return Category.IT;
             }
             case "DTP" -> {
-                return Subject.DTP;
+                return Category.DTP;
             }
             case "PRODUCT" -> {
-                return Subject.PRODUCT;
+                return Category.PRODUCT;
             }
             case "DESIGN" -> {
-                return Subject.DESIGN;
+                return Category.DESIGN;
             }
             default -> {
-                return Subject.NONE;
+                return Category.NONE;
             }
         }
     }
