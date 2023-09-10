@@ -44,6 +44,16 @@ public class GeneralController {
 
         return "/util/access_denied";
     }
+    
+    @GetMapping("/unexpected_request")
+    public String unexpectedRequest(Model model, HttpServletRequest request){
+        
+        String msg = (String) request.getAttribute("msg");
+        
+        model.addAttribute("msg", msg);
+        
+        return "/util/unexpected_request";
+    }
 
 
 }

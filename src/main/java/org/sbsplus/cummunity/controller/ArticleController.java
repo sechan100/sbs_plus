@@ -10,20 +10,18 @@ import org.sbsplus.util.Rq;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Controller
 @RequestMapping("/article")
 @RequiredArgsConstructor
+@ControllerAdvice
 public class ArticleController {
     
     private final ArticleService articleService;
     private final Rq rq;
-    
     
     @GetMapping("")
     public String articleList(
@@ -33,11 +31,13 @@ public class ArticleController {
         
         List<Category> categories = Category.getCategories();
         Page<ArticleDto> articles = articleService.findAll(page-1);
+        
+        if(articles == null || page > articles.getTotalPages()) {
+            return rq.unexpectedRequestForWardUri("존재하지 않는 페이지입니다.");
+        }
+        
         Integer totalPage = articles.getTotalPages();
         
-        if(page < 1 || page > totalPage){
-            rq.handleUnexpectedRequest("존재하지 않는 페이지입니다.");
-        }
         
         
         List<Integer> pageRange = Pager.getPageRange(page, totalPage);

@@ -12,8 +12,11 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.io.IOException;
+import java.util.Objects;
 
 @Component
 //@Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
@@ -22,38 +25,49 @@ import java.io.IOException;
 public class Rq {
 
     private final HttpServletRequest request;
-    private final HttpServletResponse response;
-    private final HttpSession session;
+    private HttpServletResponse response;
+    private HttpSession session;
     private User user;
 
     
-    public Rq(HttpServletRequest request, HttpServletResponse response, HttpSession session){
+    public Rq(){
+        ServletRequestAttributes sessionAttributes = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes()));
+        HttpServletRequest request = sessionAttributes.getRequest();
+        HttpServletResponse response = sessionAttributes.getResponse();
         this.request = request;
         this.response = response;
-        this.session = session;
+        this.session = request.getSession();
 
         // get UserDetails: Account
         SecurityContext context = (SecurityContext) session.getAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY);
-        Authentication authentication = context.getAuthentication();
-        if(authentication.getPrincipal() != null){
-            User user = (User)authentication.getPrincipal();
-            this.user = user;
+        
+        if(context != null) {
+            Authentication authentication = context.getAuthentication();
+            if(authentication.getPrincipal() != null){
+                User user = (User)authentication.getPrincipal();
+                this.user = user;
+            }
         }
     }
     
     // forwarding
     public void forward(String forwardUrl) {
-        
         RequestDispatcher dispatcher = request.getRequestDispatcher(forwardUrl);
-
         try {
             dispatcher.forward(request, response);
         } catch(ServletException | IOException e){
             e.getMessage();
         }
-
     }
 
+    
+    // unexpected_request
+    public String unexpectedRequestForWardUri(String msg){
+        
+        request.setAttribute("msg", msg);
+        return "forward:/unexpected_request";
+    }
+    
 }
 
 

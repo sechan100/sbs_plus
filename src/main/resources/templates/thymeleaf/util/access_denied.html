@@ -4,12 +4,12 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>access denied</title>
+    <title>ACCESS_DENIED</title>
 </head>
 <body>
   <h1 th:text="${msg}"></h1>
   <button onclick="history.back()">뒤로가기</button>
-  <button sec:authorize="isAnanymous()" onclick="location.href = '/login'">로그인</button>
+  <button sec:authorize="isAnonymous()" onclick="location.href = '/login'">로그인</button>
   <button sec:authorize="isAuthenticated()" onclick="location.href = '/'">메인화면</button>
 </body>
 </html>

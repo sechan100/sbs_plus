@@ -20,11 +20,17 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public Page<ArticleDto> findAll(int page){
         
-        PageRequest pageRequest = PageRequest.of(page, 20, Sort.by(Sort.Direction.DESC, "createAt"));
-        Page<Article> articles_ = articleRepository.findAll(pageRequest);
-        
-        
-        return articles_.map(article -> (new ModelMapper()).map(article, ArticleDto.class));
+        try {
+            
+            PageRequest pageRequest = PageRequest.of(page, 20, Sort.by(Sort.Direction.DESC, "createAt"));
+            Page<Article> articles_ = articleRepository.findAll(pageRequest);
+            
+            return articles_.map(article -> (new ModelMapper()).map(article, ArticleDto.class));
+            
+        } catch(IllegalArgumentException e){
+            
+            return null;
+        }
     }
 
 }
