@@ -7,6 +7,7 @@ import org.sbsplus.type.Category;
 import org.sbsplus.user.dto.UserDto;
 import org.sbsplus.user.entity.User;
 import org.sbsplus.user.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,9 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    
+    @Qualifier("dtoToUser")
+    private final ModelMapper mapper;
     
 
     @Override
@@ -48,15 +52,8 @@ public class UserServiceImpl implements UserService {
     
     @Override
     public User convertToEntityWithRole(UserDto userDto, String role) {
-
-        ModelMapper modelMapper = new ModelMapper();
-        User user = modelMapper.map(userDto, User.class);
-
-        // password encode
-        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-
-        // parse Subject type String to Enum
-        user.setCategory(Category.convertStringToEnum(userDto.getCategory()));
+        
+        User user = mapper.map(userDto, User.class);
 
         // grant role
         user.setRole(role);

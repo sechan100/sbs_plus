@@ -11,6 +11,7 @@ import org.sbsplus.user.dto.UserDto;
 import org.sbsplus.user.entity.User;
 import org.sbsplus.user.service.account.UserService;
 import org.sbsplus.util.Rq;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -30,6 +31,8 @@ public class UserModificationController {
     private final UserDetailsService userDetailsService;
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
+    
+    @Qualifier("userToDto")
     private final ModelMapper mapper;
     private final Rq rq;
 
