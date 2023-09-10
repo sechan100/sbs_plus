@@ -3,9 +3,8 @@ package org.sbsplus.cummunity.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.sbsplus.cummunity.entity.like.ArticleLike;
 import org.sbsplus.cummunity.entity.like.Like;
-import org.sbsplus.type.Subject;
+import org.sbsplus.type.Category;
 import org.sbsplus.user.entity.User;
 import org.sbsplus.util.Datetime;
 
@@ -40,7 +39,7 @@ public class Article extends Datetime {
     private List<Like> like = new ArrayList<>();
     
     @Enumerated(STRING)
-    private Subject categoty;
+    private Category category;
     
     private String title;
     

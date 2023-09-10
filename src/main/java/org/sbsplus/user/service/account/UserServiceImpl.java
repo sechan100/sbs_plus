@@ -1,17 +1,14 @@
 package org.sbsplus.user.service.account;
 
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.sbsplus.type.Subject;
+import org.sbsplus.type.Category;
 import org.sbsplus.user.dto.UserDto;
 import org.sbsplus.user.entity.User;
 import org.sbsplus.user.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 
 @Service
@@ -59,7 +56,7 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
         // parse Subject type String to Enum
-        user.setSubject(Subject.convertStringToEnum(userDto.getSubject()));
+        user.setCategory(Category.convertStringToEnum(userDto.getCategory()));
 
         // grant role
         user.setRole(role);
@@ -73,7 +70,7 @@ public class UserServiceImpl implements UserService {
         log.info("\n#####[ New User Registered ]##### \n"
                 + "이름: " + user.getName() +"\n"
                 + "아이디: " + user.getUsername() +"\n"
-                + "수업 유형: " + user.getSubject().getCategoryName() +"\n"
+                + "수업 유형: " + user.getCategory().getCategoryName() +"\n"
                 + "이메일: " + user.getEmail()
                 + "\n################################"
         );
