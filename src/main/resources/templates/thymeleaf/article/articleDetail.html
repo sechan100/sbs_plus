@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <title>Title</title>
+</head>
+<body>
+    <div th:text="|${article.likes.size()}개의 좋아요|"></div>
+    <div th:text="|카테고리: ${article.category.name}|"></div>
+    <div th:text="|작성자: ${article.user.nickname}|"></div>
+    <div th:text="${article.createAt}"></div>
+    <div th:text="|조회수: ${article.hit}|"></div>
+    <h1 th:text="|제목: ${article.title}|"></h1>
+    <div th:text="${article.content}"></div>
+    <br><br><br><br>
+    <ul>
+        <div th:if="${article.comments.size()} == 0" th:text="|작성된 댓글이 없습니다.|"></div>
+        <li th:each="comment : ${article.comments}">
+            <div th:text="|${comment.likes.size()}개의 좋아요|"></div>
+            <div th:text="${comment.user.nickname}"></div>
+            <div th:text="${comment.createAt}"></div>
+            <div th:text="${comment.content}"></div>
+            <br><br>
+        </li>
+    </ul>
+
+    <br><br>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    const selectedCategory = [[${param.category}]];
+
+    // 카테고리 기본 선택 속성 추가
+    if(selectedCategory == null){
+        $("#category > option[value=ALL]").attr("selected", true);
+    } else {
+        $("#category > option[value="+selectedCategory+"]").attr("selected", true);
+    }
+
+
+
+    // 페이지 이동
+    $(".pageBtn").on( 'click', (event) => {
+        location.href = "/article?page=" + event.target.innerHTML + "&category=" + selectedCategory;
+    })
+
+
+
+    // 카테고리 변경
+    $("#category").on("change", () => {
+        $("#categoryForm").submit();
+    })
+
+
+
+    /*]]>*/
+</script>
+
+</body>
+</html>

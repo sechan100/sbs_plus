@@ -39,6 +39,7 @@ public class CustomAuthenticationEntryPoint extends LoginUrlAuthenticationEntryP
             // redirect
             response.sendRedirect(redirectUri + queryString);
             //오류유형과 함께 url에 전달.클라이언트 해당 url로 리다이렉션
+            return;
             
         // BadCredentialsException
         } else if(authException instanceof BadCredentialsException){ //비밀번호 인증 실패
@@ -51,6 +52,7 @@ public class CustomAuthenticationEntryPoint extends LoginUrlAuthenticationEntryP
             // 동작방식 : 서버가 클라이언트에게 새로운 url로 이동하도록 응답.
             // 새로운 요청 발생. 클라이언트와 서버간 새로운 상태 가짐.
             response.sendRedirect(redirectUri + queryString);
+            return;
             
         // anonymous 사용자가 authenticated url에 접근을 시도할 경우 일반적으로 발생하는 예외
         } else if(authException instanceof InsufficientAuthenticationException) { //익명사용자가 인증이 필요한 url접근시

@@ -1,6 +1,7 @@
 package org.sbsplus.cummunity.service;
 
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.sbsplus.cummunity.dto.ArticleDto;
@@ -40,5 +41,13 @@ public class ArticleServiceImpl implements ArticleService {
             return null;
         }
     }
-
+    
+    @Override
+    public ArticleDto findById(Integer articleId) {
+        
+        Article article = articleRepository.findById(articleId).orElseThrow(() -> new EntityNotFoundException("게시글이 존재하지 않습니다."));
+        
+        return (new ModelMapper()).map(article, ArticleDto.class);
+    }
+    
 }

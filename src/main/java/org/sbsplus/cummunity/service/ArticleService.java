@@ -7,4 +7,6 @@ import org.springframework.data.domain.Page;
 public interface ArticleService {
     
     Page<ArticleDto> findByCategory(int page, Category category);
+    
+    ArticleDto findById(Integer articleId);
 }

@@ -25,7 +25,11 @@
         <li>
             <span th:text="${article.category.name}"></span>
             <span th:text="${article.id}"></span>
-            <span th:text="${article.title}"></span>
+            <span>
+                <a
+                        th:href="|/article/${article.id}|"
+                        th:text="${article.title}"></a>
+            </span>
             <span th:text="${article.user.nickname}"></span>
             <span th:text="${article.createAt}"></span>
             <span th:text="${article.hit}"></span>
@@ -40,7 +44,7 @@
 <script th:inline="javascript">
     /*<![CDATA[*/
 
-    const selectedCategory = [[${param.category}]];
+    const selectedCategory = ([[${param.category}]] != null ? [[${param.category}]] : "ALL");
 
     // 카테고리 기본 선택 속성 추가
     if(selectedCategory == null){

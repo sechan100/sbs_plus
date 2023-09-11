@@ -3,6 +3,7 @@ package org.sbsplus.cummunity.entity.like;
 import jakarta.persistence.*;
 import lombok.*;
 import org.sbsplus.type.LikeTargetType;
+import org.sbsplus.user.entity.User;
 
 import static jakarta.persistence.GenerationType.*;
 import static jakarta.persistence.InheritanceType.*;
@@ -20,6 +21,8 @@ public class Like {
     @GeneratedValue(strategy = IDENTITY)
     private Integer id;
     
-    private Integer userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
     
 }

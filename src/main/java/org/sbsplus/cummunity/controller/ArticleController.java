@@ -4,6 +4,7 @@ package org.sbsplus.cummunity.controller;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.sbsplus.cummunity.dto.ArticleDto;
+import org.sbsplus.cummunity.entity.Article;
 import org.sbsplus.cummunity.service.ArticleService;
 import org.sbsplus.type.Category;
 import org.sbsplus.user.dto.UserDto;
@@ -53,10 +54,17 @@ public class ArticleController {
         List<Integer> pageRange = Pager.getPageRange(page, totalPage);
         model.addAttribute("pageRange", pageRange);
         
-        
-        
-        
         return "/article/articleList";
+    }
+    
+    @GetMapping("/{articleId}")
+    public String articleDetail(@PathVariable Integer articleId, Model model){
+        
+        ArticleDto article = articleService.findById(articleId);
+        
+        model.addAttribute("article", article);
+        
+        return "/article/articleDetail";
     }
     
 }
