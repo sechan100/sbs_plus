@@ -33,10 +33,10 @@ public class DataCreator {
     protected Integer userNum = 10;
     
     // 생성되는 게시글 개수
-    protected Integer articleNum = 200;
+    protected Integer articleNum = 500;
     
     // 생성되는 게시글 댓글 개수
-    protected Integer commentNum = 500;
+    protected Integer commentNum = 1000;
     
     // 생성되는 게시글 좋아요 개수
     protected Integer articleLikeNum = 1000;
