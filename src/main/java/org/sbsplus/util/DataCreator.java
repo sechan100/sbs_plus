@@ -2,6 +2,10 @@ package org.sbsplus.util;
 
 import org.sbsplus.cummunity.entity.Article;
 import org.sbsplus.cummunity.repository.ArticleRepository;
+import org.sbsplus.qna.entity.Answer;
+import org.sbsplus.qna.entity.Question;
+import org.sbsplus.qna.repository.AnswerRepository;
+import org.sbsplus.qna.repository.QuestionRepository;
 import org.sbsplus.type.Category;
 import org.sbsplus.user.entity.User;
 import org.sbsplus.user.repository.UserRepository;
@@ -14,28 +18,27 @@ import java.util.Random;
 
 @Component
 public class DataCreator {
-    
     @Autowired
     PasswordEncoder passwordEncoder;
-    
     @Autowired
     UserRepository userRepository;
-    
     @Autowired
     ArticleRepository articleRepository;
+    @Autowired
+    QuestionRepository questionRepository;
+    @Autowired
+    AnswerRepository answerRepository;
     
     Random random = new Random();
-    
-    
+
     public void createTestData(){
         createUser();
         createArticles();
+        createQuestions();
     }
-    
-    
+
     public void createUser() {
-        
-        
+
         for(int i = 0; i < 5; i++){
             
             char asciiChar = (char) (i + 97);
@@ -71,4 +74,19 @@ public class DataCreator {
         }
         
     }
+
+    public void createQuestions(){
+
+        for(int i = 0; i < 200; i++){
+            Question question = new Question();
+            question.setUser(userRepository.findById(random.nextInt(5) + 1).orElse(null));
+            question.setSubject("질문" + (i+1) + "번");
+            question.setCategory(Category.IT);
+            question.setContent("내용내용내용내용내용내용내용");
+
+        questionRepository.save(question);
+    }
+
+}
+
 }
