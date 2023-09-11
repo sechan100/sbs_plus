@@ -3,6 +3,7 @@ package org.sbsplus.user.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.sbsplus.user.dto.UserDto;
 import org.springframework.security.core.Authentication;
@@ -18,10 +19,12 @@ public class SessionController {
 
 
     @GetMapping("/login")
-    public String loginForm(Model model){
+    public String loginForm(Model model, HttpSession session){
 
         model.addAttribute("user", new UserDto());
-
+        model.addAttribute("msg", session.getAttribute("msg"));
+        session.removeAttribute("msg");
+        
         return "/user/login";
     }
 
