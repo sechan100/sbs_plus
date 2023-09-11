@@ -3,14 +3,19 @@ package org.sbsplus.cummunity.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Where;
+import org.sbsplus.cummunity.entity.like.Like;
 import org.sbsplus.user.entity.User;
 import org.sbsplus.util.Datetime;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static jakarta.persistence.CascadeType.ALL;
 import static jakarta.persistence.FetchType.*;
 import static jakarta.persistence.GenerationType.*;
 
 
-@EqualsAndHashCode(callSuper = true)
 @Getter
 @Setter
 @Entity
@@ -24,6 +29,11 @@ public class Comment extends Datetime {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+    
+    @OneToMany(cascade = ALL, orphanRemoval = true)
+    @JoinColumn(name = "target_id")
+    @Where(clause = "target_type = 'comment'")
+    private List<Like> likes = new ArrayList<>();
     
     private String content;
 

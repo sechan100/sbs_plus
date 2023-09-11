@@ -7,11 +7,29 @@
     <title>Title</title>
 </head>
 <body>
+    <h1> 커뮤니티 페이지</h1>
+    <br>
+    <br>
+    <br>
+    <br>
+    <form id="categoryForm" th:action="@{/article?page=1}" method="get">
+        <div class="form-group">
+            <label for="category">카테고리</label>
+            <select class="form-control" id="category" name="category">
+                <option value="ALL">전체 글</option>
+                <option th:each="category : ${categories}" th:value="${category.value}">[[ ${category.name} ]]</option>
+            </select>
+        </div>
+    </form>
     <ul th:each="article : ${articles}">
         <li>
-            <span th:text="${article.category.categoryName}"></span>
+            <span th:text="${article.category.name}"></span>
             <span th:text="${article.id}"></span>
-            <span th:text="${article.title}"></span>
+            <span>
+                <a
+                        th:href="|/article/${article.id}|"
+                        th:text="${article.title}"></a>
+            </span>
             <span th:text="${article.user.nickname}"></span>
             <span th:text="${article.createAt}"></span>
             <span th:text="${article.hit}"></span>
@@ -23,22 +41,35 @@
                 th:text="${num}"
                 class="pageBtn">
         </button>
-
-
 <script th:inline="javascript">
-    /* <![CDATA[ */
-    const totalPage = [[ ${articles.getTotalPages()} ]];
-    const urlSearch = new URLSearchParams(location.search);
-    const currentPage = urlSearch.get("page");
+    /*<![CDATA[*/
+
+    const selectedCategory = ([[${param.category}]] != null ? [[${param.category}]] : "ALL");
+
+    // 카테고리 기본 선택 속성 추가
+    if(selectedCategory == null){
+        $("#category > option[value=ALL]").attr("selected", true);
+    } else {
+        $("#category > option[value="+selectedCategory+"]").attr("selected", true);
+    }
+
+
 
     // 페이지 이동
     $(".pageBtn").on( 'click', (event) => {
-        location.href = "/article?page=" + event.target.innerHTML;
+        location.href = "/article?page=" + event.target.innerHTML + "&category=" + selectedCategory;
     })
 
 
 
-    /* ]]> */
+    // 카테고리 변경
+    $("#category").on("change", () => {
+        $("#categoryForm").submit();
+    })
+
+
+
+    /*]]>*/
 </script>
 
 </body>

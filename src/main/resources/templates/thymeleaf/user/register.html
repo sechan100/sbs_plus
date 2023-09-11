@@ -53,7 +53,8 @@
     <div class="form-group">
       <label for="category">수업유형</label>
       <select class="form-control" id="category" name="category">
-        <option th:each="category : ${categories}" th:value="${category.value}">[[ ${category.categoryName} ]]</option>
+        <option value="NONE">과정 없음</option>
+        <option th:each="category : ${categories}" th:value="${category.value}">[[ ${category.name} ]]</option>
       </select>
     </div>
 

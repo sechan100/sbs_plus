@@ -3,6 +3,7 @@ package org.sbsplus.cummunity.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Where;
 import org.sbsplus.cummunity.entity.like.Like;
 import org.sbsplus.type.Category;
 import org.sbsplus.user.entity.User;
@@ -30,12 +31,13 @@ public class Article extends Datetime {
     @JoinColumn(name = "user_id")
     private User user;
     
-    @OneToMany(cascade = ALL, orphanRemoval = true)
+    @OneToMany(fetch = LAZY, cascade = ALL, orphanRemoval = true)
     @JoinColumn(name = "article_id")
     private List<Comment> comments = new ArrayList<>();
     
     @OneToMany(cascade = ALL, orphanRemoval = true)
     @JoinColumn(name = "target_id")
+    @Where(clause = "target_type = 'article'")
     private List<Like> likes = new ArrayList<>();
     
     @Enumerated(STRING)
