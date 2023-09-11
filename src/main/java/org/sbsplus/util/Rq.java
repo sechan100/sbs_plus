@@ -2,6 +2,7 @@ package org.sbsplus.util;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -66,6 +67,20 @@ public class Rq {
         
         request.setAttribute("msg", msg);
         return "forward:/unexpected_request";
+    }
+    
+    public Cookie getCookie(String name){
+        
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals(name)) {
+                    return cookie;
+                }
+            }
+        }
+        
+        return null;
     }
     
 }

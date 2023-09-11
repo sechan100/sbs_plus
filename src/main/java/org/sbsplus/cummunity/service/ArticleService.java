@@ -9,4 +9,7 @@ public interface ArticleService {
     Page<ArticleDto> findByCategory(int page, Category category);
     
     ArticleDto findById(Integer articleId);
+    
+    void increaseHit(Integer articleId);
+    
 }

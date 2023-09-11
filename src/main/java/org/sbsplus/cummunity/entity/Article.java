@@ -48,4 +48,8 @@ public class Article extends Datetime {
     private String content;
     
     private int hit;
+    
+    public void increaseHit(){
+        this.setHit(this.getHit()+1);
+    }
 }
