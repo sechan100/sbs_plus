@@ -19,5 +19,6 @@ public class Answer extends Datetime {
 
     @Column(columnDefinition = "TEXT")
     private String content;
-
+    @ManyToOne
+    private Question question;
 }
