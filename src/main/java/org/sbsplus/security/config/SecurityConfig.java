@@ -66,7 +66,7 @@ public class SecurityConfig {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return web -> web
-                .ignoring().requestMatchers(String.valueOf(PathRequest.toStaticResources().atCommonLocations()));
+                .ignoring().requestMatchers("/css/**", "/js/**");
     }
 }
 

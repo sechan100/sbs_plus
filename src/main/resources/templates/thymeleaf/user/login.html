@@ -16,6 +16,7 @@
                     Login
                 </div>
                 <div class="card-body">
+                    <h1 th:text="${session.msg}"></h1>
                     <form method="post" th:action="@{/login}" th:object="${user}">
                         <div class="form-group">
                             <label for="username">Username</label>
