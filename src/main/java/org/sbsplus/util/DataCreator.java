@@ -35,6 +35,7 @@ public class DataCreator {
         createUser();
         createArticles();
         createQuestions();
+        createAnswers();
     }
 
     public void createUser() {
@@ -77,7 +78,7 @@ public class DataCreator {
 
     public void createQuestions(){
 
-        for(int i = 0; i < 200; i++){
+        for(int i = 0; i < 20; i++){
             Question question = new Question();
             question.setUser(userRepository.findById(random.nextInt(5) + 1).orElse(null));
             question.setSubject("질문" + (i+1) + "번");
@@ -85,8 +86,17 @@ public class DataCreator {
             question.setContent("내용내용내용내용내용내용내용");
 
         questionRepository.save(question);
+        }
     }
 
-}
+    public void createAnswers(){
 
+        for(int i = 0; i < 20; i++){
+            Answer answer = new Answer();
+            answer.setQuestion(questionRepository.findById(random.nextInt(20) + 1).orElse(null));
+            answer.setContent("내용" + (i+1) + "번");
+
+            answerRepository.save(answer);
+        }
+    }
 }
