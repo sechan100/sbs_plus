@@ -3,7 +3,6 @@ package org.sbsplus.user.service.account;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.sbsplus.type.Category;
 import org.sbsplus.user.dto.UserDto;
 import org.sbsplus.user.entity.User;
 import org.sbsplus.user.repository.UserRepository;
@@ -67,7 +66,7 @@ public class UserServiceImpl implements UserService {
         log.info("\n#####[ New User Registered ]##### \n"
                 + "이름: " + user.getName() +"\n"
                 + "아이디: " + user.getUsername() +"\n"
-                + "수업 유형: " + user.getCategory().getCategoryName() +"\n"
+                + "수업 유형: " + user.getCategory().getName() +"\n"
                 + "이메일: " + user.getEmail()
                 + "\n################################"
         );

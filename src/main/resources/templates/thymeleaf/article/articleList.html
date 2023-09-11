@@ -7,9 +7,24 @@
     <title>Title</title>
 </head>
 <body>
+    <h1> 커뮤니티 페이지</h1>
+    <br>
+    <br>
+    <br>
+    <br>
+    <form id="categoryForm" th:action="@{/article?page=1}" method="get">
+        <div class="form-group">
+            <label for="category">카테고리</label>
+            <select class="form-control" id="category" name="category">
+                <option value="ALL">전체 글</option>
+                <option th:each="category : ${categories}" th:value="${category.value}">[[ ${category.name} ]]</option>
+            </select>
+        </div>
+        <input type="submit" value="전송">
+    </form>
     <ul th:each="article : ${articles}">
         <li>
-            <span th:text="${article.category.categoryName}"></span>
+            <span th:text="${article.category.name}"></span>
             <span th:text="${article.id}"></span>
             <span th:text="${article.title}"></span>
             <span th:text="${article.user.nickname}"></span>
@@ -23,22 +38,32 @@
                 th:text="${num}"
                 class="pageBtn">
         </button>
-
-
 <script th:inline="javascript">
-    /* <![CDATA[ */
-    const totalPage = [[ ${articles.getTotalPages()} ]];
-    const urlSearch = new URLSearchParams(location.search);
-    const currentPage = urlSearch.get("page");
+    /*<![CDATA[*/
 
     // 페이지 이동
     $(".pageBtn").on( 'click', (event) => {
         location.href = "/article?page=" + event.target.innerHTML;
     })
 
+    // 카테고리 변경
+    $("#category").on("change", () => {
+        $("#categoryForm").submit();
+    })
 
 
-    /* ]]> */
+    const oldCategory = [[${param.category}]];
+
+    if(oldCategory == null){
+        $("#category > option[value=ALL]").attr("selected", true);
+    } else {
+        $("#category > option[value="+oldCategory+"]").attr("selected", true);
+    }
+
+
+
+
+    /*]]>*/
 </script>
 
 </body>

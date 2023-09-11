@@ -2,7 +2,6 @@ package org.sbsplus.type;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +44,7 @@ public enum Category {
 
 
     private final String value;
-    private final String categoryName;
+    private final String name;
     
     @Getter
     private static List<Category> categories = new ArrayList<>();
