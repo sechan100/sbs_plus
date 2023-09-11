@@ -6,6 +6,10 @@ import org.sbsplus.cummunity.entity.like.ArticleLike;
 import org.sbsplus.cummunity.entity.like.CommentLike;
 import org.sbsplus.cummunity.entity.like.Like;
 import org.sbsplus.cummunity.repository.ArticleRepository;
+import org.sbsplus.qna.entity.Answer;
+import org.sbsplus.qna.entity.Question;
+import org.sbsplus.qna.repository.AnswerRepository;
+import org.sbsplus.qna.repository.QuestionRepository;
 import org.sbsplus.type.Category;
 import org.sbsplus.user.entity.User;
 import org.sbsplus.user.repository.UserRepository;
@@ -28,22 +32,26 @@ public class DataCreator {
     
     @Autowired
     ArticleRepository articleRepository;
-    
+    @Autowired
+    QuestionRepository questionRepository;
+    @Autowired
+    AnswerRepository answerRepository;
+
     // 생성되는 유저 개수
     protected Integer userNum = 10;
-    
+
     // 생성되는 게시글 개수
     protected Integer articleNum = 500;
-    
+
     // 생성되는 게시글 댓글 개수
     protected Integer commentNum = 1000;
-    
+
     // 생성되는 게시글 좋아요 개수
     protected Integer articleLikeNum = 1000;
-    
+
     // 생성되는 댓글 좋아요 개수
     protected Integer commentLikeNum = 1000;
-    
+
     Random random = new Random();
     
     
@@ -86,48 +94,48 @@ public class DataCreator {
         }
         
     }
-    
+
     public void createArticleComments(){
-        
+
         for(int i = 0; i < commentNum; i++){
             Comment comment = new Comment();
                 comment.setUser(randomUser());
                 comment.setContent((i+1) + "번  댓글 내용");
-            
+
             Article article = randomArticle();
             article.getComments().add(comment);
-            
-            
+
+
             articleRepository.save(article);
         }
-        
+
     }
-    
+
     public void createArticleLike(){
         for(int i = 0; i < articleLikeNum; i++){
             ArticleLike like = new ArticleLike();
                 like.setUser(randomUser());
-            
+
             Article article = randomArticle();
             article.getLikes().add(like);
-            
-            
+
+
             articleRepository.save(article);
         }
     }
-    
+
     public void createCommentLike(){
         for(int i = 0; i < commentLikeNum; i++){
             CommentLike like = new CommentLike();
                 like.setUser(randomUser());
-            
+
             Article article = randomArticle();
             List<Comment> comments = article.getComments();
             if(!comments.isEmpty()) {
                 Comment comment = comments.get(random.nextInt(comments.size()));
                 comment.getLikes().add(like);
-                
-                
+
+
                 articleRepository.save(article);
             }
         }
@@ -161,7 +169,7 @@ public class DataCreator {
             }
         }
     }
-    
+
     protected User randomUser(){
         return userRepository.findById(random.nextInt(userNum) + 1).orElse(null);
     }
@@ -169,5 +177,5 @@ public class DataCreator {
     protected Article randomArticle(){
         return articleRepository.findById(random.nextInt(articleNum) + 1).orElse(null);
     }
-    
+
 }
