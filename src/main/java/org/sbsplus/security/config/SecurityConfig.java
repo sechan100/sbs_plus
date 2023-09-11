@@ -40,17 +40,20 @@ public class SecurityConfig {
                         
                         // 메인, 접근거부, 유효하지 않은 요청, error(이거 빼면 이상해짐..)
                         .requestMatchers("/", "/access_denied", "/unexpected_request", "/error*").permitAll()
-                        
+
                         // 회원가입, 로그인
                         .requestMatchers("/register*", "/login*").permitAll()
-                        
+
                         // 커뮤니티
                         .requestMatchers("/article/write").authenticated()
                         .requestMatchers("/article/**", "/article*").permitAll()
-                        
+
+                        // QnA
+                        .requestMatchers("/question/**").permitAll()
+
                         // admin 제한
                         .requestMatchers("/admin/**").hasRole("ADMIN")
-                        
+
                         .anyRequest().authenticated()
                 )
 
