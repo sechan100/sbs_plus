@@ -1,4 +1,7 @@
 spring:
+  resources:
+    add-mappings: true
+
   thymeleaf:
     cache: false
     mode: HTML
