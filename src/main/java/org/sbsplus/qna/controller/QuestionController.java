@@ -31,4 +31,8 @@ public class QuestionController {
         model.addAttribute("question", question);
         return "/qna/question_detail";
     }
+    @GetMapping("/create")
+    public String questionCreate() {
+        return "/qna/question_form";
+    }
 }
