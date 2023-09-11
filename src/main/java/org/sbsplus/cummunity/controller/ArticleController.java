@@ -29,12 +29,14 @@ public class ArticleController {
     
     @GetMapping("")
     public String articleList(
-            @RequestParam(defaultValue = "1") Integer page
+              @RequestParam(defaultValue = "1") Integer page
+            , @RequestParam(defaultValue = "ALL", name = "category") String category_
             , Model model
             ){
+        Category category = Category.convertStringToEnum(category_);
         
-        List<Category> categories = Category.getCategories();
-        Page<ArticleDto> articles = articleService.findAll(page-1);
+        
+        Page<ArticleDto> articles = articleService.findByCategory(page-1, category);
         
         if(articles == null || page > articles.getTotalPages()) {
             return rq.unexpectedRequestForWardUri("존재하지 않는 페이지입니다.");
@@ -43,12 +45,12 @@ public class ArticleController {
         Integer totalPage = articles.getTotalPages();
         
         
+        model.addAttribute("articles", articles);
+        
+        List<Category> categories = Category.getCategories();
+        model.addAttribute("categories", categories);
         
         List<Integer> pageRange = Pager.getPageRange(page, totalPage);
-        
-        
-        model.addAttribute("categories", categories);
-        model.addAttribute("articles", articles);
         model.addAttribute("pageRange", pageRange);
         
         

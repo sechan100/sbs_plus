@@ -17,6 +17,9 @@ public enum Category {
 
     // 해당 수업 과정 없음
       NONE("NONE", "과정 없음")
+    
+    // 전체 카테고리
+    ,  ALL("ALL", "전체 카테고리")
 
     // 자격증
     , CERTIFICATE("CERTIFICATE", "자격증")
@@ -50,7 +53,6 @@ public enum Category {
     private static List<Category> categories = new ArrayList<>();
     
         static {
-            categories.add(NONE);
             categories.add(CERTIFICATE);
             categories.add(MAYA);
             categories.add(INTERIOR);
@@ -86,8 +88,14 @@ public enum Category {
             case "DESIGN" -> {
                 return Category.DESIGN;
             }
-            default -> {
+            case "NONE" -> {
                 return Category.NONE;
+            }
+            case "ALL" -> {
+                return Category.ALL;
+            }
+            default ->  {
+                return null;
             }
         }
     }

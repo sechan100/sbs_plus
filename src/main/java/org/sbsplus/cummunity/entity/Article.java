@@ -30,7 +30,7 @@ public class Article extends Datetime {
     @JoinColumn(name = "user_id")
     private User user;
     
-    @OneToMany(cascade = ALL, orphanRemoval = true)
+    @OneToMany(fetch = LAZY, cascade = ALL, orphanRemoval = true)
     @JoinColumn(name = "article_id")
     private List<Comment> comments = new ArrayList<>();
     

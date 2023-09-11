@@ -6,8 +6,10 @@ import org.modelmapper.ModelMapper;
 import org.sbsplus.cummunity.dto.ArticleDto;
 import org.sbsplus.cummunity.entity.Article;
 import org.sbsplus.cummunity.repository.ArticleRepository;
+import org.sbsplus.type.Category;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -18,13 +20,19 @@ public class ArticleServiceImpl implements ArticleService {
     private final ArticleRepository articleRepository;
     
     @Override
-    public Page<ArticleDto> findAll(int page){
+    public Page<ArticleDto> findByCategory(int page, Category category){
         
         try {
+            Page<Article> articles_ = null;
             
-            PageRequest pageRequest = PageRequest.of(page, 20, Sort.by(Sort.Direction.DESC, "createAt"));
-            Page<Article> articles_ = articleRepository.findAll(pageRequest);
+            Pageable pageRequest = PageRequest.of(page, 20, Sort.by(Sort.Direction.DESC, "createAt"));
             
+            if(category == Category.ALL) {
+                articles_ = articleRepository.findAll(pageRequest);
+            } else {
+                articles_ = articleRepository.findByCategory(pageRequest, category);
+            }
+            // N + 1 최적화 필요.
             return articles_.map(article -> (new ModelMapper()).map(article, ArticleDto.class));
             
         } catch(IllegalArgumentException e){

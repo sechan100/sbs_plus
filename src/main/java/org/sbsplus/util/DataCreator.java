@@ -62,7 +62,7 @@ public class DataCreator {
         for(int i = 0; i < 200; i++){
             Article article = new Article();
             article.setUser(userRepository.findById(random.nextInt(5) + 1).orElse(null));
-            article.setCategory(Category.IT);
+            article.setCategory(intCategoryMatcher(random.nextInt(7) + 1));
             article.setTitle("게시글 " + (i+1) + "번");
             article.setContent("내용내용내용내용내용내용내용");
             article.setHit(random.nextInt(100));
@@ -71,4 +71,37 @@ public class DataCreator {
         }
         
     }
+    
+    
+    
+    protected Category intCategoryMatcher(Integer num){
+        switch(num) {
+            case 1 -> {
+                return Category.CERTIFICATE;
+            }
+            case 2 -> {
+                return Category.MAYA;
+            }
+            case 3 -> {
+                return Category.INTERIOR;
+            }
+            case 4 -> {
+                return Category.IT;
+            }
+            case 5 -> {
+                return Category.DTP;
+            }
+            case 6 -> {
+                return Category.PRODUCT;
+            }
+            case 7 -> {
+                return Category.DESIGN;
+            }
+            default ->  {
+                return null;
+            }
+        }
+    }
+    
+    
 }
