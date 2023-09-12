@@ -6,23 +6,21 @@ import java.util.List;
 
 public class Pager {
     
-    public static List<Integer> getPageRange(Integer page, Integer totalPage){
+    public static List<Integer> getPageRange(Integer page, Integer totalPage) {
         
         List<Integer> pageRange = new ArrayList<>();
-        
-        if(page > totalPage - 3){
-            if(totalPage - 4 > 0){
-                pageRange.add(totalPage - 4);
-                pageRange.add(totalPage - 3);
-                pageRange.add(totalPage - 2);
-                pageRange.add(totalPage - 1);
-                pageRange.add(totalPage);
-            } else {
-                for(int i = totalPage; 0 < i; i--){
-                    pageRange.add(i);
-                }
-                Collections.sort(pageRange);
+        if(totalPage < 5){
+            for(int i = totalPage; 0 < i; i--){
+                pageRange.add(i);
             }
+            Collections.sort(pageRange);
+            
+        } else if(page > totalPage - 3){
+            pageRange.add(totalPage - 4);
+            pageRange.add(totalPage - 3);
+            pageRange.add(totalPage - 2);
+            pageRange.add(totalPage - 1);
+            pageRange.add(totalPage);
         } else {
             if(page <= 3){
                 pageRange.add(1);
