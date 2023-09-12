@@ -9,6 +9,7 @@ import org.sbsplus.qna.entity.Question;
 import org.sbsplus.qna.repository.QuestionRepository;
 import org.sbsplus.type.Category;
 import org.sbsplus.util.Rq;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,9 +26,9 @@ public class QuestionController {
 
 
     @GetMapping("")
-    public String list(Model model) {
-        List<Question> questionList = this.questionService.getList();
-        model.addAttribute("questionList", questionList);
+    public String list(Model model, @RequestParam(value="page", defaultValue = "0") int page) {
+        Page<Question> paging = this.questionService.getList(page);
+        model.addAttribute("paging", paging);
         return "/qna/question_list";
     }
     @GetMapping(value="/detail/{id}")
