@@ -32,8 +32,10 @@ public class DataCreator {
     
     @Autowired
     ArticleRepository articleRepository;
+
     @Autowired
     QuestionRepository questionRepository;
+
     @Autowired
     AnswerRepository answerRepository;
 
