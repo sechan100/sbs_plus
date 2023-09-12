@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.sbsplus.qna.DataNotFoundException;
 import org.sbsplus.qna.entity.Question;
 import org.sbsplus.qna.repository.QuestionRepository;
+import org.sbsplus.type.Category;
+import org.sbsplus.util.Rq;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +16,7 @@ import java.util.Optional;
 public class QuestionService {
 
     private final QuestionRepository questionRepository;
+    private final Rq rq;
 
     public List<Question> getList() {
         return this.questionRepository.findAll();
@@ -25,5 +28,15 @@ public class QuestionService {
         } else {
             throw new DataNotFoundException("question not found");
         }
+    }
+
+    public void create(String subject, String content, String category) {
+       Category c = Category.convertStringToEnum(category);
+        Question q = new Question();
+        q.setSubject(subject);
+        q.setContent(content);
+        q.setCategory(c);
+        q.setUser(rq.getUser());
+        this.questionRepository.save(q);
     }
 }
