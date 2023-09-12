@@ -54,8 +54,7 @@ public class DataCreator {
         createArticleLike();
         createCommentLike();
     }
-    
-    
+
     public void createUser() {
         for(int i = 0; i < userNum; i++){
             char asciiChar = (char) (i + 97);
@@ -133,9 +132,7 @@ public class DataCreator {
             }
         }
     }
-    
-    
-    
+
     protected Category randomCategory(){
         switch(random.nextInt(7) + 1) {
             case 1 -> {
@@ -168,7 +165,7 @@ public class DataCreator {
     protected User randomUser(){
         return userRepository.findById(random.nextInt(userNum) + 1).orElse(null);
     }
-    
+
     protected Article randomArticle(){
         return articleRepository.findById(random.nextInt(articleNum) + 1).orElse(null);
     }
