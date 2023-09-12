@@ -18,17 +18,6 @@ import java.util.Collection;
 public class EtcConfig {
     
     @Bean
-    public UserDetailsService inMemoryAdminDetailsService(){
-        User admin = (User) User.builder()
-                .username("admin")
-                .password(passwordEncoder().encode("admin"))
-                .roles("ADMIN")
-                .build();
-        
-        return new InMemoryUserDetailsManager(admin);
-    }
-    
-    @Bean
     public AuthenticationEntryPoint customAuthenticationEntryPoint(){
         return new CustomAuthenticationEntryPoint("/login");
     }

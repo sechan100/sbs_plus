@@ -38,11 +38,11 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(auth -> auth
                         
-                        // 메인, 접근거부, 유효하지 않은 요청, error(이거 빼면 이상해짐..)
-                        .requestMatchers("/", "/access_denied", "/unexpected_request", "/error*").permitAll()
+                        // 메인, 접근거부, 유효하지 않은 요청, error
+                        .requestMatchers("/", "/accessDenied*", "/unexpected_request*", "/error*").permitAll()
                         
-                        // 회원가입, 로그인
-                        .requestMatchers("/register*", "/login*").permitAll()
+                        // 회원가입, 로그인, 관리자 권한 부여
+                        .requestMatchers("/register*", "/login*", "/admin/grantAuthority").permitAll()
                         
                         // 커뮤니티
                         .requestMatchers("/article/write").hasRole("USER")
