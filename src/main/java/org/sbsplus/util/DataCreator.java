@@ -55,7 +55,6 @@ public class DataCreator {
         createCommentLike();
     }
     
-    
     public void createUser() {
         for(int i = 0; i < userNum; i++){
             char asciiChar = (char) (i + 97);
@@ -133,8 +132,6 @@ public class DataCreator {
             }
         }
     }
-    
-    
     
     protected Category randomCategory(){
         switch(random.nextInt(7) + 1) {

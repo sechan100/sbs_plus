@@ -12,19 +12,14 @@ import org.sbsplus.type.Category;
 import org.sbsplus.user.entity.User;
 import org.sbsplus.user.service.UserService;
 import org.sbsplus.util.Rq;
-import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.security.Principal;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -89,10 +84,12 @@ public class ArticleServiceImpl implements ArticleService {
             
         // 기존 글 수정
         } else {
-            Article article = articleRepository.findById(articleDto.getId()).orElseThrow();
-                article.setCategory(articleDto.getCategory());
-                article.setTitle(articleDto.getTitle());
-                article.setContent(articleDto.getContent());
+            if(checkArticleOwnership(articleDto.getId())) {
+                Article article = articleRepository.findById(articleDto.getId()).orElseThrow();
+                    article.setCategory(articleDto.getCategory());
+                    article.setTitle(articleDto.getTitle());
+                    article.setContent(articleDto.getContent());
+            }
         }
         
     }
@@ -100,7 +97,7 @@ public class ArticleServiceImpl implements ArticleService {
     
     @Override
     @Transactional
-    public boolean validatePermissionForArticle(Integer articleId){
+    public boolean checkArticleOwnership(Integer articleId){
         
         Article article = articleRepository.findById(articleId).orElseThrow();
         
@@ -117,6 +114,19 @@ public class ArticleServiceImpl implements ArticleService {
         
         return article.getUser() == user;
     }
+    
+    @Override
+    public void delete(Integer articleId) throws AccessDeniedException {
+        
+        // 수정은 소유자만 가능, 삭제는 admin도 가능.
+        if(checkArticleOwnership(articleId) || adminService.isAdmin()){
+            articleRepository.deleteById(articleId);
+        } else {
+            throw new AccessDeniedException("게시물에 대한 접근 권한이 없습니다.");
+        }
+    }
+    
+    
 }
 
 

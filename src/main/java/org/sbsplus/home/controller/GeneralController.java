@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.sbsplus.util.DataCreator;
 import org.sbsplus.util.Rq;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,9 @@ public class GeneralController {
     private final Rq rq;
     private final DataCreator dataCreator;
     
+    @Value("${spring.jpa.hibernate.ddl-auto}")
+    private String ddlAutoValue;
+    
     // ************ TEST DATA CREATE ***************
     private boolean isTestDataCreated = false;
     // *********************************************
@@ -25,8 +29,8 @@ public class GeneralController {
     public String home(){
         
         // ************ TEST DATA CREATE ***************
-        if(!isTestDataCreated) {
-//            dataCreator.createTestData();
+        if(!isTestDataCreated && ddlAutoValue.equals("create")) {
+            dataCreator.createTestData();
             isTestDataCreated = true;
         }// *********************************************
         

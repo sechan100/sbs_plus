@@ -31,7 +31,7 @@ public class Comment extends Datetime {
     private User user;
     
     @OneToMany(cascade = ALL, orphanRemoval = true)
-    @JoinColumn(name = "target_id")
+    @JoinColumn(name = "target_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     @Where(clause = "target_type = 'comment'")
     private List<Like> likes = new ArrayList<>();
     
