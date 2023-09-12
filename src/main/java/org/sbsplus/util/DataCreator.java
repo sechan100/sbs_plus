@@ -152,7 +152,7 @@ public class DataCreator {
             questionRepository.save(question);
         }
     }
-
+// 수정
     public void createAnswers(){
 
         for(int i = 0; i < 20; i++){
