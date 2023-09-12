@@ -17,6 +17,12 @@ import static jakarta.persistence.InheritanceType.*;
 @DiscriminatorColumn(name = "target_type")
 public class Like {
     
+    public Like(User user){
+        this.user = user;
+    }
+    
+    
+    
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Integer id;

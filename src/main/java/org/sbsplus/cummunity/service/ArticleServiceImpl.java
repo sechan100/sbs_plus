@@ -1,12 +1,15 @@
 package org.sbsplus.cummunity.service;
 
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.sbsplus.admin.AdminService;
 import org.sbsplus.cummunity.dto.ArticleDto;
 import org.sbsplus.cummunity.entity.Article;
+import org.sbsplus.cummunity.entity.like.ArticleLike;
+import org.sbsplus.cummunity.entity.like.Like;
 import org.sbsplus.cummunity.repository.ArticleRepository;
 import org.sbsplus.type.Category;
 import org.sbsplus.user.entity.User;
@@ -19,6 +22,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 
 @Service
@@ -124,6 +129,51 @@ public class ArticleServiceImpl implements ArticleService {
         } else {
             throw new AccessDeniedException("게시물에 대한 접근 권한이 없습니다.");
         }
+    }
+    
+    @Override
+    public boolean hasUserLiked(Integer articleId) {
+        
+        Article article = articleRepository.findById(articleId).orElseThrow();
+        List<Like> likes = article.getLikes();
+        
+        for(Like like : likes){
+            // likes 중에 하나라도 로그인중인 유저가 누른 like가 존재하는 경우
+            if(like.getUser().equals(rq.getUser())){
+                return true;
+            }
+        }
+        
+        // likes 중에 로그인중인 유저 소유의 like가 존재하지 않는 경우
+        return false;
+    }
+    
+    @Override
+    @Transactional
+    public void likeArticle(Integer articleId) {
+        Article article = articleRepository.findById(articleId).orElseThrow();
+        article.getLikes().add(new ArticleLike(rq.getUser()));
+    }
+    
+    @Override
+    @Transactional
+    public void unlikeArticle(Integer articleId) {
+        Article article = articleRepository.findById(articleId).orElseThrow();
+        List<Like> likes = article.getLikes();
+        Like removeTargetLike = null;
+        
+        for(Like like : likes){
+            if(like.getUser().equals(rq.getUser())){
+                removeTargetLike = like;
+            }
+        }
+        if(removeTargetLike != null){
+            article.getLikes().remove(removeTargetLike);
+        } else {
+            throw new EntityNotFoundException("삭제할 엔티티(Like)를 특정하지 못했습니다.");
+        }
+        
+        articleRepository.save(article);
     }
     
     
