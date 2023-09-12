@@ -23,13 +23,10 @@ import java.util.Random;
 
 @Component
 public class DataCreator {
-    
     @Autowired
     PasswordEncoder passwordEncoder;
-    
     @Autowired
     UserRepository userRepository;
-    
     @Autowired
     ArticleRepository articleRepository;
 
@@ -55,8 +52,7 @@ public class DataCreator {
     protected Integer commentLikeNum = 1000;
 
     Random random = new Random();
-    
-    
+
     public void createTestData(){
         createUser();
         createArticles();
@@ -69,6 +65,7 @@ public class DataCreator {
         for(int i = 0; i < userNum; i++){
             char asciiChar = (char) (i + 97);
             String username = String.valueOf(asciiChar);
+
             User user = new User();
                 user.setUsername(username);
                 user.setPassword(passwordEncoder.encode(username));
@@ -140,6 +137,30 @@ public class DataCreator {
 
                 articleRepository.save(article);
             }
+        }
+    }
+
+    public void createQuestions(){
+
+        for(int i = 0; i < 20; i++){
+            Question question = new Question();
+            question.setUser(userRepository.findById(random.nextInt(5) + 1).orElse(null));
+            question.setSubject("질문" + (i+1) + "번");
+            question.setCategory(Category.IT);
+            question.setContent("내용내용내용내용내용내용내용");
+
+            questionRepository.save(question);
+        }
+    }
+
+    public void createAnswers(){
+
+        for(int i = 0; i < 20; i++){
+            Answer answer = new Answer();
+            answer.setQuestion(questionRepository.findById(random.nextInt(20) + 1).orElse(null));
+            answer.setContent("내용" + (i+1) + "번");
+
+            answerRepository.save(answer);
         }
     }
 
