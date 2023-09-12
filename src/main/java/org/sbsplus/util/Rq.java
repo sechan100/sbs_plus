@@ -8,8 +8,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.Getter;
 import org.sbsplus.user.entity.User;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
@@ -31,23 +34,25 @@ public class Rq {
     private User user;
 
     
-    public Rq(){
+    public Rq() {
         ServletRequestAttributes sessionAttributes = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes()));
         HttpServletRequest request = sessionAttributes.getRequest();
         HttpServletResponse response = sessionAttributes.getResponse();
         this.request = request;
         this.response = response;
         this.session = request.getSession();
-
-        // get UserDetails: Account
-        SecurityContext context = (SecurityContext) session.getAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY);
         
-        if(context != null) {
-            Authentication authentication = context.getAuthentication();
-            if(authentication.getPrincipal() instanceof User){
-                User user = (User)authentication.getPrincipal();
-                this.user = user;
-            }
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            
+        if(authentication instanceof UsernamePasswordAuthenticationToken) {
+            User user = (User) authentication.getPrincipal();
+            this.user = user;
+        } else if(authentication instanceof AnonymousAuthenticationToken) {
+            User anonymous = new User();
+                anonymous.setId((long) -1);
+                anonymous.setUsername("");
+                
+            this.user = anonymous;
         }
     }
     

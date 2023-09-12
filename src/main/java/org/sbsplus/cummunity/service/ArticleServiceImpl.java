@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 
 @Service
@@ -181,20 +182,56 @@ public class ArticleServiceImpl implements ArticleService {
     
     @Override
     @Transactional
-    public void addComment(Integer articleId, CommentDto commentDto) {
+    public void saveComment(Integer articleId, CommentDto commentDto) {
         
-        // user 세팅
-        commentDto.setUser(rq.getUser());
         
-        // 엔티티와 매핑
-        Comment comment = (new ModelMapper()).map(commentDto, Comment.class);
-        
-        // 게시글 엔티티를 영속성 컨텍스트 1차 캐쉬에 저장
-        Article article = articleRepository.findById(articleId).orElseThrow();
-        List<Comment> comments = article.getComments();
-        
-        // comment 저장
-        comments.add(comment);
+        // 새로운 댓글 등록
+        if(commentDto.getId() == null){
+            
+            // user 세팅
+            commentDto.setUser(rq.getUser());
+            
+            // 엔티티와 매핑
+            Comment comment = (new ModelMapper()).map(commentDto, Comment.class);
+            
+            // 게시글 엔티티를 영속성 컨텍스트 1차 캐쉬에 저장
+            Article article = articleRepository.findById(articleId).orElseThrow();
+            List<Comment> comments = article.getComments();
+            
+            // comment 저장
+            comments.add(comment);
+            
+        // 기존 댓글 수정
+        } else {
+            
+            // DB에서 긁어와서 현재 로그인 중인 사용자 소유인 댓글이 맞는지 확인.
+            Article article = articleRepository.findById(articleId).orElseThrow();
+            List<Comment> comments = article.getComments();
+            
+            Comment modifyTargetComment = null;
+            
+            for(Comment comment : comments){
+                
+                // DB에서 가져온 대상 댓글의 id와 dto로 받은 댓글 id가 일치하는 경우
+                if(Objects.equals(comment.getId(), commentDto.getId())){
+                    
+                    // 현재 로그인 중인 사용자의 소유인 댓글이 맞는 경우
+                    if(comment.getUser().equals(rq.getUser())){
+                        
+                        // 타겟 설정
+                        modifyTargetComment = comment;
+                        break;
+                        
+                    } else {
+                        throw new EntityNotFoundException("댓글 수정권한이 없습니다.");
+                    }
+                    
+                }
+            }
+            
+            assert modifyTargetComment != null;
+            modifyTargetComment.setContent(commentDto.getContent());
+        }
         
     }
     

@@ -26,5 +26,5 @@ public interface ArticleService {
     
     void unlikeArticle(Integer articleId);
     
-    void addComment(Integer articleId, CommentDto commentDto);
+    void saveComment(Integer articleId, CommentDto commentDto);
 }
