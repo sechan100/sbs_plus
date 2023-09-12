@@ -4,12 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.sbsplus.qna.service.QuestionService;
 import org.sbsplus.qna.entity.Question;
 import org.sbsplus.qna.repository.QuestionRepository;
+import org.sbsplus.type.Category;
+import org.sbsplus.util.Rq;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,6 +18,8 @@ import java.util.List;
 public class QuestionController {
 
     private final QuestionService questionService;
+
+
     @GetMapping("")
     public String list(Model model) {
         List<Question> questionList = this.questionService.getList();
@@ -32,7 +33,13 @@ public class QuestionController {
         return "/qna/question_detail";
     }
     @GetMapping("/create")
-    public String questionCreate() {
+    public String questionCreate(Model model) {
+        model.addAttribute("categories", Category.getCategories());
         return "/qna/question_form";
+    }
+    @PostMapping("/create")
+    public String questionCreate(@RequestParam String subject, @RequestParam String content, @RequestParam String category) {
+        this.questionService.create(subject, content, category);
+        return "redirect:/question";
     }
 }

@@ -7,7 +7,17 @@
 <body>
 <div class="container">
     <h5 class="my-3 border-bottom pb-2">질문등록</h5>
+
     <form th:action="@{/question/create}" method="post">
+
+<div class="form-group">
+    <label for="category">카테고리</label>
+    <select class="form-control" id="category" name="category">
+        <option value="NONE">과정 없음</option>
+        <option th:each="category : ${categories}" th:value="${category.value}">[[ ${category.name} ]]</option>
+    </select>
+</div>
+
         <div class="mb-3">
             <label for="subject" class="form-label">제목</label>
             <input type="text" name="subject" id="subject" class="form-control">
