@@ -10,6 +10,9 @@
 <div class="container mt-5">
     <h2>게시글 작성</h2>
     <form th:action="@{/article/write}" method="post" th:object="${article}">
+
+        <input type="hidden" th:field="*{id}"/>
+
         <!-- 카테고리 선택 -->
         <div class="form-group">
             <label for="category">카테고리:</label>
@@ -43,8 +46,12 @@
 
 <script th:inline="javascript">
     /* <![CDATA[ */
+      var defaultCategory = "[( ${article.category} )]";
 
-      const defaultCategory = "[( ${@rq.user.category} )]";
+      if(defaultCategory == ""){
+        defaultCategory = "[( ${@rq.user.category} )]";
+      }
+
       $("#category > option[value="+defaultCategory+"]").attr("selected", true);
 
     /* ]]> */

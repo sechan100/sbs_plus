@@ -44,7 +44,7 @@ public class Rq {
         
         if(context != null) {
             Authentication authentication = context.getAuthentication();
-            if(authentication.getPrincipal() != null){
+            if(authentication.getPrincipal() instanceof User){
                 User user = (User)authentication.getPrincipal();
                 this.user = user;
             }

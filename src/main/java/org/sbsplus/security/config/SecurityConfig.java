@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
@@ -44,7 +45,7 @@ public class SecurityConfig {
                         .requestMatchers("/register*", "/login*").permitAll()
                         
                         // 커뮤니티
-                        .requestMatchers("/article/write").hasRole("USER")
+                        .requestMatchers("/article/write").authenticated()
                         .requestMatchers("/article/**", "/article*").permitAll()
                         
                         // admin 제한

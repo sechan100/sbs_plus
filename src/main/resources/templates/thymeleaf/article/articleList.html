@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -9,6 +9,9 @@
 <body>
     <h1> 커뮤니티 페이지</h1>
     <br>
+    <div>
+        <a style="font-size: 20px" th:href="@{/article/write}">새 글 작성</a>
+    </div>
     <br>
     <br>
     <br>

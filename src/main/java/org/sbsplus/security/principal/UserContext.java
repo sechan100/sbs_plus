@@ -7,10 +7,10 @@ import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
 
+@Getter
 public class UserContext extends org.springframework.security.core.userdetails.User {
 
-    @Getter
-    private User user;
+    private final User user;
 
 
     public UserContext(User user, Collection<? extends GrantedAuthority> authorities) {

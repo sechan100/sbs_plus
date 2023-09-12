@@ -8,6 +8,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Set;
 
 @Service
@@ -18,11 +20,11 @@ public class AdminServiceImpl implements AdminService {
         
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         
-        Set<? extends GrantedAuthority> grantedAuthorities = (Set<? extends GrantedAuthority>) authentication.getAuthorities();
+        Collection<? extends GrantedAuthority> grantedAuthorities = authentication.getAuthorities();
         for(GrantedAuthority grantedAuthority: grantedAuthorities){
             
             // admin 권한 확인
-            if(grantedAuthority.getAuthority().equals("ADMIN")){
+            if(grantedAuthority.getAuthority().equals("ROLE_ADMIN")){
                 return true;
             }
         }

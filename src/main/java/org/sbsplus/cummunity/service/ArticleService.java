@@ -4,6 +4,7 @@ import org.sbsplus.cummunity.dto.ArticleDto;
 import org.sbsplus.cummunity.entity.Article;
 import org.sbsplus.type.Category;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.Authentication;
 
 public interface ArticleService {
     
@@ -14,4 +15,6 @@ public interface ArticleService {
     void increaseHit(Integer articleId);
     
     void save(ArticleDto articleDto);
+    
+    boolean validatePermissionForArticle(Integer articleId);
 }

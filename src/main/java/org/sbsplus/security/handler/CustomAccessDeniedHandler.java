@@ -15,9 +15,7 @@ import org.springframework.security.web.context.HttpSessionSecurityContextReposi
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Component
 @RequiredArgsConstructor
@@ -30,17 +28,13 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
-        Authentication authentication = ((SecurityContext)request.getSession().getAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY)).getAuthentication();
-        List<GrantedAuthority> grantedAuthorities = (List<GrantedAuthority>)authentication.getAuthorities();
+
         
-        Set<String> authoritie = new HashSet<>();
-        for(GrantedAuthority grantedAuthority : grantedAuthorities){
-            authoritie.add(grantedAuthority.getAuthority());
-        }
+        // 관리자 권한 메세지
+        if(request.getRequestURI().startsWith("/admin"))
+            request.setAttribute("msg", "관리자 권한으로 이용해주세요.");
         
         // 기본 메세지
-        if(!authoritie.contains("ROLE_ADMIN"))
-            request.setAttribute("msg", "관리자 권한으로 이용해주세요.");
         else
             request.setAttribute("msg", accessDeniedException.getMessage());
         

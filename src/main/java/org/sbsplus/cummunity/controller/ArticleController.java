@@ -15,6 +15,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.access.AccessDeniedException;
+
 
 import java.util.List;
 
@@ -86,11 +88,24 @@ public class ArticleController {
     }
 
     
-    // 게시글 작성 페이지 폼
+    // 게시글 작성/수정 페이지 폼
     @GetMapping("/article/write")
-    public String articleWriteForm(Model model){
+    public String articleWriteForm(Model model, @RequestParam(required = false) Integer id) throws AccessDeniedException {
         
-        ArticleDto articleDto = new ArticleDto();
+        // 새로운 글 작성
+        ArticleDto articleDto;
+        if(id == null) {
+            
+            articleDto = new ArticleDto();
+            
+        // 기존 글 수정
+        } else {
+            if(articleService.validatePermissionForArticle(id)){
+                articleDto = articleService.findById(id);
+            } else {
+                throw new AccessDeniedException("해당 게시물에 대한 수정권한이 존재하지 않습니다.");
+            }
+        }
         model.addAttribute("article", articleDto);
         model.addAttribute("categories", Category.getCategories());
         
@@ -99,7 +114,7 @@ public class ArticleController {
     
     // 게시글 작성 프로세스
     @PostMapping("/article/write")
-    public String articleWritePrcs(ArticleDto articleDto){
+    public String articleWritePrcs(ArticleDto articleDto, @RequestParam(required = false) Integer id){
         
         articleService.save(articleDto);
         
@@ -108,3 +123,17 @@ public class ArticleController {
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
