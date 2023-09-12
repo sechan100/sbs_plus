@@ -2,6 +2,7 @@ package org.sbsplus.qna.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.sbsplus.qna.AnswerForm;
 import org.sbsplus.qna.QuestionForm;
 import org.sbsplus.qna.service.QuestionService;
 import org.sbsplus.qna.entity.Question;
@@ -30,7 +31,7 @@ public class QuestionController {
         return "/qna/question_list";
     }
     @GetMapping(value="/detail/{id}")
-    public String detail(Model model, @PathVariable("id") Integer id) {
+    public String detail(Model model, @PathVariable("id") Integer id, AnswerForm answerForm) {
         Question question = this.questionService.getQuestion(id);
         model.addAttribute("question", question);
         return "/qna/question_detail";
