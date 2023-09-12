@@ -18,4 +18,10 @@ public interface ArticleService {
     boolean checkArticleOwnership(Integer articleId);
     
     void delete(Integer articleId) throws AccessDeniedException;
+    
+    boolean hasUserLiked(Integer articleId);
+    
+    void likeArticle(Integer articleId);
+    
+    void unlikeArticle(Integer articleId);
 }

@@ -129,6 +129,27 @@ public class ArticleController {
     
         return "redirect:/article?page=1&category=ALL";
     }
+    
+    // 게시글 좋아요
+    @GetMapping("/article/like")
+    public String articleLike(@RequestParam Integer id){
+        
+        // 기존 추천 여부 확인
+        if(articleService.hasUserLiked(id)){
+            
+            // 기존 추천 여부가 있다면 추천 취소
+            articleService.unlikeArticle(id);
+            
+        } else {
+            
+            // 추천한 적이 없다면 추천 생성
+            articleService.likeArticle(id);
+        }
+        
+        
+        
+        return "redirect:/article/" + id;
+    }
 
 }
 
