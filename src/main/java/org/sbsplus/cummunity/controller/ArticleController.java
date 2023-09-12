@@ -3,14 +3,11 @@ package org.sbsplus.cummunity.controller;
 
 import jakarta.servlet.http.Cookie;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.sbsplus.cummunity.dto.ArticleDto;
-import org.sbsplus.cummunity.entity.Article;
 import org.sbsplus.cummunity.service.ArticleService;
 import org.sbsplus.type.Category;
 import org.sbsplus.util.Pager;
 import org.sbsplus.util.Rq;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,11 +19,11 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@ControllerAdvice
 public class ArticleController {
     
     private final ArticleService articleService;
     private final Rq rq;
+    
     
     // 게시글 리스트
     @GetMapping("/article")
@@ -57,6 +54,7 @@ public class ArticleController {
         
         return "/article/articleList";
     }
+    
     
     // 게시글 디테일 조회
     @GetMapping("/article/{articleId}")
@@ -100,7 +98,7 @@ public class ArticleController {
             
         // 기존 글 수정
         } else {
-            if(articleService.validatePermissionForArticle(id)){
+            if(articleService.checkArticleOwnership(id)){
                 articleDto = articleService.findById(id);
             } else {
                 throw new AccessDeniedException("해당 게시물에 대한 수정권한이 존재하지 않습니다.");
@@ -112,6 +110,7 @@ public class ArticleController {
         return "/article/writeForm";
     }
     
+    
     // 게시글 작성 프로세스
     @PostMapping("/article/write")
     public String articleWritePrcs(ArticleDto articleDto, @RequestParam(required = false) Integer id){
@@ -121,6 +120,15 @@ public class ArticleController {
         return "redirect:/article?page=1&category=" + articleDto.getCategory().getValue();
     }
 
+    
+    // 게시글 삭제 프로세스
+    @GetMapping("/article/delete")
+    public String articleDelete(@RequestParam Integer id) throws AccessDeniedException {
+        
+        articleService.delete(id);
+    
+        return "redirect:/article?page=1&category=ALL";
+    }
 
 }
 
