@@ -14,7 +14,19 @@
     <div th:text="|조회수: ${article.hit}|"></div>
     <h1 th:text="|제목: ${article.title}|"></h1>
     <div th:text="${article.content}"></div>
-    <br><br><br><br>
+    <br><br><br>
+
+    <div>
+        <span>
+            <a th:href="|/article/write?id=${article.id}|">게시글 수정</a>
+        </span>
+
+        <span>
+            <a th:href="@{/article/}">게시글 삭제</a>
+        </span>
+    </div>
+
+    <br><br><br>
     <ul>
         <div th:if="${article.comments.size()} == 0" th:text="|작성된 댓글이 없습니다.|"></div>
         <li th:each="comment : ${article.comments}">

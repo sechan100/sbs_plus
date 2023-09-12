@@ -1,4 +1,4 @@
-package org.sbsplus.user.service.account;
+package org.sbsplus.user.service;
 
 import org.sbsplus.user.dto.UserDto;
 import org.sbsplus.user.entity.User;

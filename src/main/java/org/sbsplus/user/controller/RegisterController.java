@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.sbsplus.type.Category;
 import org.sbsplus.user.dto.UserDto;
 import org.sbsplus.user.entity.User;
-import org.sbsplus.user.service.account.UserService;
+import org.sbsplus.user.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
