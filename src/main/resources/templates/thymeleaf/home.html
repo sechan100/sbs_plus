@@ -26,11 +26,19 @@
         </li>
 
         <li>
-            <a th:href="@{/article}">게시판</a>
+            <a th:href="@{/question}">QnA</a>
         </li>
 
         <li sec:authorize="isAuthenticated()">
             <a th:href="@{/logout}">로그아웃</a>
+        </li>
+
+        <li th:if="${#authorization.expression('not hasRole(''ADMIN'')')}">
+            <a th:href="@{/admin/grantAuthority}">관리자 권한 발급</a>
+        </li>
+
+        <li sec:authorize="hasRole('ADMIN')">
+            <a th:href="@{/admin/revokeAuthority}">관리자 권한 박탈</a>
         </li>
 
         <li sec:authorize="isAuthenticated()">

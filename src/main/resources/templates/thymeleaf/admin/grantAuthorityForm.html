@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>관리자 권한 부여 페이지</title>
+    <!-- 부트스트랩 CSS 링크 추가 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>관리자 권한 부여</h2>
+
+    <div>
+        해당 로그인 계정의 세션이 만료되기 전까지 해당 계정에 관리자 권한을 부여합니다. <br>
+        세션이 만료되면 해당 계정의 관리자 권한은 휘발됩니다. <br>
+        <br><br>
+        아이디: <span th:text="${@rq.user.username}"></span>
+        <br>
+        이름: <span th:text="${@rq.user.name}"></span>
+        <br><br>
+        위 계정에 세션 생명주기의 관리자 권한을 부여합니다.
+    </div>
+    <br><br>
+
+
+    <!-- 관리자 권한 부여 폼 -->
+    <form th:action="@{/admin/grantAuthority}" method="post">
+        <div class="form-group">
+            <label for="securityCode">관리자 권한 보안 코드:</label>
+            <input type="password" class="form-control" id="adminCode" name="adminCode" required>
+        </div>
+        <button type="submit" class="btn btn-primary">관리자 권한 부여</button>
+    </form>
+</div>
+
+<!-- 부트스트랩 JS 및 jQuery 스크립트 추가 -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
