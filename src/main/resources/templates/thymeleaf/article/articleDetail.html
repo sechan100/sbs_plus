@@ -26,7 +26,20 @@
         </span>
     </div>
 
-    <br><br><br>
+    <br><br>
+    <h1>댓글 작성 폼</h1>
+
+    <form th:action="|/comment/write?articleId=${article.id}|" method="POST">
+        <!-- 댓글 내용 입력 필드 -->
+        <div class="mb-3">
+            <label for="content" class="form-label">댓글 내용</label>
+            <textarea class="form-control" id="content" name="content" rows="4" required></textarea>
+         </div>
+        <!-- 댓글 작성 버튼 -->
+        <button type="submit" class="btn btn-primary">댓글 작성</button>
+    </form>
+
+    <br><br>
     <ul>
         <div th:if="${article.comments.size()} == 0" th:text="|작성된 댓글이 없습니다.|"></div>
         <li th:each="comment : ${article.comments}">

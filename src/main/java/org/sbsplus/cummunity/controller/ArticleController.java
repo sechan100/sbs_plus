@@ -55,7 +55,6 @@ public class ArticleController {
         return "/article/articleList";
     }
     
-    
     // 게시글 디테일 조회
     @GetMapping("/article/{articleId}")
     public String articleDetail(@PathVariable Integer articleId, Model model){
@@ -84,7 +83,6 @@ public class ArticleController {
         
         return "/article/articleDetail";
     }
-
     
     // 게시글 작성/수정 페이지 폼
     @GetMapping("/article/write")
@@ -110,7 +108,6 @@ public class ArticleController {
         return "/article/writeForm";
     }
     
-    
     // 게시글 작성 프로세스
     @PostMapping("/article/write")
     public String articleWritePrcs(ArticleDto articleDto, @RequestParam(required = false) Integer id){
@@ -119,7 +116,6 @@ public class ArticleController {
         
         return "redirect:/article?page=1&category=" + articleDto.getCategory().getValue();
     }
-
     
     // 게시글 삭제 프로세스
     @GetMapping("/article/delete")
@@ -150,7 +146,7 @@ public class ArticleController {
         
         return "redirect:/article/" + id;
     }
-
+    
 }
 
 

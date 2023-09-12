@@ -7,7 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.sbsplus.admin.AdminService;
 import org.sbsplus.cummunity.dto.ArticleDto;
+import org.sbsplus.cummunity.dto.CommentDto;
 import org.sbsplus.cummunity.entity.Article;
+import org.sbsplus.cummunity.entity.Comment;
 import org.sbsplus.cummunity.entity.like.ArticleLike;
 import org.sbsplus.cummunity.entity.like.Like;
 import org.sbsplus.cummunity.repository.ArticleRepository;
@@ -167,6 +169,7 @@ public class ArticleServiceImpl implements ArticleService {
                 removeTargetLike = like;
             }
         }
+        
         if(removeTargetLike != null){
             article.getLikes().remove(removeTargetLike);
         } else {
@@ -174,6 +177,25 @@ public class ArticleServiceImpl implements ArticleService {
         }
         
         articleRepository.save(article);
+    }
+    
+    @Override
+    @Transactional
+    public void addComment(Integer articleId, CommentDto commentDto) {
+        
+        // user 세팅
+        commentDto.setUser(rq.getUser());
+        
+        // 엔티티와 매핑
+        Comment comment = (new ModelMapper()).map(commentDto, Comment.class);
+        
+        // 게시글 엔티티를 영속성 컨텍스트 1차 캐쉬에 저장
+        Article article = articleRepository.findById(articleId).orElseThrow();
+        List<Comment> comments = article.getComments();
+        
+        // comment 저장
+        comments.add(comment);
+        
     }
     
     
