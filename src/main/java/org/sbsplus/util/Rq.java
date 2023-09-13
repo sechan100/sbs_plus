@@ -11,6 +11,7 @@ import org.sbsplus.user.entity.User;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
@@ -20,6 +21,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Objects;
 
 @Component
@@ -65,7 +67,6 @@ public class Rq {
             e.getMessage();
         }
     }
-
     
     // unexpected_request
     public String unexpectedRequestForWardUri(String msg){
@@ -88,6 +89,21 @@ public class Rq {
         return null;
     }
     
+    public boolean isAdmin() {
+        
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        
+        Collection<? extends GrantedAuthority> grantedAuthorities = authentication.getAuthorities();
+        for(GrantedAuthority grantedAuthority: grantedAuthorities){
+            
+            // admin 권한 확인
+            if(grantedAuthority.getAuthority().equals("ROLE_ADMIN")){
+                return true;
+            }
+        }
+        
+        return false;
+    }
 }
 
 

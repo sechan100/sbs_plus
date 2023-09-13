@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.sbsplus.cummunity.dto.CommentDto;
 import org.sbsplus.cummunity.service.ArticleService;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -31,6 +32,32 @@ public class CommentController {
         return "redirect:/article/" + articleId;
     }
 
+    @GetMapping("/comment/delete")
+    public String deleteComment(@RequestParam Integer articleId, @RequestParam Integer commentId){
+        
+        articleService.deleteComment(articleId, commentId);
+        
+        return "redirect:/article/" + articleId;
+    }
     
     
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
