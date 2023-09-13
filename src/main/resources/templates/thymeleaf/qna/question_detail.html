@@ -31,6 +31,14 @@
                 <div class="badge bg-light text-dark p-2 text-start">
                     <div th:text="${#temporals.format(answer.createAt, 'yyyy-MM-dd HH:mm')}"></div>
                 </div>
+<!--       댓글 채택 버튼         -->
+<!--     현재 로그인한 사용자와 게시글 작성자가 같은 경우에만  버튼 표시         -->
+                <div th:if="${#authorization.expression('isAuthenticated() and ' + question.user.id + ' == ' + @rq.user.id)}">
+                    <form th:action="@{|/question/${question.id}/accept/${answer.id}|}" method="post">
+                        <input type="submit" value="댓글 채택" class="btn btn-primary ml-2">
+                    </form>
+                </div>
+
             </div>
         </div>
     </div>

@@ -166,7 +166,8 @@ public class DataCreator {
         for(int i = 0; i < answerNum; i++){
             Answer answer = new Answer();
             answer.setContent("내용" + (i+1) + "번");
-
+            answer.setUser(randomUser());
+            answer.setAccepted(false);
             Question question = questionRepository.findById(random.nextInt(questionNum)+1).orElseThrow();
             question.getAnswers().add(answer);
 

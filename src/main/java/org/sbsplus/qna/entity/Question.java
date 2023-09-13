@@ -43,5 +43,6 @@ public class Question extends Datetime {
     @JoinColumn(name = "question_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private List<Answer> answers = new ArrayList<>();
 
-
+    @OneToOne(fetch = LAZY)
+    private Answer acceptedAnswer;
 }

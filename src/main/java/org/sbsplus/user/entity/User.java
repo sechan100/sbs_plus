@@ -49,7 +49,22 @@ public class User {
         User user = (User) o;
         return Objects.equals(id, user.id) && Objects.equals(username, user.username);
     }
-    
+
+    public void addPoints(int point) {
+        if (point < 0){
+            throw new IllegalArgumentException("음수의 포인트를 더할 수 없습니다.");
+        }
+        this.point += point;
+        this.accumulatedPoint += point;
+    }
+
+    public void subtractPoints(int point) {
+        if (point < 0){
+            throw new IllegalArgumentException("음수의 포인트를 뺄 수 없습니다.");
+        }
+        this.point -= point;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(id, username);
