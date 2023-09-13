@@ -3,6 +3,7 @@ package org.sbsplus.qna.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Where;
 import org.sbsplus.qna.entity.Answer;
 import org.sbsplus.type.Category;
 import org.sbsplus.user.entity.User;
@@ -38,7 +39,8 @@ public class Question extends Datetime {
     @Column(columnDefinition = "TEXT")
     private String content;
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
+    @OneToMany(cascade = ALL, orphanRemoval = true)
+    @JoinColumn(name = "question_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private List<Answer> answers = new ArrayList<>();
 
 

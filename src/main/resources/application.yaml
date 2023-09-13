@@ -29,3 +29,5 @@ spring:
     ansi:
       enabled: always
 
+server:
+  port: 8011

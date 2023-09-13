@@ -1,6 +1,7 @@
 package org.sbsplus.cummunity.service;
 
 import org.sbsplus.cummunity.dto.ArticleDto;
+import org.sbsplus.cummunity.dto.CommentDto;
 import org.sbsplus.type.Category;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.AccessDeniedException;

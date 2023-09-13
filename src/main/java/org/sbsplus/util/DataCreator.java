@@ -65,6 +65,8 @@ public class DataCreator {
         createArticleComments();
         createArticleLike();
         createCommentLike();
+        createQuestions();
+        createAnswers();
     }
 
     public void createUser() {
@@ -165,7 +167,10 @@ public class DataCreator {
             Answer answer = new Answer();
             answer.setContent("내용" + (i+1) + "번");
 
-            answerRepository.save(answer);
+            Question question = questionRepository.findById(random.nextInt(questionNum)+1).orElseThrow();
+            question.getAnswers().add(answer);
+
+            questionRepository.save(question);
         }
     }
 
