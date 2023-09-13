@@ -204,18 +204,46 @@ public class ArticleServiceImpl implements ArticleService {
         // 기존 댓글 수정
         } else {
             
-            // DB에서 긁어와서 현재 로그인 중인 사용자 소유인 댓글이 맞는지 확인.
-            Article article = articleRepository.findById(articleId).orElseThrow();
-            Comment modifyTargetComment = checkCommentOwnership(commentDto.getId(), article);
-            modifyTargetComment.setContent(commentDto.getContent());
+            // 댓글의 소유권이 확인된 경우
+            if(checkCommentOwnership(articleId, commentDto.getId())){
+                
+                List<Comment> comments = articleRepository.findById(articleId).orElseThrow().getComments();
+                
+                for(Comment comment : comments){
+                    if(Objects.equals(comment.getId(), commentDto.getId())){
+                        comment.setContent(commentDto.getContent());
+                    }
+                }
+                
+            }
+            
         }
-        
     }
     
-    private Comment checkCommentOwnership(Integer commentId, Article article) {
-        List<Comment> comments = article.getComments();
+    @Override
+    @Transactional
+    public void deleteComment(Integer articleId, Integer commentId) {
         
-        Comment modifyTargetComment = null;
+        // 권한 확인 (작성자 or 관리자)
+        if(
+                adminService.isAdmin()
+                ||
+                checkCommentOwnership(articleId, commentId)
+        ){
+            
+            List<Comment> comments = articleRepository.findById(articleId).orElseThrow().getComments();
+            
+            // 삭제
+            comments.removeIf(comment -> Objects.equals(comment.getId(), commentId));
+            
+        }
+    }
+    
+    @Override
+    public boolean checkCommentOwnership(Integer articleId, Integer commentId) {
+        
+        Article article = articleRepository.findById(articleId).orElseThrow();
+        List<Comment> comments = article.getComments();
         
         for(Comment comment : comments){
             
@@ -225,9 +253,7 @@ public class ArticleServiceImpl implements ArticleService {
                 // 현재 로그인 중인 사용자의 소유인 댓글이 맞는 경우
                 if(comment.getUser().equals(rq.getUser())){
                     
-                    // 타겟 설정
-                    modifyTargetComment = comment;
-                    break;
+                    return true;
                     
                 } else {
                     throw new EntityNotFoundException("댓글 수정권한이 없습니다.");
@@ -236,8 +262,7 @@ public class ArticleServiceImpl implements ArticleService {
             }
         }
         
-        assert modifyTargetComment != null;
-        return modifyTargetComment;
+        return false;
     }
     
     

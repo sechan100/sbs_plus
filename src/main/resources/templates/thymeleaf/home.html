@@ -33,7 +33,7 @@
             <a th:href="@{/logout}">로그아웃</a>
         </li>
 
-        <li th:if="${#authorization.expression('not hasRole(''ADMIN'')')}">
+        <li sec:authorize="isAuthenticated()" th:if="${#authorization.expression('not hasRole(''ADMIN'')')} ">
             <a th:href="@{/admin/grantAuthority}">관리자 권한 발급</a>
         </li>
 
