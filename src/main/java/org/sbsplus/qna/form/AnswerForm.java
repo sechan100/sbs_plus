@@ -1,4 +1,4 @@
-package org.sbsplus.qna;
+package org.sbsplus.qna.form;
 
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;

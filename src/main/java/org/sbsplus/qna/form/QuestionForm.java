@@ -1,10 +1,11 @@
-package org.sbsplus.qna;
+package org.sbsplus.qna.form;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import org.sbsplus.qna.NonNegative;
 import org.sbsplus.qna.entity.Answer;
 import org.sbsplus.type.Category;
 import org.sbsplus.user.entity.User;
@@ -25,4 +26,7 @@ public class QuestionForm {
 
     @NotEmpty(message="내용은 필수항목입니다.")
     private String content;
+
+    @NonNegative(message="포인트는 0 이상이어야 합니다.")
+    private int point;
 }

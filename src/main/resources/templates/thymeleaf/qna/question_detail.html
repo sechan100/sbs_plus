@@ -17,6 +17,9 @@
                 <div class="badge bg-light text-dark p-2 text-start">
                     <div th:text="${#temporals.format(question.createAt, 'yyyy-MM-dd HH:mm')}"></div>
                 </div>
+                <div class="badge bg-light text-dark p-2 text-start">
+                    <div th:text="${question.point}"></div>
+                </div>
             </div>
         </div>
     </div>

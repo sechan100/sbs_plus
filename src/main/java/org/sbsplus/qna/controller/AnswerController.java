@@ -2,7 +2,7 @@ package org.sbsplus.qna.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.sbsplus.qna.AnswerForm;
+import org.sbsplus.qna.form.AnswerForm;
 import org.sbsplus.qna.entity.Answer;
 import org.sbsplus.qna.entity.Question;
 import org.sbsplus.qna.service.AnswerService;

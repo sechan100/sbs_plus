@@ -42,7 +42,7 @@ public class AnswerService {
             User questionAuthor = question.getUser();
 
             if (answerAuthor != null) {
-                int awardedPoints = 10; // 포인트 지급량 (원하는 값으로 변경)
+                int awardedPoints = question.getPoint(); // 포인트 지급량 (원하는 값으로 변경)
 
                 int answerAuthorBeforePoint = answerAuthor.getPoint();
                 int questionAuthorBeforePoint = questionAuthor.getPoint();

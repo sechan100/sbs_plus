@@ -57,6 +57,7 @@ public class DataCreator {
     // 생성되는 댓글 좋아요 개수
     protected Integer commentLikeNum = 1000;
 
+
     Random random = new Random();
 
     public void createTestData(){
@@ -153,6 +154,7 @@ public class DataCreator {
         for(int i = 0; i < questionNum; i++){
             Question question = new Question();
             question.setUser(randomUser());
+            question.setPoint(random.nextInt(50)+1);
             question.setSubject("질문" + (i+1) + "번");
             question.setCategory(randomCategory());
             question.setContent("내용내용내용내용내용내용내용");

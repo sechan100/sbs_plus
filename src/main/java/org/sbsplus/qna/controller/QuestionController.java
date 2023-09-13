@@ -2,8 +2,9 @@ package org.sbsplus.qna.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.sbsplus.qna.AnswerForm;
-import org.sbsplus.qna.QuestionForm;
+import org.sbsplus.qna.form.AnswerForm;
+import org.sbsplus.qna.form.AnswerForm;
+import org.sbsplus.qna.form.QuestionForm;
 import org.sbsplus.qna.service.AnswerService;
 import org.sbsplus.qna.service.QuestionService;
 import org.sbsplus.qna.entity.Question;
@@ -60,6 +61,6 @@ public class QuestionController {
         answerService.markAnswerAsAccepted(answerId, questionId);
 
         // 채택 완료 후 리다이렉트 또는 다른 응답 방식을 선택
-        return "redirect:/question/detail/" + questionId; // 예시: 채택된 질문 페이지로 리다이렉트
+        return "redirect:/question"; // 예시: 채택된 질문 페이지로 리다이렉트
     }
 }

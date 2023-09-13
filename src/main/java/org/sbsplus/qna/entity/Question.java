@@ -45,4 +45,6 @@ public class Question extends Datetime {
 
     @OneToOne(fetch = LAZY)
     private Answer acceptedAnswer;
+
+    private int point;
 }
