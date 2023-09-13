@@ -21,8 +21,18 @@
             <a th:href="|/article/write?id=${article.id}|">게시글 수정</a>
         </span>
 
+        <br>
+        <br>
+
         <span>
             <a th:href="|/article/delete?id=${article.id}|">게시글 삭제</a>
+        </span>
+
+        <br>
+        <br>
+
+        <span>
+            <a th:href="|/article/like?id=${article.id}|">추천</a>
         </span>
     </div>
 
@@ -44,12 +54,16 @@
     <ul>
         <li th:each="comment : ${article.comments}">
             <div th:text="|${comment.likes.size()}개의 좋아요|"></div>
+            <span>
+                <a th:href="|/comment/like?articleId=${article.id}&commentId=${comment.id}|">추천</a>
+            </span>
             <div th:text="${comment.user.nickname}"></div>
             <div th:text="${comment.createAt}"></div>
             <form class="commentModifyForm" th:action="|/comment/write?articleId=${article.id}&commentId=${comment.id}|" method="post" th:id="|commentModifyForm${comment.id}|">
                 <textarea name="content" th:text="${comment.content}" rows="2" required></textarea>
                 <button style="display: none" th:comment_id="${comment.id}" onclick="commentReadMode(this)">수정하기</button>
             </form>
+            <span></span>
             <button th:if="${@rq.user.id} == ${comment.user.id}" th:id="|modifyModeBtn${comment.id}|" th:comment_id="${comment.id}" onclick="commentModifyMode(this)">수정</button>
             <button th:if="${@rq.user.id} == ${comment.user.id} or ${@rq.isAdmin()}" th:comment_id="${comment.id}" onclick="deleteComment(this)">삭제</button>
             <br><br>
