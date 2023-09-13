@@ -39,11 +39,11 @@ public class CommentController {
         
         return "redirect:/article/" + articleId;
     }
-    
+  
     // 댓글 좋아요
     @GetMapping("/comment/like")
     public String commentLike(@RequestParam Integer articleId, @RequestParam Integer commentId){
-        
+      
         // 기존 추천 여부 확인
         if(articleService.hasUserLikedComment(articleId, commentId)){
             
@@ -60,8 +60,6 @@ public class CommentController {
         
         return "redirect:/article/" + articleId;
     }
-    
-    
 }
 
 
