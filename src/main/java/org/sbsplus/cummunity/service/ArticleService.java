@@ -32,4 +32,10 @@ public interface ArticleService {
     void deleteComment(Integer articleId, Integer commentId);
     
     boolean checkCommentOwnership(Integer articleId, Integer commentId);
+    
+    void unlikeComment(Integer articleId, Integer commentId);
+    
+    void likeComment(Integer articleId, Integer commentId);
+    
+    boolean hasUserLikedComment(Integer articleId, Integer commentId);
 }

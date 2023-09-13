@@ -10,6 +10,7 @@ import org.sbsplus.cummunity.dto.CommentDto;
 import org.sbsplus.cummunity.entity.Article;
 import org.sbsplus.cummunity.entity.Comment;
 import org.sbsplus.cummunity.entity.like.ArticleLike;
+import org.sbsplus.cummunity.entity.like.CommentLike;
 import org.sbsplus.cummunity.entity.like.Like;
 import org.sbsplus.cummunity.repository.ArticleRepository;
 import org.sbsplus.type.Category;
@@ -263,6 +264,73 @@ public class ArticleServiceImpl implements ArticleService {
         }
         
         return false;
+    }
+    
+    @Override
+    public boolean hasUserLikedComment(Integer articleId, Integer commentId) {
+        
+        // 게시글에서 댓글 정보 가져와서 매칭
+        Article article = articleRepository.findById(articleId).orElseThrow();
+        List<Comment> comments = article.getComments();
+        
+        // 댓글 반복
+        for(Comment comment : comments){
+            
+            // 타겟 댓글
+            if(Objects.equals(comment.getId(), commentId)){
+                
+                // 추천 리스트 반복
+                List<Like> likes = comment.getLikes();
+                for(Like like : likes){
+                    if(like.getUser().equals(rq.getUser())){
+                        // 매칭 O: 좋아요 기록있음 -> true
+                        return true;
+                    }
+                }
+            }
+        }
+        
+        // 매칭 X: 좋아요 없음 -> false
+        return false;
+    }
+    
+    @Override
+    @Transactional
+    public void unlikeComment(Integer articleId, Integer commentId) {
+        Article article = articleRepository.findById(articleId).orElseThrow();
+        List<Comment> comments = article.getComments();
+        
+        // 댓글 반복
+        for(Comment comment : comments){
+            // 타겟 댓글
+            if(Objects.equals(comment.getId(), commentId)){
+                // 추천 리스트 반복
+                List<Like> likes = comment.getLikes();
+                for(Like like : likes){
+                    if(like.getUser().equals(rq.getUser())){
+                        likes.remove(like);
+                        return;
+                    }
+                }
+            }
+        }
+    }
+    
+    @Override
+    @Transactional
+    public void likeComment(Integer articleId, Integer commentId) {
+        Article article = articleRepository.findById(articleId).orElseThrow();
+        List<Comment> comments = article.getComments();
+        
+        // 댓글 반복
+        for(Comment comment : comments){
+            // 타겟 댓글
+            if(Objects.equals(comment.getId(), commentId)){
+                List<Like> likes = comment.getLikes();
+                likes.add(new CommentLike(rq.getUser()));
+                return;
+            }
+        }
     }
     
     

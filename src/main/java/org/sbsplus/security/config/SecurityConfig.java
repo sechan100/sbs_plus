@@ -45,7 +45,7 @@ public class SecurityConfig {
                         .requestMatchers("/register*", "/login*", "/admin/grantAuthority").permitAll()
                         
                         // 커뮤니티
-                        .requestMatchers("/article/write", "/comment/write*").hasRole("USER")
+                        .requestMatchers("/article/write", "/comment/write*", "/article/like*", "/comment/like*").hasRole("USER")
                         .requestMatchers("/article/**", "/article*").permitAll()
                         
                         // admin 제한
