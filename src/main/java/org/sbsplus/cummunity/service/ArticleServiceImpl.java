@@ -1,7 +1,6 @@
 package org.sbsplus.cummunity.service;
 
 
-import jakarta.persistence.Entity;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -177,6 +176,7 @@ public class ArticleServiceImpl implements ArticleService {
             throw new EntityNotFoundException("삭제할 엔티티(Like)를 특정하지 못했습니다.");
         }
         
+        // 왜 변경감지가 안되지?
         articleRepository.save(article);
     }
     
@@ -206,33 +206,38 @@ public class ArticleServiceImpl implements ArticleService {
             
             // DB에서 긁어와서 현재 로그인 중인 사용자 소유인 댓글이 맞는지 확인.
             Article article = articleRepository.findById(articleId).orElseThrow();
-            List<Comment> comments = article.getComments();
-            
-            Comment modifyTargetComment = null;
-            
-            for(Comment comment : comments){
-                
-                // DB에서 가져온 대상 댓글의 id와 dto로 받은 댓글 id가 일치하는 경우
-                if(Objects.equals(comment.getId(), commentDto.getId())){
-                    
-                    // 현재 로그인 중인 사용자의 소유인 댓글이 맞는 경우
-                    if(comment.getUser().equals(rq.getUser())){
-                        
-                        // 타겟 설정
-                        modifyTargetComment = comment;
-                        break;
-                        
-                    } else {
-                        throw new EntityNotFoundException("댓글 수정권한이 없습니다.");
-                    }
-                    
-                }
-            }
-            
-            assert modifyTargetComment != null;
+            Comment modifyTargetComment = checkCommentOwnership(commentDto.getId(), article);
             modifyTargetComment.setContent(commentDto.getContent());
         }
         
+    }
+    
+    private Comment checkCommentOwnership(Integer commentId, Article article) {
+        List<Comment> comments = article.getComments();
+        
+        Comment modifyTargetComment = null;
+        
+        for(Comment comment : comments){
+            
+            // DB에서 가져온 대상 댓글의 id와 dto로 받은 댓글 id가 일치하는 경우
+            if(Objects.equals(comment.getId(), commentId)){
+                
+                // 현재 로그인 중인 사용자의 소유인 댓글이 맞는 경우
+                if(comment.getUser().equals(rq.getUser())){
+                    
+                    // 타겟 설정
+                    modifyTargetComment = comment;
+                    break;
+                    
+                } else {
+                    throw new EntityNotFoundException("댓글 수정권한이 없습니다.");
+                }
+                
+            }
+        }
+        
+        assert modifyTargetComment != null;
+        return modifyTargetComment;
     }
     
     

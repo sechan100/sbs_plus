@@ -47,7 +47,7 @@
             <div th:text="${comment.user.nickname}"></div>
             <div th:text="${comment.createAt}"></div>
             <form th:action="|/comment/write?articleId=${article.id}&commentId=${comment.id}|" method="post" th:id="|commentModifyForm${comment.id}|">
-                <textarea name="content" th:text="${comment.content}" rows="2" disabled required></textarea>
+                <textarea name="content" th:text="${comment.content}" rows="2" required></textarea>
                 <button style="display: none" th:comment_id="${comment.id}" onclick="commentReadMode(this)">수정하기</button>
             </form>
             <button th:if="${@rq.user.id} == ${comment.user.id}" th:id="|modifyModeBtn${comment.id}|" th:comment_id="${comment.id}" onclick="commentModifyMode(this)">수정</button>
@@ -59,19 +59,25 @@
 
 <script th:inline="javascript">
     /*<![CDATA[*/
+
+    $(document).ready( () => {
+        $("textarea").prop("disabled", true);
+    })
+
+
+
+
     function commentModifyMode(e){
         const commentId = e.getAttribute("comment_id");
-        $("#commentModifyForm" + commentId + " > textarea").attr("disabled", false);
+        $("#commentModifyForm" + commentId + " > textarea").prop("disabled", false);
         $("#commentModifyForm" + commentId + " > button").css('display', 'inline');
         $("#modifyModeBtn" + commentId).css('display', 'none');
     }
 
     function commentReadMode(e){
         const commentId = e.getAttribute("comment_id");
-        $("#commentModifyForm" + commentId + " > textarea").attr("disabled", true);
-        $("#commentModifyForm" + commentId + " > button").css('display', 'none');
-        $("#modifyModeBtn" + commentId).css('display', 'inline');
 
+        // form 데이터 submit
         $("#commentModifyForm" + commentId).submit();
     }
 
