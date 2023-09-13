@@ -55,6 +55,7 @@ public class ArticleController {
         return "/article/articleList";
     }
     
+    
     // 게시글 디테일 조회
     @GetMapping("/article/{articleId}")
     public String articleDetail(@PathVariable Integer articleId, Model model){
@@ -146,7 +147,6 @@ public class ArticleController {
         
         return "redirect:/article/" + id;
     }
-    
 }
 
 
