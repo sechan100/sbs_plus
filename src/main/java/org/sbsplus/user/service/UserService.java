@@ -24,8 +24,10 @@ public interface UserService {
      * @return Account Entity
      */
     User convertToEntityWithRole(UserDto accountDto, String role);
-
-    void save(User account);
+    
+    void save(UserDto userDto);
     
     User findByUsername(String username);
+    
+    User findByEmail(String email);
 }
