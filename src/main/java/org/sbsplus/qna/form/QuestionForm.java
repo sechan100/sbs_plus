@@ -29,4 +29,12 @@ public class QuestionForm {
 
     @NonNegative(message="포인트는 0 이상이어야 합니다.")
     private int point;
+
+    public int bettingPoint(int point){
+        if (point < 100){
+            throw new IllegalArgumentException("최소 채택 제공 포인트는 100포인트입니다");
+        } else {
+            return point;
+        }
+    }
 }
