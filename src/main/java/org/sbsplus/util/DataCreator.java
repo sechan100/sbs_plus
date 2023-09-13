@@ -42,6 +42,12 @@ public class DataCreator {
     // 생성되는 게시글 개수
     protected Integer articleNum = 500;
 
+    // 생성되는 question 개수
+    protected Integer questionNum = 100;
+
+    // 생성되는 answer 개수
+    protected Integer answerNum = 100;
+
     // 생성되는 게시글 댓글 개수
     protected Integer commentNum = 1000;
 
@@ -142,11 +148,11 @@ public class DataCreator {
 
     public void createQuestions(){
 
-        for(int i = 0; i < 20; i++){
+        for(int i = 0; i < questionNum; i++){
             Question question = new Question();
-            question.setUser(userRepository.findById(random.nextInt(5) + 1).orElse(null));
+            question.setUser(randomUser());
             question.setSubject("질문" + (i+1) + "번");
-            question.setCategory(Category.IT);
+            question.setCategory(randomCategory());
             question.setContent("내용내용내용내용내용내용내용");
 
             questionRepository.save(question);
@@ -155,9 +161,8 @@ public class DataCreator {
 // 수정
     public void createAnswers(){
 
-        for(int i = 0; i < 20; i++){
+        for(int i = 0; i < answerNum; i++){
             Answer answer = new Answer();
-            answer.setQuestion(questionRepository.findById(random.nextInt(20) + 1).orElse(null));
             answer.setContent("내용" + (i+1) + "번");
 
             answerRepository.save(answer);
