@@ -22,18 +22,35 @@
         </span>
 
         <span>
-            <a th:href="@{/article/}">게시글 삭제</a>
+            <a th:href="|/article/delete?id=${article.id}|">게시글 삭제</a>
         </span>
     </div>
 
-    <br><br><br>
+    <br><br>
+    <h1>댓글 작성 폼</h1>
+
+    <form th:action="|/comment/write?articleId=${article.id}|" method="POST">
+        <!-- 댓글 내용 입력 필드 -->
+        <div class="mb-3">
+            <label for="content" class="form-label">댓글 내용</label>
+            <textarea class="form-control" id="content" name="content" rows="4" required></textarea>
+         </div>
+        <!-- 댓글 작성 버튼 -->
+        <button type="submit" class="btn btn-primary">댓글 작성</button>
+    </form>
+
+    <br><br>
+    <div th:if="${article.comments.size()} == 0" th:text="|작성된 댓글이 없습니다.|"></div>
     <ul>
-        <div th:if="${article.comments.size()} == 0" th:text="|작성된 댓글이 없습니다.|"></div>
         <li th:each="comment : ${article.comments}">
             <div th:text="|${comment.likes.size()}개의 좋아요|"></div>
             <div th:text="${comment.user.nickname}"></div>
             <div th:text="${comment.createAt}"></div>
-            <div th:text="${comment.content}"></div>
+            <form th:action="|/comment/write?articleId=${article.id}&commentId=${comment.id}|" method="post" th:id="|commentModifyForm${comment.id}|">
+                <textarea name="content" th:text="${comment.content}" rows="2" required></textarea>
+                <button style="display: none" th:comment_id="${comment.id}" onclick="commentReadMode(this)">수정하기</button>
+            </form>
+            <button th:if="${@rq.user.id} == ${comment.user.id}" th:id="|modifyModeBtn${comment.id}|" th:comment_id="${comment.id}" onclick="commentModifyMode(this)">수정</button>
             <br><br>
         </li>
     </ul>
@@ -43,28 +60,26 @@
 <script th:inline="javascript">
     /*<![CDATA[*/
 
-    const selectedCategory = [[${param.category}]];
+    $(document).ready( () => {
+        $("textarea").prop("disabled", true);
+    })
 
-    // 카테고리 기본 선택 속성 추가
-    if(selectedCategory == null){
-        $("#category > option[value=ALL]").attr("selected", true);
-    } else {
-        $("#category > option[value="+selectedCategory+"]").attr("selected", true);
+
+
+
+    function commentModifyMode(e){
+        const commentId = e.getAttribute("comment_id");
+        $("#commentModifyForm" + commentId + " > textarea").prop("disabled", false);
+        $("#commentModifyForm" + commentId + " > button").css('display', 'inline');
+        $("#modifyModeBtn" + commentId).css('display', 'none');
     }
 
+    function commentReadMode(e){
+        const commentId = e.getAttribute("comment_id");
 
-
-    // 페이지 이동
-    $(".pageBtn").on( 'click', (event) => {
-        location.href = "/article?page=" + event.target.innerHTML + "&category=" + selectedCategory;
-    })
-
-
-
-    // 카테고리 변경
-    $("#category").on("change", () => {
-        $("#categoryForm").submit();
-    })
+        // form 데이터 submit
+        $("#commentModifyForm" + commentId).submit();
+    }
 
 
 

@@ -31,12 +31,12 @@ public class Article extends Datetime {
     @JoinColumn(name = "user_id")
     private User user;
     
-    @OneToMany(fetch = LAZY, cascade = ALL, orphanRemoval = true)
-    @JoinColumn(name = "article_id")
+    @OneToMany(cascade = ALL, orphanRemoval = true)
+    @JoinColumn(name = "article_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private List<Comment> comments = new ArrayList<>();
     
     @OneToMany(cascade = ALL, orphanRemoval = true)
-    @JoinColumn(name = "target_id")
+    @JoinColumn(name = "target_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     @Where(clause = "target_type = 'article'")
     private List<Like> likes = new ArrayList<>();
     

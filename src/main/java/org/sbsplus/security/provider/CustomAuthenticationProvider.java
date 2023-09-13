@@ -23,10 +23,6 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     private UserDetailsService userDetailsService;
     
     @Autowired
-    @Qualifier("inMemoryAdminDetailsService")
-    private UserDetailsService inMemoryAdminDetailsService;
-
-    @Autowired
     private PasswordEncoder passwordEncoder;
 
 
@@ -37,15 +33,6 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String password = (String) authentication.getCredentials();
         
         
-        if(username.equals("admin")){
-            DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider(passwordEncoder);
-            daoAuthenticationProvider.setUserDetailsService(inMemoryAdminDetailsService);
-            return daoAuthenticationProvider.authenticate(authentication);
-        }
-        
-        
-        
-
         UserContext userContext = (UserContext) userDetailsService.loadUserByUsername(username);
         User user = userContext.getUser();
 

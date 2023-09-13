@@ -84,7 +84,6 @@ public class ArticleController {
         
         return "/article/articleDetail";
     }
-
     
     // 게시글 작성/수정 페이지 폼
     @GetMapping("/article/write")
@@ -110,7 +109,6 @@ public class ArticleController {
         return "/article/writeForm";
     }
     
-    
     // 게시글 작성 프로세스
     @PostMapping("/article/write")
     public String articleWritePrcs(ArticleDto articleDto, @RequestParam(required = false) Integer id){
@@ -119,7 +117,6 @@ public class ArticleController {
         
         return "redirect:/article?page=1&category=" + articleDto.getCategory().getValue();
     }
-
     
     // 게시글 삭제 프로세스
     @GetMapping("/article/delete")
@@ -129,7 +126,27 @@ public class ArticleController {
     
         return "redirect:/article?page=1&category=ALL";
     }
-
+    
+    // 게시글 좋아요
+    @GetMapping("/article/like")
+    public String articleLike(@RequestParam Integer id){
+        
+        // 기존 추천 여부 확인
+        if(articleService.hasUserLiked(id)){
+            
+            // 기존 추천 여부가 있다면 추천 취소
+            articleService.unlikeArticle(id);
+            
+        } else {
+            
+            // 추천한 적이 없다면 추천 생성
+            articleService.likeArticle(id);
+        }
+        
+        
+        
+        return "redirect:/article/" + id;
+    }
 }
 
 

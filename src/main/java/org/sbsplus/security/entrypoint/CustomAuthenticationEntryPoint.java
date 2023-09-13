@@ -5,9 +5,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.sbsplus.util.Rq;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
@@ -31,7 +34,7 @@ public class CustomAuthenticationEntryPoint extends LoginUrlAuthenticationEntryP
         
         
         // UsernameNotFoundException
-        if(authException instanceof UsernameNotFoundException){ // 사용자 이름 찾을수 없을 때
+        if(authException instanceof UsernameNotFoundException) { // 사용자 이름 찾을수 없을 때
             
             errorType = "username";
             queryString = "?error=true&type=" + errorType;
@@ -39,10 +42,9 @@ public class CustomAuthenticationEntryPoint extends LoginUrlAuthenticationEntryP
             // redirect
             response.sendRedirect(redirectUri + queryString);
             //오류유형과 함께 url에 전달.클라이언트 해당 url로 리다이렉션
-            return;
             
-        // BadCredentialsException
-        } else if(authException instanceof BadCredentialsException){ //비밀번호 인증 실패
+            // BadCredentialsException
+        } else if(authException instanceof BadCredentialsException) { //비밀번호 인증 실패
             
             errorType = "password";
             queryString = "?error=true&type=" + errorType;
@@ -52,15 +54,11 @@ public class CustomAuthenticationEntryPoint extends LoginUrlAuthenticationEntryP
             // 동작방식 : 서버가 클라이언트에게 새로운 url로 이동하도록 응답.
             // 새로운 요청 발생. 클라이언트와 서버간 새로운 상태 가짐.
             response.sendRedirect(redirectUri + queryString);
-            return;
             
-        // anonymous 사용자가 authenticated url에 접근을 시도할 경우 일반적으로 발생하는 예외
-        } else if(authException instanceof InsufficientAuthenticationException) { //익명사용자가 인증이 필요한 url접근시
             
-            if(request.getRequestURI().startsWith("/admin")) //요청 url이 /admin으로 시작한다면
-                request.getSession().setAttribute("msg", "관리자 권한으로 이용해주세요.");
-            else
-                request.getSession().setAttribute("msg", "로그인 후 이용해주세요");
+        } else if(authException instanceof InsufficientAuthenticationException) { // anonymous가 authenticated에 접근
+            
+            request.getSession().setAttribute("msg", "로그인 후 이용해주세요");
             
             // forward : 현재 서버에서 요청을 다른 리소스로 전달
             // 목적: 현재 실행중인 서블릿이나 JSP에서 다른 서블린,JSP로 넘기는 것
@@ -68,8 +66,6 @@ public class CustomAuthenticationEntryPoint extends LoginUrlAuthenticationEntryP
             // 클라이언트는 이러한 전환을 인지하지 못하며, 모든 작업은 서버에서 이루어 짐.
             // 새로운 요청 발생하지 않음
             super.commence(request, response, authException);
-            return;
         }
-        super.commence(request, response, authException);
     }
 }

@@ -24,20 +24,20 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
     private final Rq rq;
 
     @Setter
-    private String defaultAccessDeniedPageUrl = "/access_denied";
+    private String defaultAccessDeniedPageUrl = "/accessDenied";
 
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
 
         
         // 관리자 권한 메세지
-        if(request.getRequestURI().startsWith("/admin"))
-            request.setAttribute("msg", "관리자 권한으로 이용해주세요.");
-        
+        if(request.getRequestURI().startsWith("/admin")) {
+            response.sendRedirect("/accessDenied?requiredAuthority=admin");
+        }
         // 기본 메세지
-        else
+        else {
             request.setAttribute("msg", accessDeniedException.getMessage());
-        
-        request.getRequestDispatcher(defaultAccessDeniedPageUrl).forward(request, response);
+            request.getRequestDispatcher(defaultAccessDeniedPageUrl).forward(request, response);
+        }
     }
 }
