@@ -46,11 +46,12 @@
             <div th:text="|${comment.likes.size()}개의 좋아요|"></div>
             <div th:text="${comment.user.nickname}"></div>
             <div th:text="${comment.createAt}"></div>
-            <form th:action="|/comment/write?articleId=${article.id}&commentId=${comment.id}|" method="post" th:id="|commentModifyForm${comment.id}|">
+            <form class="commentModifyForm" th:action="|/comment/write?articleId=${article.id}&commentId=${comment.id}|" method="post" th:id="|commentModifyForm${comment.id}|">
                 <textarea name="content" th:text="${comment.content}" rows="2" required></textarea>
                 <button style="display: none" th:comment_id="${comment.id}" onclick="commentReadMode(this)">수정하기</button>
             </form>
             <button th:if="${@rq.user.id} == ${comment.user.id}" th:id="|modifyModeBtn${comment.id}|" th:comment_id="${comment.id}" onclick="commentModifyMode(this)">수정</button>
+            <button th:if="${@rq.user.id} == ${comment.user.id} or ${@rq.isAdmin()}" th:comment_id="${comment.id}" onclick="deleteComment(this)">삭제</button>
             <br><br>
         </li>
     </ul>
@@ -61,7 +62,7 @@
     /*<![CDATA[*/
 
     $(document).ready( () => {
-        $("textarea").prop("disabled", true);
+        $(".commentModifyForm > textarea").prop("disabled", true);
     })
 
 
@@ -79,6 +80,12 @@
 
         // form 데이터 submit
         $("#commentModifyForm" + commentId).submit();
+    }
+
+    function deleteComment(e){
+        const commentId = e.getAttribute("comment_id");
+        const articleId = [[ ${article.id} ]];
+        location.href = "/comment/delete?articleId=" + articleId + "&commentId=" + commentId;
     }
 
 
