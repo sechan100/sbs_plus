@@ -42,10 +42,6 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
             throw new BadCredentialsException("BadCredentialsException");
         }
         
-        // email authentication
-        if(!user.getEmailAuth()){
-            throw new EmailNotAuthenticatedException("인증되지 않은 이메일입니다.");
-        }
 
 
         UsernamePasswordAuthenticationToken authenticationToken =

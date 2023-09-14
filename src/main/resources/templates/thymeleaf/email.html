@@ -3,14 +3,12 @@
 
 <body>
 <div style="margin:100px;">
-  <h1> 안녕하세요.</h1>
-  <h1> SBS PLUS+ 입니다.</h1>
-  <br>
-  <p> 아래 이메일 인증 완료하기를 누르면 회원가입이 완료됩니다.</p>
-  <br>
+  <h1>[SBS PLUS]</h1><br>
+  <p> 아래 인증번호를 회원가입 페이지에 입력해주십시오.</p><br><br>
 
-  <div align="center" style="border:1px solid black; font-family:verdana;">
-    <a th:href="|http://localhost:${port}/emailConfirm?email=${email}&code=${code}|" style="font-weight:bold; font-size: 2rem;">이메일 인증</a>
+  <div align="center" style="border:1px solid black; padding: 10px; font-family:verdana;">
+    <div>[이메일 인증번호]</div>
+    <h1 th:text="${authKey}"></h1>
   </div>
   <br/>
 </div>

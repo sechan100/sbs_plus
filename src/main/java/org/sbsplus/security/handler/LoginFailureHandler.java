@@ -32,10 +32,6 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
             errorType = "username";
         }
         
-        if(exception instanceof EmailNotAuthenticatedException){
-            errorType = "emailAuth";
-        }
-        
         
         // forwarding with request attribute: exceptionMsg..
         response.sendRedirect( "/login?error=true&type=" + errorType);

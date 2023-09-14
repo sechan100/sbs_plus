@@ -40,9 +40,6 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Article> articles;
     
-    @Column(columnDefinition = "BOOLEAN DEFAULT false")
-    private boolean emailAuth;
-    
     
     @Override
     public boolean equals(Object o) {
@@ -58,8 +55,14 @@ public class User {
     public int hashCode() {
         return Objects.hash(id, username);
     }
-    public boolean getEmailAuth() {
-        return this.emailAuth;
-    }
 
 }
+
+
+
+
+
+
+
+
+

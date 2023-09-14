@@ -4,7 +4,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.sbsplus.security.EmailNotAuthenticatedException;
 import org.sbsplus.util.Rq;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -56,14 +55,7 @@ public class CustomAuthenticationEntryPoint extends LoginUrlAuthenticationEntryP
             // 새로운 요청 발생. 클라이언트와 서버간 새로운 상태 가짐.
             response.sendRedirect(redirectUri + queryString);
             
-            // EmailNotAuthenticatedException
-        } else if(authException instanceof EmailNotAuthenticatedException) {
-        
-            errorType = "emailAuth";
-            queryString = "?error=true&type=" + errorType;
             
-            response.sendRedirect(redirectUri + queryString);
-        
         } else if(authException instanceof InsufficientAuthenticationException) { // anonymous가 authenticated에 접근
             
             request.getSession().setAttribute("msg", "로그인 후 이용해주세요");

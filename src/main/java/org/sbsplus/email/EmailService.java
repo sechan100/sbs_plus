@@ -20,16 +20,13 @@ import java.util.Random;
 @Slf4j
 public class EmailService {
     
-    @Value("${server.port}")
-    private Integer port;
-    
     private final JavaMailSender javaMailSender;
     private final SpringTemplateEngine templateEngine;
     private final UserService userService;
     
     public String sendMail(EmailMsg emailMessage, String type) throws MessagingException {
         
-        String authKey = createKey();
+        String authKey = createAuthKey();
         
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         
@@ -37,7 +34,7 @@ public class EmailService {
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
             mimeMessageHelper.setTo(emailMessage.getTo()); // address
             mimeMessageHelper.setSubject(emailMessage.getSubject()); // subject
-            mimeMessageHelper.setText(setContext(authKey, emailMessage.getTo(), type), true); // html page
+            mimeMessageHelper.setText(setContext(authKey, type), true); // html page
             javaMailSender.send(mimeMessageHelper.getMimeMessage());
             
             return authKey;
@@ -51,30 +48,18 @@ public class EmailService {
         }
     }
     
-    private String createKey() {
+    private String createAuthKey() {
         Random random = new Random();
-        StringBuilder key = new StringBuilder();
-        for (int i = 0; i < 8; i++) {
-            int index = random.nextInt(4);
-            switch(index) {
-                case 0 -> key.append((char) ((int) random.nextInt(26) + 97));
-                case 1 -> key.append((char) ((int) random.nextInt(26) + 65));
-                default -> key.append(random.nextInt(9));
-            }
-        }
-        return key.toString();
+        int range = 999999 - 111111 + 1;
+        int generatedNumber = random.nextInt(range) + 111111;
+        return Integer.toString(generatedNumber);
     }
     
-    public String setContext(String code, String email ,String type) {
+    public String setContext(String authKey, String type) {
         
         Context context = new Context();
         
-        context.setVariable("code", code);
-        context.setVariable("email", email);
-//        if(port == null){
-//            throw A
-//        }
-        context.setVariable("port", port);
+        context.setVariable("authKey", authKey);
         
         return templateEngine.process(type, context);
     }
