@@ -42,7 +42,7 @@ public class SecurityConfig {
                         .requestMatchers("/", "/accessDenied*", "/unexpected_request*", "/error*").permitAll()
 
                         // 회원가입, 로그인, 관리자 권한 부여
-                        .requestMatchers("/register*", "/login*", "/admin/grantAuthority").permitAll()
+                        .requestMatchers("/register*", "/email/**", "/login*", "/admin/grantAuthority").permitAll()
                         
                         // 커뮤니티
                         .requestMatchers("/article/write", "/comment/write*", "/article/like*", "/comment/like*").hasRole("USER")

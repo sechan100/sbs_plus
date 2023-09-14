@@ -1,5 +1,6 @@
 package org.sbsplus.security.provider;
 
+import org.sbsplus.security.EmailNotAuthenticatedException;
 import org.sbsplus.user.entity.User;
 import org.sbsplus.security.principal.UserContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -35,11 +35,13 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         
         UserContext userContext = (UserContext) userDetailsService.loadUserByUsername(username);
         User user = userContext.getUser();
-
+        
+        
         // password matche
         if(!passwordEncoder.matches(password, user.getPassword())){
             throw new BadCredentialsException("BadCredentialsException");
         }
+        
 
 
         UsernamePasswordAuthenticationToken authenticationToken =

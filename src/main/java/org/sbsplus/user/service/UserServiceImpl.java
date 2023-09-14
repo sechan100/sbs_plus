@@ -6,7 +6,6 @@ import org.modelmapper.ModelMapper;
 import org.sbsplus.user.dto.UserDto;
 import org.sbsplus.user.entity.User;
 import org.sbsplus.user.repository.UserRepository;
-import org.sbsplus.user.service.UserService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -62,8 +61,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void save(User user) {
+    public void save(UserDto userDto) {
+        
+        User user = convertToEntityWithRole(userDto, "USER");
         userRepository.save(user);
+        
         log.info("\n#####[ New User Registered ]##### \n"
                 + "이름: " + user.getName() +"\n"
                 + "아이디: " + user.getUsername() +"\n"
@@ -76,6 +78,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
+    }
+    
+    @Override
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 }
 

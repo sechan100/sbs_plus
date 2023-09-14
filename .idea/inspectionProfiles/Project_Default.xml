@@ -5,7 +5,7 @@
     <inspection_tool class="HtmlUnknownAttribute" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="myValues">
         <value>
-          <list size="12">
+          <list size="19">
             <item index="0" class="java.lang.String" itemvalue="th:text" />
             <item index="1" class="java.lang.String" itemvalue="th:action" />
             <item index="2" class="java.lang.String" itemvalue="th:object" />
@@ -18,6 +18,13 @@
             <item index="9" class="java.lang.String" itemvalue="th:inline" />
             <item index="10" class="java.lang.String" itemvalue="th:id" />
             <item index="11" class="java.lang.String" itemvalue="th:comment_id" />
+            <item index="12" class="java.lang.String" itemvalue="th:hx-post" />
+            <item index="13" class="java.lang.String" itemvalue="th:hx-trigger" />
+            <item index="14" class="java.lang.String" itemvalue="hx-target" />
+            <item index="15" class="java.lang.String" itemvalue="hx-post" />
+            <item index="16" class="java.lang.String" itemvalue="hx-get" />
+            <item index="17" class="java.lang.String" itemvalue="hx-trigger" />
+            <item index="18" class="java.lang.String" itemvalue="hx-indicator" />
           </list>
         </value>
       </option>
