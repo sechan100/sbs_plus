@@ -39,8 +39,27 @@ public class CommentController {
         
         return "redirect:/article/" + articleId;
     }
-    
-    
+  
+    // 댓글 좋아요
+    @GetMapping("/comment/like")
+    public String commentLike(@RequestParam Integer articleId, @RequestParam Integer commentId){
+      
+        // 기존 추천 여부 확인
+        if(articleService.hasUserLikedComment(articleId, commentId)){
+            
+            // 기존 추천 여부가 있다면 추천 취소
+            articleService.unlikeComment(articleId, commentId);
+            
+        } else {
+            
+            // 추천한 적이 없다면 추천 생성
+            articleService.likeComment(articleId, commentId);
+        }
+        
+        
+        
+        return "redirect:/article/" + articleId;
+    }
 }
 
 
