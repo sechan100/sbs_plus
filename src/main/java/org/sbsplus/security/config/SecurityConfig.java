@@ -39,7 +39,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         
                         // 메인, 접근거부, 유효하지 않은 요청, error
-                        .requestMatchers("/", "/accessDenied*", "/unexpected_request*", "/error*").permitAll()
+                        .requestMatchers("/", "/accessDenied*", "/unexpected_request*", "/error*", "/upload*", "/uploads/**").permitAll()
 
                         // 회원가입, 로그인, 관리자 권한 부여
                         .requestMatchers("/register*", "/email/**", "/login*", "/admin/grantAuthority").permitAll()
@@ -56,7 +56,7 @@ public class SecurityConfig {
 
                         .anyRequest().authenticated()
                 )
-
+                
                 .formLogin(form -> form
                         .loginPage("/login")
                         .loginProcessingUrl("/login")
@@ -64,6 +64,8 @@ public class SecurityConfig {
                         .failureHandler(loginFailureHandler)
                         .permitAll()
                 )
+                
+                .csrf(AbstractHttpConfigurer::disable)
 
                 .exceptionHandling(exception -> exception
                         .accessDeniedHandler(defaultAccessDeniedHandler)

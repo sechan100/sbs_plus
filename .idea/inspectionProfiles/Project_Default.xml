@@ -1,11 +1,15 @@
 <component name="InspectionProjectProfileManager">
   <profile version="1.0">
     <option name="myName" value="Project Default" />
+    <inspection_tool class="DataFlowIssue" enabled="false" level="WARNING" enabled_by_default="false">
+      <option name="SUGGEST_NULLABLE_ANNOTATIONS" value="false" />
+      <option name="DONT_REPORT_TRUE_ASSERT_STATEMENTS" value="false" />
+    </inspection_tool>
     <inspection_tool class="HtmlFormInputWithoutLabel" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="HtmlUnknownAttribute" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="myValues">
         <value>
-          <list size="19">
+          <list size="21">
             <item index="0" class="java.lang.String" itemvalue="th:text" />
             <item index="1" class="java.lang.String" itemvalue="th:action" />
             <item index="2" class="java.lang.String" itemvalue="th:object" />
@@ -25,6 +29,8 @@
             <item index="16" class="java.lang.String" itemvalue="hx-get" />
             <item index="17" class="java.lang.String" itemvalue="hx-trigger" />
             <item index="18" class="java.lang.String" itemvalue="hx-indicator" />
+            <item index="19" class="java.lang.String" itemvalue="th:src" />
+            <item index="20" class="java.lang.String" itemvalue="th:utext" />
           </list>
         </value>
       </option>
