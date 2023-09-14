@@ -2,9 +2,9 @@ package org.sbsplus.util;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
-import org.sbsplus.type.Category;
-import org.sbsplus.user.dto.UserDto;
-import org.sbsplus.user.entity.User;
+import org.sbsplus.general.type.Category;
+import org.sbsplus.domain.user.dto.UserDto;
+import org.sbsplus.domain.user.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
