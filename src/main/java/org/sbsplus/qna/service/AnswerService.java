@@ -7,6 +7,7 @@ import org.sbsplus.qna.repository.AnswerRepository;
 import org.sbsplus.qna.repository.QuestionRepository;
 import org.sbsplus.user.entity.User;
 import org.sbsplus.user.service.UserService;
+import org.sbsplus.util.Rq;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -21,10 +22,14 @@ public class AnswerService {
 
     private final UserService userService;
 
+    private final Rq rq;
+
     public void create(Question question, String content) {
         Answer answer = new Answer();
         answer.setContent(content);
-        this.answerRepository.save(answer);
+        answer.setUser(rq.getUser());
+        question.getAnswers().add(answer);
+        questionRepository.save(question);
     }
 
     public void markAnswerAsAccepted(Integer answerId, Integer questionId) {

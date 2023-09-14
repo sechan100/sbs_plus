@@ -51,7 +51,7 @@ public class QuestionController {
         if(bindingResult.hasErrors()) {
             return "/qna/question_form";
         }
-        this.questionService.create(questionForm.getSubject(), questionForm.getSubject(), category);
+        this.questionService.create(questionForm.getSubject(), questionForm.getSubject(), questionForm.getPoint(), category);
         return "redirect:/question";
     }
 

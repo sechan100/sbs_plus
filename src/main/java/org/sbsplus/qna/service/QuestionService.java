@@ -38,12 +38,13 @@ public class QuestionService {
         }
     }
 
-    public void create(String subject, String content, String category) {
+    public void create(String subject, String content, int point, String category) {
        Category c = Category.convertStringToEnum(category);
         Question q = new Question();
         q.setSubject(subject);
         q.setContent(content);
         q.setCategory(c);
+        q.setPoint(point);
         q.setUser(rq.getUser());
         this.questionRepository.save(q);
     }
