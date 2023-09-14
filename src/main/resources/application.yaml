@@ -1,3 +1,6 @@
+server:
+  port: 8011
+
 spring:
   resources:
     add-mappings: true
@@ -29,8 +32,6 @@ spring:
     ansi:
       enabled: always
 
-server:
-  port: 8011
   mail:
     host: smtp.gmail.com
     port: 587

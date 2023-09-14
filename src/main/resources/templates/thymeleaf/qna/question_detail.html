@@ -30,6 +30,10 @@
                    th:if="${question.user != null and @rq.user.username == question.user.username}"
                    th:text="수정"></a>
             </div>
+<!--            <a href="javascript:void(0);" th:data-uri="@{|/question/delete/${question.id}|}"-->
+<!--               class="delete btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()"-->
+<!--               th:if="${question.user != null and #authentication.getPrincipal().getUsername() == question.author.username}"-->
+<!--               th:text="삭제"></a>-->
         </div>
     </div>
     <!-- 답변의 갯수 표시 -->
