@@ -13,7 +13,7 @@
     <div th:text="${article.createAt}"></div>
     <div th:text="|조회수: ${article.hit}|"></div>
     <h1 th:text="|제목: ${article.title}|"></h1>
-    <div th:text="${article.content}"></div>
+    <div class="white-space: pre-line" th:utext="${article.content}"></div>
     <br><br><br>
 
     <div>
