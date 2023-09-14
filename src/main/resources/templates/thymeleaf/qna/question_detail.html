@@ -10,6 +10,7 @@
 <div class="container my-3">
     <!-- 질문 -->
     <h2 class="border-bottom py-2" th:text="${question.subject}"></h2>
+    <h4 class="border-bottom py-2" th:text="${question.category}"></h4>
     <div class="card my-3">
         <div class="card-body">
             <div class="card-text" style="white-space: pre-line;" th:utext="${question.content}"></div>
