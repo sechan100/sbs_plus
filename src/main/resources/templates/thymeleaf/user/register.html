@@ -8,10 +8,24 @@
   <title>회원가입</title>
 </head>
 <body>
+<script src="https://unpkg.com/htmx.org@1.9.5" integrity="sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO" crossorigin="anonymous"></script>
 <div class="container mt-5">
   <h2>회원가입</h2>
 
+  <label for="email">이메일</label>
+  <input hx-get="/email/sendAuthKey" hx-target="#target" hx-indicator="#indicator" hx-trigger="emailSend" type="email" class="form-control" id="email" name="email" required>
+  <img class="htmx-indicator" id="indicator" style="
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -25px 0 0 -25px;
+    font-size: 20px" src="https://i.imgur.com/8THYvPQ.gif">
+
   <form th:action="@{/register}" method="post" th:object="${user}">
+
+    <div id="target">
+      <button type="button" id="sendBtn">이메일 인증번호 전송</button>
+    </div>
 
     <div class="form-group">
       <label for="username">아이디</label>
@@ -43,12 +57,6 @@
       <input type="text" class="form-control" id="nickname" th:field="*{nickname}" required>
     </div>
 
-    <div class="form-group">
-      <label for="email">이메일</label>
-      <input type="email" class="form-control" id="email" th:field="*{email}" required>
-    </div>
-
-    <div th:if="${param.error} and ${#strings.equals(param.type, 'email')}">이미 사용중인 이메일입니다.</div>
 
     <div class="form-group">
       <label for="category">수업유형</label>
@@ -64,7 +72,9 @@
 
   <script th:inline="javascript">
     /* <![CDATA[ */
-
+      $('#sendBtn').on('click', () => {
+        htmx.trigger(document.querySelector('[hx-trigger="emailSend"]'), 'emailSend');
+      });
     /* ]]> */
   </script>
 </body>

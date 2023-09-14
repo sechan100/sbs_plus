@@ -9,8 +9,8 @@ import org.sbsplus.type.Category;
 import java.util.List;
 import java.util.Objects;
 
-@Getter @Setter
 @Entity
+@Getter @Setter
 @NoArgsConstructor
 public class User {
     
@@ -37,8 +37,9 @@ public class User {
     
     private int accumulatedPoint;
     
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Article> articles;
+    
     
     @Override
     public boolean equals(Object o) {
@@ -54,4 +55,14 @@ public class User {
     public int hashCode() {
         return Objects.hash(id, username);
     }
+
 }
+
+
+
+
+
+
+
+
+
