@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -49,4 +50,10 @@ public class QuestionService {
         this.questionRepository.save(q);
     }
 
+    public void modify(Question question, String subject, String content, Category category) {
+        question.setSubject(subject);
+        question.setContent(content);
+        question.setCategory(category);
+        this.questionRepository.save(question);
+    }
 }

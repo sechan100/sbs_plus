@@ -12,11 +12,14 @@ import org.sbsplus.qna.repository.QuestionRepository;
 import org.sbsplus.type.Category;
 import org.sbsplus.util.Rq;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -62,5 +65,34 @@ public class QuestionController {
 
         // 채택 완료 후 리다이렉트 또는 다른 응답 방식을 선택
         return "redirect:/question"; // 예시: 채택된 질문 페이지로 리다이렉트
+    }
+    @GetMapping("/modify/{id}")
+    public String questionModify(Model model, QuestionForm questionForm, @PathVariable("id") Integer id, Rq rq) {
+        Question question = this.questionService.getQuestion(id);
+
+        if(!question.getUser().getUsername().equals(rq.getUser().getUsername())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
+        }
+        model.addAttribute("categories", Category.getCategories());
+        model.addAttribute("question", question);
+
+        questionForm.setPoint(question.getPoint());
+        questionForm.setSubject(question.getSubject());
+        questionForm.setContent(question.getContent());
+        return "/qna/question_modify";
+    }
+
+    @PostMapping("/modify/{id}")
+    public String questionModify(@Valid QuestionForm questionForm, BindingResult bindingResult,
+                                 Rq rq, @PathVariable("id") Integer id) {
+        if (bindingResult.hasErrors()) {
+            return "/qna/question_modify";
+        }
+        Question question = this.questionService.getQuestion(id);
+        if (!question.getUser().getUsername().equals(rq.getUser().getUsername())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
+        }
+        this.questionService.modify(question, questionForm.getSubject(), questionForm.getContent(), questionForm.getCategory());
+        return String.format("redirect:/question/detail/%s", id);
     }
 }
