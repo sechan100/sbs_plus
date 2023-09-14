@@ -59,8 +59,8 @@ public class AnswerService {
 
                 answerAuthor.addPoints(awardedPoints); // 포인트 추가 메소드 호출
                 questionAuthor.subtractPoints(awardedPoints);
-                userService.save(answerAuthor); // 사용자 업데이트
-                userService.save(questionAuthor); // 사용자 업데이트
+                userRepository.save(answerAuthor); // 사용자 업데이트
+                userRepository.save(questionAuthor); // 사용자 업데이트
 
                 int answerAuthorAfterPoint = answerAuthor.getPoint();
                 int questionAuthorAfterPoint = questionAuthor.getPoint();
