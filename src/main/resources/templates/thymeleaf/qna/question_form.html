@@ -1,21 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>질문 작성</title>
+    <!-- 부트스트랩 CSS 링크 추가 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script type="text/javascript" th:src="@{/js/summernote/summernote-lite.js}"></script>
+    <script type="text/javascript" th:src="@{/js/summernote/lang/summernote-ko-KR.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/summernote/summernote-lite.css}">
 </head>
 
 <body>
-<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
 <div class="container">
-    <h5 class="my-3 border-bottom pb-2">질문등록</h5>
+    <h5 class="my-3 border-bottom pb-2">질문작성</h5>
 
     <form th:action="@{/question/create}" th:object="${questionForm}" method="post">
 
         <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
             <div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
         </div>
-
+        <!--    카테고리 입력    -->
         <div class="form-group">
             <label for="category">카테고리</label>
             <select class="form-control" id="category" name="category">
@@ -23,22 +27,81 @@
                 <option th:each="category : ${categories}" th:value="${category.value}">[[ ${category.name} ]]</option>
             </select>
         </div>
-
+        <!--    포인트 입력    -->
         <div class="mb-3">
-            <label for="subject" class="form-label">포인트</label>
+            <label for="point" class="form-label">포인트</label>
             <input type="number" th:field="*{point}" class="form-control">
         </div>
-
+        <!--    제목 입력    -->
         <div class="mb-3">
             <label for="subject" class="form-label">제목</label>
             <input type="text" th:field="*{subject}" class="form-control">
         </div>
+<!--    내용 입력    -->
         <div class="mb-3">
-            <label for="content" class="form-label">내용</label>
-            <textarea th:field="*{content}" class="form-control" rows="10"></textarea>
+            <label for="content">내용</label>
+            <textarea id="summernote" th:field="*{content}" rows="5" required></textarea>
         </div>
+
         <input type="submit" value="저장하기" class="btn btn-primary my-2">
     </form>
 </div>
+
+<!-- 부트스트랩 JavaScript 및 jQuery 링크 추가 (선택사항) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script th:inline="javascript">
+    /* <![CDATA[ */
+
+    // summernote 설정
+        $('#summernote').summernote({
+            toolbar: [
+			    // [groupName, [list of button]]
+			    ['fontname', ['fontname']],
+			    ['fontsize', ['fontsize']],
+			    ['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
+			    ['color', ['forecolor','color']],
+			    ['table', ['table']],
+			    ['para', ['ul', 'ol', 'paragraph']],
+			    ['height', ['height']],
+			    ['insert',['picture','link','video']],
+			    ['view', ['fullscreen', 'help']]
+			  ],
+			fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋움체','바탕체'],
+			fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72'],
+		    height: 400,
+            maxHeight: 400,
+            callbacks: {
+                onImageUpload: function(files) {
+                     uploadImage(files[0]);
+                }
+            }
+	  });
+
+	  function uploadImage(file) {
+        var formData = new FormData();
+        formData.append('file', file);
+
+        $.ajax({
+          url: '/upload',
+          method: 'POST',
+          data: formData,
+          processData: false,
+          contentType: false,
+          success: function(url) {
+            // 업로드된 이미지 URL을 Summernote 에디터에 삽입
+            $('#summernote').summernote('insertImage', url);
+          },
+          error: function(xhr, status, error) {
+            alert('이미지 업로드에 실패했습니다.');
+          }
+        });
+      }
+
+
+    /* ]]> */
+</script>
+
 </body>
 </html>
