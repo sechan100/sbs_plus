@@ -27,7 +27,7 @@ public class Article extends Datetime {
     @GeneratedValue(strategy = IDENTITY)
     private Integer id;
     
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne(fetch = LAZY, cascade = ALL)
     @JoinColumn(name = "user_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private User user;
     

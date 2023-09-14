@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+</head>
+
+<body>
+<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+<div class="container">
+    <h5 class="my-3 border-bottom pb-2">질문수정</h5>
+
+    <form th:action="|/question/modify/${question.id}|" th:object="${questionForm}" method="post">
+
+        <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
+            <div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
+        </div>
+
+        <div class="form-group">
+            <label for="category">카테고리</label>
+            <select class="form-control" id="category" name="category">
+                <option value="NONE">과정 없음</option>
+                <option th:each="category : ${categories}" th:value="${category.value}">[[ ${category.name} ]]</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="point" class="form-label">포인트</label>
+            <input type="text" th:field="*{point}" class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <label for="subject" class="form-label">제목</label>
+            <input type="text" th:field="*{subject}" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="content" class="form-label">내용</label>
+            <textarea th:field="*{content}" class="form-control" rows="10"></textarea>
+        </div>
+        <input type="submit" value="수정하기" class="btn btn-primary my-2">
+    </form>
+</div>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+      var defaultCategory = "[( ${question.category} )]";
+      if(defaultCategory == ""){
+        defaultCategory = "[( ${@rq.user.category} )]";
+      }
+
+      $("#category > option[value="+defaultCategory+"]").attr("selected", true);
+
+    /*]]>*/
+</script>
+</body>
+</html>

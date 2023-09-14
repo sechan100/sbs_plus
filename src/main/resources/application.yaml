@@ -1,7 +1,7 @@
-server:
-  port: 8080
-
 spring:
+  resources:
+    add-mappings: true
+
   thymeleaf:
     cache: false
     mode: HTML
@@ -10,8 +10,8 @@ spring:
     suffix: .html
 
   datasource:
-    username: root
-    password: dlqhfka
+    username: sbsst
+    password: sbs123414
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/sbs_plus
 
@@ -29,6 +29,8 @@ spring:
     ansi:
       enabled: always
 
+server:
+  port: 8011
   mail:
     host: smtp.gmail.com
     port: 587

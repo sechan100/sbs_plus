@@ -40,17 +40,20 @@ public class SecurityConfig {
                         
                         // 메인, 접근거부, 유효하지 않은 요청, error
                         .requestMatchers("/", "/accessDenied*", "/unexpected_request*", "/error*").permitAll()
-                        
+
                         // 회원가입, 로그인, 관리자 권한 부여
                         .requestMatchers("/register*", "/email/**", "/login*", "/admin/grantAuthority").permitAll()
                         
                         // 커뮤니티
                         .requestMatchers("/article/write", "/comment/write*", "/article/like*", "/comment/like*").hasRole("USER")
                         .requestMatchers("/article/**", "/article*").permitAll()
-                        
+
+                        // QnA
+                        .requestMatchers("/question/**").permitAll()
+
                         // admin 제한
                         .requestMatchers("/admin/**").hasRole("ADMIN")
-                        
+
                         .anyRequest().authenticated()
                 )
 

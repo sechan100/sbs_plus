@@ -28,9 +28,9 @@ public interface ArticleService {
     void unlikeArticle(Integer articleId);
     
     void saveComment(Integer articleId, CommentDto commentDto);
-    
+
     void deleteComment(Integer articleId, Integer commentId);
-    
+
     boolean checkCommentOwnership(Integer articleId, Integer commentId);
     
     void unlikeComment(Integer articleId, Integer commentId);
