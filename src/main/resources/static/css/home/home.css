@@ -1,0 +1,184 @@
+/*---메인---*/
+
+#contents {
+    width: 80%;
+    height: 80%;
+    margin: 0 auto;
+    margin-top: 50px;
+}
+#contents .content1 {
+    width: 100%;
+    height: 45%;
+    display: flex;
+}
+#contents .content1 .Calendar {
+    width: 25%;
+    height: 100%;
+    background-color: #EAEAEC;
+    margin-right: 3%;
+}
+#contents .content1 .schedule-box {
+    width: 25%;
+    height: 100%;
+    border: 2px solid #CECECE;
+    margin-right: 3%
+}
+#contents .content1 .schedule-box .border-bottom {
+    width: 250px;
+}
+#contents .content1 .schedule-box > ul {
+    margin-top: 30px;
+}
+
+#contents .content1 .schedule-box > ul> li {
+    padding: 3%;
+    margin-left: 20px;
+    margin-top: 5px;
+    line-height: 25px;
+}
+
+#contents .content1 .commu_box {
+    width: 50%;
+    height: 214%;
+    border: 2px solid #CECECE;
+    display: flex;
+    border-left: 0;
+    border-right: 0;
+    overflow: auto;
+}
+
+#contents .content1 .commu_box .menu {
+    width: 35%;
+    font-size: 19px;
+    margin-top: 120px;
+    padding: 5%;
+    white-space:nowrap;
+}
+#contents .content1 .commu_box .menu > a {
+    display: inline-block;
+    padding: 3%;
+}
+#contents .content1 .commu_box .commu_table {
+    position: relative;
+    white-space:nowrap;
+}
+#contents .content1 .commu_box .commu_table table {
+    margin-top: 55px;
+    border-collapse: collapse;
+}
+#contents .content1 .commu_box .commu_table table tr td {
+    padding: 13px;
+
+
+}
+#contents .content1 .commu_box .commu_table .title {
+    font-size: 30px;
+    margin-top: 30px;
+    color: #939191;
+}
+#contents .content1 .commu_box .commu_table .more_tab2 {
+    position: absolute;
+    top: 20px;
+    left: 280px;
+    margin-left: 30px;
+}
+#contents .content2 {
+    width: 100%;
+    height: 45%;
+    margin-top: 40px;
+}
+#contents .content2 .qna_box {
+    width: 50%;
+    height: 100%;
+    border: 2px solid #CECECE;
+    white-space:nowrap;
+    position: relative;
+    overflow: auto;
+}
+#contents .content2 .qna_box .qna_content > table {
+    margin-left: 30px;
+    margin-top: 25px;
+    border-collapse: collapse;
+    width: 90%;
+
+}
+#contents .content2 .qna_box .title {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 30px;
+    font-weight: bold;
+    color: #939191;
+
+}
+#contents .content2 .qna_box .more_tab {
+    left: 80%;
+    top: 20px;
+    white-space:nowrap;
+    position: absolute;
+}
+td {
+    padding: 2% 2%;
+}
+.border-bottom {
+    border-bottom : 1px solid #CECECE;
+}
+/*======달력======*/
+
+.Calendar {
+    text-align: center;
+}
+.Calendar > thead > tr > td {
+    line-height: 5px;
+    height: 20px;
+}
+.Calendar > thead > tr:last-child > td {
+    line-height: 2px;
+}
+.Calendar > thead > tr:first-child > td {
+    font-family: 'SUIT-Regular';
+    font-size: 1.1em;
+}
+
+.Calendar > thead > tr:last-child > td {
+    font-family: 'SUIT-Regular';
+    font-weight: 200;
+    height: 10px;
+}
+
+.Calendar > tbody > tr > td > p {
+    font-family: 'SUIT-Regular';
+    height: 5%;
+    transition-duration: .2s;
+    line-height: 0px;
+    margin: 1px;
+    display: block;
+}
+.today {
+    font-weight: 600;
+    cursor: pointer;
+}
+.futureDay.choiceDay,
+.today.choiceDay {
+    color: #969494;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/*반응형 사이즈 변경*/
+@media (max-width: 1420px) {
+    #header .nav > ul > li {
+        font-size: 20px;
+    }
+    #header .nav > ul > li:last-child {
+        font-size: 20px;
+    }
+    #header .sub_menu > ul > li > a {
+        font-size: 16px;
+    }
+    #contents .content1 .commu_box .menu > a {
+    font-size: 16px;
+  }
+  #contents .content1 .schedule-box > ul> li {
+    font-size: 15px;
+  }
+}

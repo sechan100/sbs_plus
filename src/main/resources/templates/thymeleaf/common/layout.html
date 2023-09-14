@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- jQuery  -->
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+
+    <!--  bootstrap  -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!--  htmx  -->
+    <script src="https://unpkg.com/htmx.org@1.9.5" integrity="sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO" crossorigin="anonymous"></script>
+
+    <!--  header css  -->
+    <link rel="stylesheet" th:href="@{css/common/header.css}"/>
+
+    <!--  tailwind  -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+    <div id="wrap">
+        <div id="main">
+            <header id="header">
+                <a href="/" class="logo">
+                    <img src="https://ifh.cc/g/9AqA7q.png" alt="">
+                </a>
+                <nav class="nav">
+                    <ul>
+                        <li><a th:href="@{/article}" >커뮤니티</a></li>
+                        <li><a th:href="@{/schedule}" >스케줄</a></li>
+                        <li><a th:href="@{/question}" >QnA</a></li>
+                        <li><a th:href="@{/point}" >포인트</a></li>
+                    </ul>
+                </nav>
+                <div class="sub_menu">
+                    <!-- 로그인 사용자 -->
+                    <ul th:if="${@rq.login}">
+                        <li><img src="https://ifh.cc/g/Q6wFrm.jpg" alt=""></li>
+                        <li><a th:href="|/user/${@rq.user.username}|" >백세찬님 안녕하세요.</a></li>
+                        <li>
+                            <a style="cursor: pointer;"><i class="fa-solid fa-chevron-down"></i></a>
+                            <ul class="submenu">
+                                <li><a th:href="|/user/${@rq.user.username}|">MY PAGE</a></li>
+                                <li><a href="#">내가 쓴 글</a></li>
+                                <li><a th:href="@{/logout}">로그아웃</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <ul th:unless="${@rq.login}">
+                        <li class="pb-15"><a class="hover:text-cyan-400" th:href="@{/login}" >로그인</a></li>
+                        <li class="pb-15"><a class="hover:text-cyan-400" th:href="@{/register}" >회원가입</a></li>
+                    </ul>
+                </div>
+            </header>
+            <main layout:fragment="main"></main>
+        </div>
+    </div>
+
+    <!--  header js  -->
+    <script type="text/javascript" th:src="@{js/common/header.js}"></script>
+</body>
+</html>
