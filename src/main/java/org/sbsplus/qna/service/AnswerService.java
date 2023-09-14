@@ -1,16 +1,19 @@
 package org.sbsplus.qna.service;
 
 import lombok.RequiredArgsConstructor;
+import org.sbsplus.qna.DataNotFoundException;
 import org.sbsplus.qna.entity.Answer;
 import org.sbsplus.qna.entity.Question;
 import org.sbsplus.qna.repository.AnswerRepository;
 import org.sbsplus.qna.repository.QuestionRepository;
 import org.sbsplus.user.entity.User;
+import org.sbsplus.user.repository.UserRepository;
 import org.sbsplus.user.service.UserService;
 import org.sbsplus.util.Rq;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -21,6 +24,8 @@ public class AnswerService {
     private final QuestionRepository questionRepository;
 
     private final UserService userService;
+
+    private final UserRepository userRepository;
 
     private final Rq rq;
 
