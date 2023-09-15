@@ -26,4 +26,6 @@ public class UserDto {
     private String role;
 
     private int point;
+
+    private boolean suspended;
 }

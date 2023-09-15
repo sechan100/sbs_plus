@@ -39,8 +39,8 @@ public class User {
     
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Article> articles;
-    
-    
+
+    private boolean suspended = false;
     @Override
     public boolean equals(Object o) {
         if(this == o)

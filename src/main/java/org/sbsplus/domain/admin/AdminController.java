@@ -2,7 +2,11 @@ package org.sbsplus.domain.admin;
 
 
 import lombok.RequiredArgsConstructor;
+import org.sbsplus.domain.user.dto.UserDto;
+import org.sbsplus.domain.user.entity.User;
+import org.sbsplus.domain.user.service.UserService;
 import org.sbsplus.util.Rq;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +18,7 @@ public class AdminController {
     
     
     private final AdminService adminService;
+    private final UserService userService;
     private final Rq rq;
     
     @GetMapping("/admin/grantAuthority")
@@ -45,5 +50,19 @@ public class AdminController {
         
         return "redirect:/";
     }
-    
+    @PostMapping("/admin/suspendUser")
+    public String suspendUser(@RequestParam Long userId) {
+        // 관리자 역할을 가지고 있는지 확인
+        if (!adminService.isAdmin()) {
+            throw new AccessDeniedException("관리자 권한이 필요합니다.");
+        }
+
+        // 사용자 정지 로직 구현
+        User userToSuspend = userService.findById(userId);
+        userToSuspend.setSuspended(true); // 사용자를 정지 상태로 변경
+
+//        userService.save(userToSuspend); // 변경된 정보 저장
+
+        return "redirect:/admin/users"; // 사용자 목록 페이지로 리다이렉트
+    }
 }
