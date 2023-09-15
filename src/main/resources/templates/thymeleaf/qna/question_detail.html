@@ -15,6 +15,10 @@
         <div class="card-body">
             <div class="card-text" style="white-space: pre-line;" th:utext="${question.content}"></div>
             <div class="d-flex justify-content-end">
+                <div th:if="${question.updateAt != null}" class="badge bg-light text-dark p-2 text-start mx-3">
+                    <div class="mb-2">modified at</div>
+                    <div th:text="${#temporals.format(question.updateAt, 'yyyy-MM-dd HH:mm')}"></div>
+                </div>
                 <div class="badge bg-light text-dark p-2 text-start">
                     <div class="mb-2">
                         <span th:if="${question.user != null}" th:text="${question.user.username}"></span>
@@ -30,6 +34,11 @@
                    sec:authorize="isAuthenticated()"
                    th:if="${question.user != null and @rq.user.username == question.user.username}"
                    th:text="수정"></a>
+
+                <a href="javascript:void(0);" th:data-uri="@{|/question/delete/${question.id}|}"
+                   class="delete btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()"
+                   th:if="${question.user != null and @rq.user.username == question.user.username}"
+                   th:text="삭제"></a>
             </div>
         </div>
     </div>
@@ -41,12 +50,17 @@
         <div class="card-body">
             <div class="card-text" style="white-space: pre-line;" th:text="${answer.content}"></div>
             <div class="d-flex justify-content-end">
+                <div th:if="${answer.updateAt != null}" class="badge bg-light text-dark p-2 text-start mx-3">
+                    <div class="mb-2">modified at</div>
+                    <div th:text="${#temporals.format(answer.updateAt, 'yyyy-MM-dd HH:mm')}"></div>
+                </div>
                 <div class="badge bg-light text-dark p-2 text-start">
                     <div class="mb-2">
                         <span th:if="${answer.user != null}" th:text="${answer.user.username}"></span>
                     </div>
                     <div th:text="${#temporals.format(answer.createAt, 'yyyy-MM-dd HH:mm')}"></div>
                 </div>
+
 <!--       댓글 채택 버튼         -->
 <!--     현재 로그인한 사용자와 게시글 작성자가 같은 경우에만, 버튼 표시         -->
                 <div th:if="${#authorization.expression(question.user.id == @rq.user.id)}">
@@ -57,6 +71,17 @@
                     </div>
                 </div>
 
+            </div>
+            <div class="my-3">
+                <a th:href="|/answer/modify/${answer.id}?questionId=${question.id}" class="btn btn-sm btn-outline-secondary"
+                   sec:authorize="isAuthenticated()"
+                   th:if="${answer.user != null and @rq.user.username == answer.user.username}"
+                   th:text="수정"></a>
+
+                <a href="javascript:void(0);" th:data-uri="@{|/answer/delete/${answer.id}?questionId=${question.id}|}"
+                   class="delete btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()"
+                   th:if="${answer.user != null and @rq.user.username == answer.user.username}"
+                   th:text="삭제"></a>
             </div>
         </div>
     </div>
@@ -74,5 +99,15 @@
     </form>
 </div>
 
+<script type='text/javascript'>
+    const delete_elements = document.getElementsByClassName("delete");
+    Array.from(delete_elements).forEach(function(element) {
+        element.addEventListener('click', function() {
+            if(confirm("정말로 삭제하시겠습니까?")) {
+                location.href = this.dataset.uri;
+            };
+        });
+    });
+</script>
 </body>
 </html>

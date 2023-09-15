@@ -36,7 +36,7 @@ public class Question extends Datetime {
     @Column(columnDefinition = "TEXT")
     private String content;
 
-    @OneToMany(cascade = ALL, orphanRemoval = true)
+    @OneToMany( cascade = ALL, orphanRemoval = true)
     @JoinColumn(name = "question_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private List<Answer> answers = new ArrayList<>();
 
