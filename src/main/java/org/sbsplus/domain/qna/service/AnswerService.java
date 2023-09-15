@@ -29,6 +29,9 @@ public class AnswerService {
 
     private final Rq rq;
 
+    public void delete(Answer answer) {
+        this.answerRepository.delete(answer);
+    }
     public void create(Question question, String content) {
         Answer answer = new Answer();
         answer.setContent(content);

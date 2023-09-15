@@ -59,4 +59,14 @@ public class AnswerController {
         this.answerService.modify(answer, answerForm.getContent());
         return "redirect:/question/detail/" + answerForm.getQuestionId();
     }
+    @GetMapping("/delete/{id}")
+    public String answerDelete(Rq rq, @PathVariable("id") Integer id, @RequestParam Integer questionId) {
+        Answer answer = this.answerService.getAnswer(id);
+        if (!answer.getUser().getUsername().equals(rq.getUser().getUsername())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제권한이 없습니다.");
+        }
+        this.answerService.delete(answer);
+
+        return String.format("redirect:/question/detail/%s", questionId);
+    }
 }
