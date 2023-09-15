@@ -1,9 +1,9 @@
 server:
-  port: 8080
+  port: 8011
 
 # 이미지 업로드 경로 설정
 upload:
-  directory:  C:\Users\USER-PC\upload\sbsplus\img\
+  directory:  C:\Users\SBS\upload\sbsplus\img
 
   # [사용법] <아래는 윈도우용>
   # 1. 계정명에는 사용자 디렉토리 경로보고 본인 로컬 폴더명 써주세요

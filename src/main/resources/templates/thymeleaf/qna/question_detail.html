@@ -52,6 +52,7 @@
                     </div>
                     <div th:text="${#temporals.format(answer.createAt, 'yyyy-MM-dd HH:mm')}"></div>
                 </div>
+
 <!--       댓글 채택 버튼         -->
 <!--     현재 로그인한 사용자와 게시글 작성자가 같은 경우에만, 버튼 표시         -->
                 <div th:if="${#authorization.expression(question.user.id == @rq.user.id)}">
@@ -62,6 +63,12 @@
                     </div>
                 </div>
 
+            </div>
+            <div class="my-3">
+                <a th:href="|/answer/modify/${answer.id}?questionId=${question.id}" class="btn btn-sm btn-outline-secondary"
+                   sec:authorize="isAuthenticated()"
+                   th:if="${answer.user != null and @rq.user.username == answer.user.username}"
+                   th:text="수정"></a>
             </div>
         </div>
     </div>
