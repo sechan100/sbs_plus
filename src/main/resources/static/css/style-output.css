@@ -566,7 +566,6 @@ video {
 }
 
 .btn-blue {
-  margin-right: 0.5rem;
   border-radius: 9999px;
   border-width: 2px;
   --tw-border-opacity: 1;
@@ -602,7 +601,6 @@ video {
 }
 
 .btn-blue-outline {
-  margin-right: 0.5rem;
   border-radius: 9999px;
   border-width: 2px;
   --tw-border-opacity: 1;
