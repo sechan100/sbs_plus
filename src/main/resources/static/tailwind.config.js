@@ -1,6 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["../templates/thymeleaf/**/*.html"],
+    purge: {
+        enabled: true,
+        content: ["../templates/thymeleaf/**/*.html"],
+      },
   theme: {
     extend: {},
   },
