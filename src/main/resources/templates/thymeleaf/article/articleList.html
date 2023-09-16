@@ -1,49 +1,62 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html layout:decorate="~{/common/layout}">
 <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
-    <title>Title</title>
+    <title>커뮤니티</title>
 </head>
-<body>
-    <h1> 커뮤니티 페이지</h1>
-    <br>
-    <div>
-        <a style="font-size: 20px" th:href="@{/article/write}">새 글 작성</a>
-    </div>
-    <br>
-    <br>
-    <br>
-    <form id="categoryForm" th:action="@{/article?page=1}" method="get">
-        <div class="form-group">
-            <label for="category">카테고리</label>
-            <select class="form-control" id="category" name="category">
-                <option value="ALL">전체 글</option>
-                <option th:each="category : ${categories}" th:value="${category.value}">[[ ${category.name} ]]</option>
-            </select>
+<main layout:fragment="main">
+    <div class="container my-12 mx-auto px-4 md:px-12">
+        <div class="flex flex-wrap -mx-1 lg:-mx-4">
+
+            <!-- Column -->
+            <div th:each="article : ${articles}" class="my-1 px-1 w-1/2 md:w-1/3 lg:my-4 lg:px-4 lg:w-1/4">
+
+                <!-- Article -->
+                <article class="overflow-hidden rounded-lg shadow-lg">
+
+                    <a th:href="|/article/${article.id}|">
+                        <img alt="Placeholder" class="block h-auto w-full" src="https://picsum.photos/600/400/?random">
+                    </a>
+
+                    <header class="flex items-center justify-between leading-tight p-2 md:p-4">
+                        <h1 class="truncate w-48 h-5 inline-block text-medium">
+                            <a class="no-underline hover:underline text-black" th:href="|/article/${article.id}|">
+                                [[ ${article.title} ]]
+                            </a>
+                        </h1>
+                        <p class="text-grey-darker text-sm">
+                            [[ ${article.convertRelativeTime()} ]]
+                        </p>
+                    </header>
+
+                    <footer class="flex items-center justify-between leading-none p-2 md:p-4">
+                        <a class="flex items-center no-underline hover:underline text-black" th:href="|/${article.user.username}|">
+                            <img alt="Placeholder" class="block rounded-full" src="https://picsum.photos/32/32/?random">
+                            <p class="truncate w-36 h-5 ml-2 text-sm">
+                                [[ ${article.user.nickname} ]]
+                            </p>
+                        </a>
+                        <th:block th:unless="${@rq.login}">
+                        <a like-bok class="cursor-pointer no-underline text-grey-darker" th:href="@{/article/like(id=${article.id})}">
+                        </th:block>
+                        <th:block th:if="${@rq.login}">
+                        <a like-bok class="cursor-pointer no-underline text-grey-darker" th:hx-get="@{/ajax/article/like(id=${article.id})}">
+                        </th:block>
+                            <span class="">[[ ${article.likes.size()} ]]</span>
+                            <i th:if="${@articleServiceImpl.hasUserLiked(article.id)}" like-icon class="fa fa-heart"></i>
+                            <i th:unless="${@articleServiceImpl.hasUserLiked(article.id)}" like-icon class="fa-regular fa-heart"></i>
+                        </a>
+                    </footer>
+
+                </article>
+                <!-- END Article -->
+
+            </div>
+            <!-- END Column -->
+
         </div>
-    </form>
-    <ul th:each="article : ${articles}">
-        <li>
-            <span th:text="${article.category.name}"></span>
-            <span th:text="${article.id}"></span>
-            <span>
-                <a
-                        th:href="|/article/${article.id}|"
-                        th:text="${article.title}"></a>
-            </span>
-            <span th:text="${article.user.nickname}"></span>
-            <span th:text="${article.createAt}"></span>
-            <span th:text="${article.hit}"></span>
-        </li>
-    </ul>
-    <br><br>
-        <button
-                th:each="num : ${pageRange}"
-                th:text="${num}"
-                class="pageBtn">
-        </button>
+    </div>
+
+</main>
+</html>
 <script th:inline="javascript">
     /*<![CDATA[*/
 
@@ -56,24 +69,28 @@
         $("#category > option[value="+selectedCategory+"]").attr("selected", true);
     }
 
-
-
     // 페이지 이동
     $(".pageBtn").on( 'click', (event) => {
         location.href = "/article?page=" + event.target.innerHTML + "&category=" + selectedCategory;
     })
-
-
 
     // 카테고리 변경
     $("#category").on("change", () => {
         $("#categoryForm").submit();
     })
 
+    // 좋아요 아이콘 hover
+    $('a[like-bok]').each(function() {
+        const likeBox = $(this);
+
+        likeBox.hover( () => {
+            const likeIcon = likeBox.find('i');
+            likeIcon.toggleClass("fa-regular");
+            likeIcon.toggleClass("fa");
+        });
+});
 
 
     /*]]>*/
 </script>
 
-</body>
-</html>

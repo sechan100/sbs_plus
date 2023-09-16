@@ -147,6 +147,29 @@ public class ArticleController {
         
         return "redirect:/article/" + id;
     }
+    
+    @GetMapping("/ajax/article/like")
+    @ResponseBody
+    public String ajaxArticleLike(@RequestParam Integer id){
+        
+        // 기존 추천 여부 확인
+        if(articleService.hasUserLiked(id)){
+            
+            // 기존 추천 여부가 있다면 추천 취소
+            articleService.unlikeArticle(id);
+            
+        } else {
+            
+            // 추천한 적이 없다면 추천 생성
+            articleService.likeArticle(id);
+        }
+        return String.format("""
+                 <a like-bok class="no-underline text-grey-darker" th:hx-get="@{/ajax/article/like(id=${article.id})}">
+                     <span class="">%s</span>
+                     <i like-icon class="animate__heartBeat fa fa-heart"></i>
+                 </a>
+                """, articleService.findById(id).getLikes().size());
+    }
 }
 
 
