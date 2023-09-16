@@ -12,7 +12,7 @@
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 
     <!--  bootstrap  -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">-->
 
     <!-- font awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -24,48 +24,63 @@
     <link rel="stylesheet" th:href="@{css/common/header.css}"/>
 
     <!--  tailwind  -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" th:href="@{css/output.css}"/>
+    <link rel="stylesheet" th:href="@{css/style-output.css}"/>
 </head>
 <body class="bg-gray-100">
-    <div id="wrap">
-        <div id="main">
-            <header id="header">
-                <a href="/" class="logo">
-                    <img src="https://ifh.cc/g/9AqA7q.png" alt="">
+    <header>
+        <nav class="bg-white border-gray-200 px-4 lg:px-6 py-2.5">
+            <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
+                <a href="/" class="flex items-center">
+                    <div class="w-10 h-10 mr-3 h-6 sm:h-9"><img src="css/pngwing.com.png" alt="logo" /></div>
+                    <span class="self-center text-xl font-semibold whitespace-nowrap">SBS PLUS +</span>
                 </a>
-                <nav class="nav">
-                    <ul>
-                        <li><a th:href="@{/article}" >커뮤니티</a></li>
-                        <li><a th:href="@{/schedule}" >스케줄</a></li>
-                        <li><a th:href="@{/question}" >QnA</a></li>
-                        <li><a th:href="@{/point}" >포인트</a></li>
-                    </ul>
-                </nav>
-                <div class="sub_menu">
-                    <!-- 로그인 사용자 -->
-                    <ul th:if="${@rq.login}">
-                        <li><img src="https://ifh.cc/g/Q6wFrm.jpg" alt=""></li>
-                        <li><a th:href="|/user/${@rq.user.username}|" >백세찬님 안녕하세요.</a></li>
+                <div class="flex items-center lg:order-2">
+                    <a href="/login" class="btn-blue">로그인</a>
+                    <a href="/register" class="btn-blue-outline">회원가입</a>
+                    <button data-collapse-toggle="mobile-menu-2" type="button" class="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100" aria-controls="mobile-menu-2" aria-expanded="false">
+                        <span class="sr-only">Open main menu</span>
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
+                        <svg class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                    </button>
+                </div>
+                <div class="hidden justify-between items-center w-full lg:flex lg:w-auto lg:order-1" id="mobile-menu-2">
+                    <ul class="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
                         <li>
-                            <a style="cursor: pointer;"><i class="fa-solid fa-chevron-down"></i></a>
-                            <ul class="submenu">
-                                <li><a th:href="|/user/${@rq.user.username}|">MY PAGE</a></li>
-                                <li><a href="#">내가 쓴 글</a></li>
-                                <li><a th:href="@{/logout}">로그아웃</a></li>
-                            </ul>
+                            <a href="/article" class="nav-domain" hx-boost="true">커뮤니티</a>
+                        </li>
+                        <li>
+                            <a href="/question" class="nav-domain" hx-boost="true">QnA</a>
+                        </li>
+                        <li>
+                            <a href="#" class="nav-domain" hx-boost="true">스케줄</a>
+                        </li>
+                        <li>
+                            <a href="/point" class="nav-domain" hx-boost="true">포인트</a>
+                        </li>
+                        <li>
+                            <a href="#" class="nav-domain" hx-boost="true">뭐넣을까</a>
                         </li>
                     </ul>
-                    <ul th:unless="${@rq.login}">
-                        <li class="pb-15"><a class="hover:text-cyan-400" th:href="@{/login}" >로그인</a></li>
-                        <li class="pb-15"><a class="hover:text-cyan-400" th:href="@{/register}" >회원가입</a></li>
-                    </ul>
                 </div>
-            </header>
-            <main layout:fragment="main"></main>
-        </div>
-    </div>
+            </div>
+        </nav>
+    </header>
+
+    <main layout:fragment="main"></main>
+
+
 
     <!--  header js  -->
     <script type="text/javascript" th:src="@{js/common/header.js}"></script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+            const button = document.querySelector('button');
+            const menu = document.querySelector('[role="menu"]');
+            button.addEventListener('click', () => {
+                menu.classList.toggle('scale-100 opacity-100');
+            });
+        /*]]>*/
+    </script>
 </body>
 </html>
