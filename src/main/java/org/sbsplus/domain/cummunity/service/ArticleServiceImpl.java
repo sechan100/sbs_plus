@@ -17,16 +17,12 @@ import org.sbsplus.domain.user.entity.User;
 import org.sbsplus.general.type.Category;
 import org.sbsplus.domain.user.service.UserService;
 import org.sbsplus.util.Rq;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 
 @Service
@@ -58,6 +54,51 @@ public class ArticleServiceImpl implements ArticleService {
             
             return null;
         }
+    }
+    
+    @Override
+    public Page<ArticleDto> findBySearchMatcher(int page, Category category, String searchMatcher) {
+        
+        Page<Article> articles_ = null;
+        
+        Pageable pageRequest = PageRequest.of(page, 20, Sort.by(Sort.Direction.DESC, "createAt"));
+        
+        if(category == Category.ALL) {
+            articles_ = articleRepository.findByContentContaining(pageRequest, searchMatcher);
+            List<Article> content1 = articles_.getContent();
+            
+            articles_ = articleRepository.findByTitleContaining(pageRequest, searchMatcher);
+            List<Article> content2 = articles_.getContent();
+            
+            // Content 리스트 합침
+            Set<Article> filterSameArticle = new HashSet<>();
+                filterSameArticle.addAll(content1);
+                filterSameArticle.addAll(content2);
+            
+            List<Article> combinedContent = new ArrayList<>(filterSameArticle);
+            
+            // 합친 Content 리스트를 페이지로 변환
+            articles_= new PageImpl<>(combinedContent, pageRequest, combinedContent.size());
+            
+        } else {
+            articles_ = articleRepository.findByCategoryAndContentContaining(pageRequest, category, searchMatcher);
+            List<Article> content1 = articles_.getContent();
+            
+            articles_ = articleRepository.findByCategoryAndTitleContaining(pageRequest, category, searchMatcher);
+            List<Article> content2 = articles_.getContent();
+            
+            // Content 리스트 합침
+            Set<Article> filterSameArticle = new HashSet<>();
+            filterSameArticle.addAll(content1);
+            filterSameArticle.addAll(content2);
+            
+            List<Article> combinedContent = new ArrayList<>(filterSameArticle);
+            
+            // 합친 Content 리스트를 페이지로 변환
+            articles_= new PageImpl<>(combinedContent, pageRequest, combinedContent.size());
+        }
+        
+        return articles_.map(article -> (new ModelMapper()).map(article, ArticleDto.class));
     }
     
     @Override

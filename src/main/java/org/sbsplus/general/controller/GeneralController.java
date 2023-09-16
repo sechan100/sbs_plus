@@ -54,14 +54,14 @@ public class GeneralController {
         return "/exception/accessDenied";
     }
     
-    @GetMapping("/unexpectedRequest")
-    public String unexpectedRequest(Model model, HttpServletRequest request){
+    @GetMapping("/404")
+    public String pageNotFound(Model model, HttpServletRequest request){
         
         String msg = (String) request.getAttribute("msg");
         
         model.addAttribute("msg", msg);
         
-        return "/exception/400";
+        return "/exception/404";
     }
 
 
