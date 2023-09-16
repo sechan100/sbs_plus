@@ -51,46 +51,87 @@
 
             </div>
             <!-- END Column -->
-
         </div>
     </div>
 
+    <!--  pagination  -->
+    <nav class="text-center mb-12" aria-label="Page navigation">
+        <ul class="inline-flex space-x-2">
+
+            <li>
+                <button id="firstPageBtn" class="flex items-center justify-center w-10 h-10 text-indigo-600 transition-colors duration-150 rounded-full focus:shadow-outline hover:bg-indigo-100">
+                    <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" fill-rule="evenodd"></path></svg>
+                </button>
+            </li>
+
+            <li th:each="num : ${pageRange}" class="pageBtn">
+
+                <th:block th:unless="${#strings.equals(param.page, num)}">
+                    <button class="pagination-num">[[ ${num} ]]</button>
+                </th:block>
+
+                <th:block th:if="${#strings.equals(param.page, num)}">
+                    <button class="pagination-num-current">[[ ${num} ]]</button>
+                </th:block>
+
+            </li>
+
+            <li>
+                <button id="endPageBtn" class="flex items-center justify-center w-10 h-10 text-indigo-600 transition-colors duration-150 bg-gray-100 rounded-full focus:shadow-outline hover:bg-indigo-100">
+                    <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" fill-rule="evenodd"></path></svg>
+                </button>
+            </li>
+
+        </ul>
+    </nav>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+
+        // 카테고리 기본 선택 속성 추가
+        const selectedCategory = ([[${param.category}]] != null ? [[${param.category}]] : "ALL");
+        if(selectedCategory == null){
+            $("#category > option[value=ALL]").attr("selected", true);
+        } else {
+            $("#category > option[value="+selectedCategory+"]").attr("selected", true);
+        }
+
+
+        // 페이지 이동
+        $(".pagination-num").on( 'click', (event) => {
+            location.href = "/article?page=" + event.target.innerHTML + "&category=" + selectedCategory;
+        })
+
+
+        // 처음, 끝 페이지 이동
+        $("#firstPageBtn").on( 'click', (event) => {
+            location.href = "/article?page=1&category=" + selectedCategory;
+        })
+        $("#endPageBtn").on( 'click', (event) => {
+            const endPage = [[ ${articles.getTotalPages()} ]]
+            location.href = "/article?page=" + endPage + "&category=" + selectedCategory;
+        })
+
+
+
+        // 카테고리 변경
+        $("#category").on("change", () => {
+            $("#categoryForm").submit();
+        })
+
+
+        // 좋아요 아이콘 hover
+        $('a[like-bok]').each(function() {
+            const likeBox = $(this);
+            likeBox.hover( () => {
+                const likeIcon = likeBox.find('i');
+                likeIcon.toggleClass("fa-regular");
+                likeIcon.toggleClass("fa");
+            });
+        });
+
+
+        /*]]>*/
+    </script>
 </main>
 </html>
-<script th:inline="javascript">
-    /*<![CDATA[*/
-
-    const selectedCategory = ([[${param.category}]] != null ? [[${param.category}]] : "ALL");
-
-    // 카테고리 기본 선택 속성 추가
-    if(selectedCategory == null){
-        $("#category > option[value=ALL]").attr("selected", true);
-    } else {
-        $("#category > option[value="+selectedCategory+"]").attr("selected", true);
-    }
-
-    // 페이지 이동
-    $(".pageBtn").on( 'click', (event) => {
-        location.href = "/article?page=" + event.target.innerHTML + "&category=" + selectedCategory;
-    })
-
-    // 카테고리 변경
-    $("#category").on("change", () => {
-        $("#categoryForm").submit();
-    })
-
-    // 좋아요 아이콘 hover
-    $('a[like-bok]').each(function() {
-        const likeBox = $(this);
-
-        likeBox.hover( () => {
-            const likeIcon = likeBox.find('i');
-            likeIcon.toggleClass("fa-regular");
-            likeIcon.toggleClass("fa");
-        });
-});
-
-
-    /*]]>*/
-</script>
-
