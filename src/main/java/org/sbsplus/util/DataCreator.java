@@ -206,7 +206,7 @@ public class DataCreator {
     }
 
     protected User randomUser(){
-        return userRepository.findById(random.nextInt(userNum) + 1).orElse(null);
+        return userRepository.findById(random.nextLong(userNum) + 1).orElse(null);
     }
 
     protected Article randomArticle(){

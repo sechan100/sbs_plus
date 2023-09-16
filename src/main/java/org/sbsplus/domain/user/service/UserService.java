@@ -32,4 +32,6 @@ public interface UserService {
     User findByEmail(String email);
 
     User findById(Long userId);
+
+    UserDto getUserDtoById(Long userId);
 }

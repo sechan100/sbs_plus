@@ -50,6 +50,12 @@ public class AdminController {
         
         return "redirect:/";
     }
+
+    @GetMapping("/admin/suspendUser")
+    public String suspendUserForm() {
+        return "admin/suspendUser_Form";
+    }
+
     @PostMapping("/admin/suspendUser")
     public String suspendUser(@RequestParam Long userId) {
         // 관리자 역할을 가지고 있는지 확인
@@ -58,10 +64,10 @@ public class AdminController {
         }
 
         // 사용자 정지 로직 구현
-        User userToSuspend = userService.findById(userId);
-        userToSuspend.setSuspended(true); // 사용자를 정지 상태로 변경
+        UserDto userToSuspendDto = userService.getUserDtoById(userId);
+        userToSuspendDto.setSuspended(true); // 사용자를 정지 상태로 변경
 
-//        userService.save(userToSuspend); // 변경된 정보 저장
+        userService.save(userToSuspendDto); // 변경된 정보 저장
 
         return "redirect:/admin/users"; // 사용자 목록 페이지로 리다이렉트
     }

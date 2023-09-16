@@ -1,11 +1,13 @@
 package org.sbsplus.domain.user.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.sbsplus.domain.user.dto.UserDto;
 import org.sbsplus.domain.user.entity.User;
 import org.sbsplus.domain.user.repository.UserRepository;
+import org.sbsplus.util.ModelMapperConfig;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,9 +20,12 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+
     
     @Qualifier("dtoToUser")
     private final ModelMapper mapper;
+    @Qualifier("UserTodto")
+    private final ModelMapper mapperDto;
     
 
     @Override
@@ -74,7 +79,14 @@ public class UserServiceImpl implements UserService {
                 + "\n################################"
         );
     }
-    
+
+    @Override
+    public UserDto getUserDtoById(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("사용자를 찾을 수 없습니다. ID: " + userId));
+        return mapperDto.map(user, UserDto.class);
+    }
+
     @Override
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
