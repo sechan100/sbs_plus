@@ -73,7 +73,7 @@ public class Rq {
     public String unexpectedRequestForWardUri(String msg){
         
         request.setAttribute("msg", msg);
-        return "forward:/unexpected_request";
+        return "forward:/404";
     }
     
     public Cookie getCookie(String name){

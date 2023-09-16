@@ -48,14 +48,24 @@ dependencies {
 }
 
 
+
+
 // tailwind 빌드 테스크
+tasks.register('tailwindBuild', Exec) {
+    workingDir = file('src/main/resources/static/')
+    commandLine 'tailwindcss-cli', '--output', 'css/output.css'
+}
+build.dependsOn tailwindBuild
+
+
+
+// custom tailwind 빌드 테스크
 tasks.register('customTailwindBuild', Exec) {
     workingDir = file('src/main/resources/static/css/')
     commandLine 'npx', 'tailwindcss', '-i', 'style.css', '-o', 'style-output.css'
 }
-
-// customTailwindBuild를 build 태스크의 의존성으로 추가
 build.dependsOn customTailwindBuild
+
 
 
 tasks.named('test') {

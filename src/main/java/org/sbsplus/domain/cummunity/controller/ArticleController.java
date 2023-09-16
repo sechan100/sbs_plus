@@ -16,6 +16,7 @@ import org.springframework.security.access.AccessDeniedException;
 
 
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequiredArgsConstructor
@@ -30,18 +31,34 @@ public class ArticleController {
     public String articleList(
               @RequestParam(defaultValue = "1") Integer page
             , @RequestParam(defaultValue = "ALL", name = "category") String category_
+            , @RequestParam(required = false) String searchMatcher
             , Model model
             ){
+        
         Category category = Category.convertStringToEnum(category_);
         
+        Page<ArticleDto> articles = null;
         
-        Page<ArticleDto> articles = articleService.findByCategory(page-1, category);
-        
-        if(articles == null || page > articles.getTotalPages()) {
-            return rq.unexpectedRequestForWardUri("존재하지 않는 페이지입니다.");
+        // 검색 X
+        if(searchMatcher == null) {
+            
+            articles = articleService.findByCategory(page - 1, category);
+            
+        // 검색 O
+        } else {
+            
+            articles = articleService.findBySearchMatcher(page - 1, category, searchMatcher);
+            
         }
         
         Integer totalPage = articles.getTotalPages();
+        
+        if(page > articles.getTotalPages() && totalPage != 0) {
+            
+            return rq.unexpectedRequestForWardUri("존재하지 않는 페이지입니다.");
+            
+        }
+        
         
         
         model.addAttribute("articles", articles);
@@ -51,6 +68,8 @@ public class ArticleController {
         
         List<Integer> pageRange = Pager.getPageRange(page, totalPage);
         model.addAttribute("pageRange", pageRange);
+        
+        model.addAttribute("currentPage", page);
         
         return "/article/articleList";
     }
@@ -146,6 +165,35 @@ public class ArticleController {
         
         
         return "redirect:/article/" + id;
+    }
+    
+    @GetMapping("/ajax/article/like")
+    @ResponseBody
+    public String ajaxArticleLike(@RequestParam Integer id){
+        
+        // 기존 추천 여부 확인
+        if(articleService.hasUserLiked(id)){
+            
+            // 기존 추천 여부가 있다면 추천 취소
+            articleService.unlikeArticle(id);
+            return String.format("""
+                 <a like-bok class="no-underline text-grey-darker" th:hx-get="@{/ajax/article/like(id=${article.id})}">
+                     <span class="">%s</span>
+                     <i like-icon class="animate__heartBeat fa-regular fa-heart"></i>
+                 </a>
+                """, articleService.findById(id).getLikes().size());
+            
+        } else {
+            
+            // 추천한 적이 없다면 추천 생성
+            articleService.likeArticle(id);
+            return String.format("""
+                 <a like-bok class="no-underline text-grey-darker" th:hx-get="@{/ajax/article/like(id=${article.id})}">
+                     <span class="">%s</span>
+                     <i like-icon class="animate__heartBeat fa fa-heart"></i>
+                 </a>
+                """, articleService.findById(id).getLikes().size());
+        }
     }
 }
 

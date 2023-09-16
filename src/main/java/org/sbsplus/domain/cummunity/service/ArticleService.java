@@ -10,6 +10,8 @@ public interface ArticleService {
     
     Page<ArticleDto> findByCategory(int page, Category category);
     
+    Page<ArticleDto> findBySearchMatcher(int page, Category category, String searchMatcher);
+    
     ArticleDto findById(Integer articleId);
     
     void increaseHit(Integer articleId);
