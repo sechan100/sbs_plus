@@ -36,7 +36,7 @@ public class GeneralController {
         }// *********************************************
         
         
-        return "/home/index";
+        return "/home/main";
     }
 
 
