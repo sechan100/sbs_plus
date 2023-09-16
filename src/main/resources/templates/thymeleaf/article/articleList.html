@@ -71,16 +71,20 @@
                                 [[ ${article.user.nickname} ]]
                             </p>
                         </a>
-                        <th:block th:unless="${@rq.login}">
-                            <a like-bok class="cursor-pointer no-underline text-grey-darker" th:href="@{/article/like(id=${article.id})}"></a>
-                        </th:block>
-                        <th:block th:if="${@rq.login}">
-                            <a like-bok class="cursor-pointer no-underline text-grey-darker" th:hx-get="@{/ajax/article/like(id=${article.id})}"></a>
-                        </th:block>
+
+                    <th:block th:unless="${@rq.login}">
+                        <a like-bok class="cursor-pointer no-underline text-grey-darker" th:href="@{/article/like(id=${article.id})}">
+                    </th:block>
+
+                    <th:block th:if="${@rq.login}">
+                        <a like-bok class="cursor-pointer no-underline text-grey-darker" th:hx-get="@{/ajax/article/like(id=${article.id})}">
+                    </th:block>
+
                             <span class="">[[ ${article.likes.size()} ]]</span>
                             <i th:if="${@articleServiceImpl.hasUserLiked(article.id)}" like-icon class="fa fa-heart"></i>
                             <i th:unless="${@articleServiceImpl.hasUserLiked(article.id)}" like-icon class="fa-regular fa-heart"></i>
                         </a>
+
                     </footer>
 
                 </article>
@@ -148,7 +152,6 @@
             const endPage = [[ ${articles.getTotalPages()} ]]
             location.href = "/article?page=" + endPage + "&category=" + selectedCategory;
         })
-
 
 
         // 카테고리 변경
