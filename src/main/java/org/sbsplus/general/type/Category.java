@@ -16,31 +16,31 @@ import java.util.List;
 public enum Category {
 
     // 해당 수업 과정 없음
-      NONE("NONE", "과정 없음")
+      NONE("NONE", "과정 없음", "bg-white")
     
     // 전체 카테고리
-    ,  ALL("ALL", "전체 카테고리")
+    ,  ALL("ALL", "전체 카테고리", "bg-white")
 
     // 자격증
-    , CERTIFICATE("CERTIFICATE", "자격증")
+    , CERTIFICATE("CERTIFICATE", "자격증", "bg-gray-300")
 
     // 모션, CG쪽 편집 툴
-    , MAYA("MAYA", "영상/모션/유튜브")
+    , MAYA("MAYA", "영상/모션/유튜브", "bg-red-300")
 
     // 인테리어
-    , INTERIOR("INTERIOR", "건축/인테리어디자인")
+    , INTERIOR("INTERIOR", "건축/인테리어디자인", "bg-yellow-400")
 
     // IT, 개발
-    , IT("IT", "웹디자인/IT")
+    , IT("IT", "웹디자인/IT", "bg-purple-300")
 
     // Desk Top Publishing: 데스크톱 출판 디자인
-    , DTP("DTP", "광고편집디자인")
+    , DTP("DTP", "광고편집디자인", "bg-orange-300")
 
     // 제품 디자인
-    , PRODUCT("PRODUCT", "제품디자인")
+    , PRODUCT("PRODUCT", "제품디자인", "bg-green-300")
 
     // 아트웍, 디자인
-    , DESIGN("DESIGN", "아트웍");
+    , DESIGN("DESIGN", "아트웍", "bg-blue-300");
 
 
 
@@ -48,6 +48,7 @@ public enum Category {
 
     private final String value;
     private final String name;
+    private final String tailwindBgColor;
     
     @Getter
     private static List<Category> categories = new ArrayList<>();

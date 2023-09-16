@@ -22,3 +22,7 @@
 .pagination-num-current{
     @apply w-10 h-10 text-white transition-colors duration-150 bg-indigo-600 border border-r-0 border-indigo-600 rounded-full;
 }
+
+.bg-orange-300 {
+  background-color: #fbd38d;
+}
