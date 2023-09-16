@@ -31,10 +31,9 @@ public class GeneralController {
     
     @GetMapping("/")
     public String home(){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         // 현재 사용자의 역할 확인
-        if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
+        if (rq.isAdmin()) {
             return "redirect:/admin"; // 관리자인 경우 관리자 페이지로 리다이렉트
         }
 

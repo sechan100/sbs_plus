@@ -111,7 +111,7 @@ public class UserServiceImpl implements UserService {
     }
     public Page<User> getList(int page) {
         List<Sort.Order> sorts = new ArrayList<>();
-        sorts.add(Sort.Order.desc("createAt"));
+        sorts.add(Sort.Order.desc("id"));
         Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
         return this.userRepository.findAll(pageable);
     }
