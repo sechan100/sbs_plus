@@ -32,6 +32,7 @@ public class Rq {
     private HttpServletResponse response;
     private HttpSession session;
     private User user;
+    private boolean login;
 
     
     public Rq() {
@@ -47,12 +48,14 @@ public class Rq {
         if(authentication instanceof UsernamePasswordAuthenticationToken) {
             User user = (User) authentication.getPrincipal();
             this.user = user;
+            this.login = true;
         } else if(authentication instanceof AnonymousAuthenticationToken) {
             User anonymous = new User();
                 anonymous.setId((long) -1);
                 anonymous.setUsername("");
                 
             this.user = anonymous;
+            this.login = false;
         }
     }
     

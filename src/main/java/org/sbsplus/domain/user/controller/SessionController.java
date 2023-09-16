@@ -20,8 +20,7 @@ public class SessionController {
 
     @GetMapping("/login")
     public String loginForm(Model model, HttpSession session){
-
-        model.addAttribute("user", new UserDto());
+        
         model.addAttribute("msg", session.getAttribute("msg"));
         session.removeAttribute("msg");
         

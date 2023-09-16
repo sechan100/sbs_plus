@@ -41,8 +41,14 @@ public class SecurityConfig {
                         // 메인, 접근거부, 유효하지 않은 요청, error
                         .requestMatchers("/", "/accessDenied*", "/unexpected_request*", "/error*", "/upload*", "/uploads/**").permitAll()
 
-                        // 회원가입, 로그인, 관리자 권한 부여
-                        .requestMatchers("/register*", "/email/**", "/login*", "/admin/grantAuthority").permitAll()
+                        // 회원가입, 로그인
+                        .requestMatchers("/register*", "/login*").anonymous()
+                        
+                        // 이메일
+                        .requestMatchers("/email/**", "/admin/grantAuthority").permitAll()
+                        
+                        // 어드민 원한 부여
+                        .requestMatchers("/admin/grantAuthority").authenticated()
                         
                         // 커뮤니티
                         .requestMatchers("/article/write", "/comment/write*", "/article/like*", "/comment/like*").hasRole("USER")
