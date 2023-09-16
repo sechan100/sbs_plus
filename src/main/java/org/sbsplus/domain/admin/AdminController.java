@@ -2,25 +2,37 @@ package org.sbsplus.domain.admin;
 
 
 import lombok.RequiredArgsConstructor;
+import org.sbsplus.domain.qna.entity.Question;
 import org.sbsplus.domain.user.dto.UserDto;
 import org.sbsplus.domain.user.entity.User;
 import org.sbsplus.domain.user.service.UserService;
 import org.sbsplus.util.Rq;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/admin")
 public class AdminController {
     
     
     private final AdminService adminService;
     private final UserService userService;
     private final Rq rq;
-    
+
+    @GetMapping("")
+    public String list(Model model, @RequestParam(value="page", defaultValue = "0") int page) {
+        Page<User> paging = this.userService.getList(page);
+        model.addAttribute("paging", paging);
+        return "/admin/users";
+    }
+
     @GetMapping("/admin/grantAuthority")
     public String grantAuthorityForm(){
         

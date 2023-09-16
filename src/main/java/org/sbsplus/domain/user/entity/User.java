@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.sbsplus.domain.cummunity.entity.Article;
 import org.sbsplus.general.type.Category;
+import org.sbsplus.util.Datetime;
 
 import java.util.List;
 import java.util.Objects;
@@ -12,7 +13,7 @@ import java.util.Objects;
 @Entity
 @Getter @Setter
 @NoArgsConstructor
-public class User {
+public class User extends Datetime {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

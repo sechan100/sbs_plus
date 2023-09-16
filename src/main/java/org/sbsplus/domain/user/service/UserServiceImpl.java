@@ -4,13 +4,21 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.sbsplus.domain.qna.entity.Question;
 import org.sbsplus.domain.user.dto.UserDto;
 import org.sbsplus.domain.user.entity.User;
 import org.sbsplus.domain.user.repository.UserRepository;
 import org.sbsplus.util.ModelMapperConfig;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Service
@@ -23,9 +31,9 @@ public class UserServiceImpl implements UserService {
 
     
     @Qualifier("dtoToUser")
-    private final ModelMapper mapper;
-    @Qualifier("UserTodto")
-    private final ModelMapper mapperDto;
+    private final ModelMapper dtoToUser;
+    @Qualifier("userToDto")
+    private final ModelMapper userToDto;
     
 
     @Override
@@ -57,7 +65,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User convertToEntityWithRole(UserDto userDto, String role) {
         
-        User user = mapper.map(userDto, User.class);
+        User user = dtoToUser.map(userDto, User.class);
 
         // grant role
         user.setRole(role);
@@ -84,7 +92,7 @@ public class UserServiceImpl implements UserService {
     public UserDto getUserDtoById(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("사용자를 찾을 수 없습니다. ID: " + userId));
-        return mapperDto.map(user, UserDto.class);
+        return userToDto.map(user, UserDto.class);
     }
 
     @Override
@@ -100,6 +108,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findById(Long userId) {
         return null;
+    }
+    public Page<User> getList(int page) {
+        List<Sort.Order> sorts = new ArrayList<>();
+        sorts.add(Sort.Order.desc("createAt"));
+        Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
+        return this.userRepository.findAll(pageable);
     }
 }
 

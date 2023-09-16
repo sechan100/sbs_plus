@@ -2,6 +2,7 @@ package org.sbsplus.domain.user.service;
 
 import org.sbsplus.domain.user.dto.UserDto;
 import org.sbsplus.domain.user.entity.User;
+import org.springframework.data.domain.Page;
 
 public interface UserService {
 
@@ -34,4 +35,6 @@ public interface UserService {
     User findById(Long userId);
 
     UserDto getUserDtoById(Long userId);
+
+    Page<User> getList(int page);
 }
