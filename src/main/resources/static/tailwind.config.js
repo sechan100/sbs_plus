@@ -13,7 +13,14 @@ module.exports = {
 
 
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+              'sbs': '#90d8e8',
+      },
+      backgroundColor: {
+        'sbs': '#90d8e8',
+      },
+    },
   },
   plugins: [],
 }

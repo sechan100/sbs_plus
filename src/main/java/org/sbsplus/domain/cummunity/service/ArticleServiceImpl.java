@@ -35,18 +35,30 @@ public class ArticleServiceImpl implements ArticleService {
     private final Rq rq;
     
     @Override
-    public Page<ArticleDto> findByCategory(int page, Category category){
+    public Page<ArticleDto> findByCategory(int page, String orderColumn, Category category){
         
         try {
             Page<Article> articles_ = null;
             
-            Pageable pageRequest = PageRequest.of(page, 20, Sort.by(Sort.Direction.DESC, "createAt"));
+            Pageable pageRequest = PageRequest.of(page, 20, Sort.by(Sort.Direction.DESC, orderColumn));
             
             if(category == Category.ALL) {
                 articles_ = articleRepository.findAll(pageRequest);
             } else {
                 articles_ = articleRepository.findByCategory(pageRequest, category);
             }
+            
+            List<Article> content = articles_.getContent();
+            
+            if(orderColumn.equals("likes")) {
+                List<Article> content_ = new ArrayList<>(content);
+                content_.sort((article1, article2) -> Integer.compare(article2.getLikes().size(), article1.getLikes().size()));
+                content = content_;
+                pageRequest = PageRequest.of(page, 20);
+            }
+            
+            articles_= new PageImpl<>(content, pageRequest, content.size());
+            
             // N + 1 최적화 필요.
             return articles_.map(article -> (new ModelMapper()).map(article, ArticleDto.class));
             
@@ -57,11 +69,11 @@ public class ArticleServiceImpl implements ArticleService {
     }
     
     @Override
-    public Page<ArticleDto> findBySearchMatcher(int page, Category category, String searchMatcher) {
+    public Page<ArticleDto> findBySearchMatcher(int page, String orderColumn, Category category, String searchMatcher) {
         
         Page<Article> articles_ = null;
         
-        Pageable pageRequest = PageRequest.of(page, 20, Sort.by(Sort.Direction.DESC, "createAt"));
+        Pageable pageRequest = PageRequest.of(page, 20, Sort.by(Sort.Direction.DESC, orderColumn));
         
         if(category == Category.ALL) {
             articles_ = articleRepository.findByContentContaining(pageRequest, searchMatcher);
@@ -72,10 +84,24 @@ public class ArticleServiceImpl implements ArticleService {
             
             // Content 리스트 합침
             Set<Article> filterSameArticle = new HashSet<>();
-                filterSameArticle.addAll(content1);
-                filterSameArticle.addAll(content2);
+            filterSameArticle.addAll(content1);
+            filterSameArticle.addAll(content2);
             
             List<Article> combinedContent = new ArrayList<>(filterSameArticle);
+            
+            if(orderColumn.equals("likes")) {
+                List<Article> content_ = new ArrayList<>(combinedContent);
+                content_.sort((article1, article2) -> Integer.compare(article2.getLikes().size(), article1.getLikes().size()));
+                combinedContent = content_;
+                pageRequest = PageRequest.of(page, 20);
+            }
+            
+            if(orderColumn.equals("hit")) {
+                List<Article> content_ = new ArrayList<>(combinedContent);
+                content_.sort((article1, article2) -> Integer.compare(article2.getHit(), article1.getHit()));
+                combinedContent = content_;
+                pageRequest = PageRequest.of(page, 20);
+            }
             
             // 합친 Content 리스트를 페이지로 변환
             articles_= new PageImpl<>(combinedContent, pageRequest, combinedContent.size());
@@ -93,6 +119,13 @@ public class ArticleServiceImpl implements ArticleService {
             filterSameArticle.addAll(content2);
             
             List<Article> combinedContent = new ArrayList<>(filterSameArticle);
+            
+            if(orderColumn.equals("likes")) {
+                List<Article> content_ = new ArrayList<>(combinedContent);
+                content_.sort((article1, article2) -> Integer.compare(article2.getHit(), article1.getHit()));
+                combinedContent = content_;
+                pageRequest = PageRequest.of(page, 20);
+            }
             
             // 합친 Content 리스트를 페이지로 변환
             articles_= new PageImpl<>(combinedContent, pageRequest, combinedContent.size());

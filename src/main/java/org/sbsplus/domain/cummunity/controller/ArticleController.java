@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.security.access.AccessDeniedException;
 
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Controller
 @RequiredArgsConstructor
@@ -30,8 +32,9 @@ public class ArticleController {
     @GetMapping("/article")
     public String articleList(
               @RequestParam(defaultValue = "1") Integer page
+            , @RequestParam(defaultValue = "createAt", name = "order") String orderColumn
             , @RequestParam(defaultValue = "ALL", name = "category") String category_
-            , @RequestParam(required = false) String searchMatcher
+            , @RequestParam(defaultValue = "") String searchMatcher
             , Model model
             ){
         
@@ -39,15 +42,24 @@ public class ArticleController {
         
         Page<ArticleDto> articles = null;
         
-        // 검색 X
-        if(searchMatcher == null) {
+        Set<String> orderColumns = new HashSet<>();
+            orderColumns.add("createAt");
+            orderColumns.add("hit");
+            orderColumns.add("likes");
             
-            articles = articleService.findByCategory(page - 1, category);
+        if(!orderColumns.contains(orderColumn)){
+            orderColumn = "createAt";
+        }
+        
+        // 검색 X
+        if(Objects.equals(searchMatcher, "")) {
+            
+            articles = articleService.findByCategory(page - 1, orderColumn, category);
             
         // 검색 O
         } else {
             
-            articles = articleService.findBySearchMatcher(page - 1, category, searchMatcher);
+            articles = articleService.findBySearchMatcher(page - 1, orderColumn, category, searchMatcher);
             
         }
         

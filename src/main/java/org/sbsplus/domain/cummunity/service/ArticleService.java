@@ -8,7 +8,9 @@ import org.springframework.security.access.AccessDeniedException;
 
 public interface ArticleService {
     
-    Page<ArticleDto> findByCategory(int page, Category category);
+    Page<ArticleDto> findByCategory(int page, String orderColumn, Category category);
+    
+    Page<ArticleDto> findBySearchMatcher(int page, String orderColumn, Category category, String searchMatcher);
     
     Page<ArticleDto> findBySearchMatcher(int page, Category category, String searchMatcher);
     
