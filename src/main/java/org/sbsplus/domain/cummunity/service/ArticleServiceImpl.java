@@ -39,14 +39,21 @@ public class ArticleServiceImpl implements ArticleService {
         
         try {
             Page<Article> articles_ = null;
+            long totalContent;
+            Pageable pageRequest = null;
             
-            Pageable pageRequest = PageRequest.of(page, 20, Sort.by(Sort.Direction.DESC, orderColumn));
+            if(orderColumn.equals("likes")) {
+                pageRequest = PageRequest.of(page, 20, Sort.by(Sort.Direction.DESC, "createAt"));
+            } else {
+                pageRequest = PageRequest.of(page, 20, Sort.by(Sort.Direction.DESC, orderColumn));
+            }
             
             if(category == Category.ALL) {
                 articles_ = articleRepository.findAll(pageRequest);
             } else {
                 articles_ = articleRepository.findByCategory(pageRequest, category);
             }
+            totalContent = articles_.getTotalElements();
             
             List<Article> content = articles_.getContent();
             
@@ -57,7 +64,7 @@ public class ArticleServiceImpl implements ArticleService {
                 pageRequest = PageRequest.of(page, 20);
             }
             
-            articles_= new PageImpl<>(content, pageRequest, content.size());
+            articles_= new PageImpl<>(content, pageRequest, totalContent);
             
             // N + 1 최적화 필요.
             return articles_.map(article -> (new ModelMapper()).map(article, ArticleDto.class));
@@ -72,14 +79,17 @@ public class ArticleServiceImpl implements ArticleService {
     public Page<ArticleDto> findBySearchMatcher(int page, String orderColumn, Category category, String searchMatcher) {
         
         Page<Article> articles_ = null;
+        long totalContent = 0;
         
         Pageable pageRequest = PageRequest.of(page, 20, Sort.by(Sort.Direction.DESC, orderColumn));
         
         if(category == Category.ALL) {
             articles_ = articleRepository.findByContentContaining(pageRequest, searchMatcher);
+            totalContent += articles_.getTotalElements();
             List<Article> content1 = articles_.getContent();
             
             articles_ = articleRepository.findByTitleContaining(pageRequest, searchMatcher);
+            totalContent += articles_.getTotalElements();
             List<Article> content2 = articles_.getContent();
             
             // Content 리스트 합침
@@ -104,13 +114,15 @@ public class ArticleServiceImpl implements ArticleService {
             }
             
             // 합친 Content 리스트를 페이지로 변환
-            articles_= new PageImpl<>(combinedContent, pageRequest, combinedContent.size());
+            articles_= new PageImpl<>(combinedContent, pageRequest, totalContent);
             
         } else {
             articles_ = articleRepository.findByCategoryAndContentContaining(pageRequest, category, searchMatcher);
+            totalContent += articles_.getTotalElements();
             List<Article> content1 = articles_.getContent();
             
             articles_ = articleRepository.findByCategoryAndTitleContaining(pageRequest, category, searchMatcher);
+            totalContent += articles_.getTotalElements();
             List<Article> content2 = articles_.getContent();
             
             // Content 리스트 합침
@@ -128,7 +140,7 @@ public class ArticleServiceImpl implements ArticleService {
             }
             
             // 합친 Content 리스트를 페이지로 변환
-            articles_= new PageImpl<>(combinedContent, pageRequest, combinedContent.size());
+            articles_= new PageImpl<>(combinedContent, pageRequest, totalContent);
         }
         
         return articles_.map(article -> (new ModelMapper()).map(article, ArticleDto.class));

@@ -12,9 +12,6 @@ import java.util.Optional;
 public interface ArticleRepository extends JpaRepository<Article, Integer> {
     Page<Article> findByCategory(Pageable pageRequest, Category category);
     
-    @EntityGraph(attributePaths = {"comments", "likes"})
-    Optional<Article> findById(Integer id);
-    
     Page<Article> findByContentContaining(Pageable pageRequest, String searchMatcher);
     
     Page<Article> findByCategoryAndContentContaining(Pageable pageRequest, Category category, String searchMatcher);

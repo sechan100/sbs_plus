@@ -63,7 +63,7 @@ public class ArticleController {
             
         }
         
-        Integer totalPage = articles.getTotalPages();
+        int totalPage = articles.getTotalPages();
         
         if(page > articles.getTotalPages() && totalPage != 0) {
             
