@@ -45,7 +45,7 @@ public class SecurityConfig {
                         .requestMatchers("/register*", "/login*").anonymous()
                         
                         // 이메일
-                        .requestMatchers("/email/**", "/admin/grantAuthority").permitAll()
+                        .requestMatchers("/email/**").permitAll()
                         
                         // 어드민 원한 부여
                         .requestMatchers("/admin/grantAuthority").authenticated()
