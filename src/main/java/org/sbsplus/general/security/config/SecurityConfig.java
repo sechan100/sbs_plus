@@ -39,7 +39,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         
                         // 메인, 접근거부, 유효하지 않은 요청, error
-                        .requestMatchers("/", "/accessDenied*", "/unexpected_request*", "/error*", "/upload*", "/uploads/**").permitAll()
+                        .requestMatchers("/", "/accessDenied*", "/unexpected_request*", "/error*", "/404", "/upload*", "/uploads/**").permitAll()
 
                         // 회원가입, 로그인
                         .requestMatchers("/register*", "/login*").anonymous()
@@ -66,7 +66,7 @@ public class SecurityConfig {
                 .formLogin(form -> form
                         .loginPage("/login")
                         .loginProcessingUrl("/login")
-                        .defaultSuccessUrl("/", false)
+                        .defaultSuccessUrl("/", true)
                         .failureHandler(loginFailureHandler)
                         .permitAll()
                 )

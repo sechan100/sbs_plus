@@ -17,16 +17,12 @@ import org.sbsplus.domain.user.entity.User;
 import org.sbsplus.general.type.Category;
 import org.sbsplus.domain.user.service.UserService;
 import org.sbsplus.util.Rq;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 
 @Service
@@ -39,18 +35,30 @@ public class ArticleServiceImpl implements ArticleService {
     private final Rq rq;
     
     @Override
-    public Page<ArticleDto> findByCategory(int page, Category category){
+    public Page<ArticleDto> findByCategory(int page, String orderColumn, Category category){
         
         try {
             Page<Article> articles_ = null;
             
-            Pageable pageRequest = PageRequest.of(page, 20, Sort.by(Sort.Direction.DESC, "createAt"));
+            Pageable pageRequest = PageRequest.of(page, 20, Sort.by(Sort.Direction.DESC, orderColumn));
             
             if(category == Category.ALL) {
                 articles_ = articleRepository.findAll(pageRequest);
             } else {
                 articles_ = articleRepository.findByCategory(pageRequest, category);
             }
+            
+            List<Article> content = articles_.getContent();
+            
+            if(orderColumn.equals("likes")) {
+                List<Article> content_ = new ArrayList<>(content);
+                content_.sort((article1, article2) -> Integer.compare(article2.getLikes().size(), article1.getLikes().size()));
+                content = content_;
+                pageRequest = PageRequest.of(page, 20);
+            }
+            
+            articles_= new PageImpl<>(content, pageRequest, content.size());
+            
             // N + 1 최적화 필요.
             return articles_.map(article -> (new ModelMapper()).map(article, ArticleDto.class));
             
@@ -59,6 +67,73 @@ public class ArticleServiceImpl implements ArticleService {
             return null;
         }
     }
+    
+    @Override
+    public Page<ArticleDto> findBySearchMatcher(int page, String orderColumn, Category category, String searchMatcher) {
+        
+        Page<Article> articles_ = null;
+        
+        Pageable pageRequest = PageRequest.of(page, 20, Sort.by(Sort.Direction.DESC, orderColumn));
+        
+        if(category == Category.ALL) {
+            articles_ = articleRepository.findByContentContaining(pageRequest, searchMatcher);
+            List<Article> content1 = articles_.getContent();
+            
+            articles_ = articleRepository.findByTitleContaining(pageRequest, searchMatcher);
+            List<Article> content2 = articles_.getContent();
+            
+            // Content 리스트 합침
+            Set<Article> filterSameArticle = new HashSet<>();
+            filterSameArticle.addAll(content1);
+            filterSameArticle.addAll(content2);
+            
+            List<Article> combinedContent = new ArrayList<>(filterSameArticle);
+            
+            if(orderColumn.equals("likes")) {
+                List<Article> content_ = new ArrayList<>(combinedContent);
+                content_.sort((article1, article2) -> Integer.compare(article2.getLikes().size(), article1.getLikes().size()));
+                combinedContent = content_;
+                pageRequest = PageRequest.of(page, 20);
+            }
+            
+            if(orderColumn.equals("hit")) {
+                List<Article> content_ = new ArrayList<>(combinedContent);
+                content_.sort((article1, article2) -> Integer.compare(article2.getHit(), article1.getHit()));
+                combinedContent = content_;
+                pageRequest = PageRequest.of(page, 20);
+            }
+            
+            // 합친 Content 리스트를 페이지로 변환
+            articles_= new PageImpl<>(combinedContent, pageRequest, combinedContent.size());
+            
+        } else {
+            articles_ = articleRepository.findByCategoryAndContentContaining(pageRequest, category, searchMatcher);
+            List<Article> content1 = articles_.getContent();
+            
+            articles_ = articleRepository.findByCategoryAndTitleContaining(pageRequest, category, searchMatcher);
+            List<Article> content2 = articles_.getContent();
+            
+            // Content 리스트 합침
+            Set<Article> filterSameArticle = new HashSet<>();
+            filterSameArticle.addAll(content1);
+            filterSameArticle.addAll(content2);
+            
+            List<Article> combinedContent = new ArrayList<>(filterSameArticle);
+            
+            if(orderColumn.equals("likes")) {
+                List<Article> content_ = new ArrayList<>(combinedContent);
+                content_.sort((article1, article2) -> Integer.compare(article2.getHit(), article1.getHit()));
+                combinedContent = content_;
+                pageRequest = PageRequest.of(page, 20);
+            }
+            
+            // 합친 Content 리스트를 페이지로 변환
+            articles_= new PageImpl<>(combinedContent, pageRequest, combinedContent.size());
+        }
+        
+        return articles_.map(article -> (new ModelMapper()).map(article, ArticleDto.class));
+    }
+    
     
     @Override
     public ArticleDto findById(Integer articleId) {
