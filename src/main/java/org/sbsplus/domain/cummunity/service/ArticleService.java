@@ -12,8 +12,6 @@ public interface ArticleService {
     
     Page<ArticleDto> findBySearchMatcher(int page, String orderColumn, Category category, String searchMatcher);
     
-    Page<ArticleDto> findBySearchMatcher(int page, Category category, String searchMatcher);
-    
     ArticleDto findById(Integer articleId);
     
     void increaseHit(Integer articleId);
