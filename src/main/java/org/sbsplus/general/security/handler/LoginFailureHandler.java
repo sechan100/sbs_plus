@@ -30,8 +30,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
         if(exception instanceof UsernameNotFoundException){
             errorType = "username";
         }
-        
-        
+
         // forwarding with request attribute: exceptionMsg..
         response.sendRedirect( "/login?error=true&type=" + errorType);
         

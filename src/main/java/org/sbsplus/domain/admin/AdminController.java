@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class AdminController {
     
-    
     private final AdminService adminService;
     private final UserService userService;
     private final Rq rq;
@@ -60,7 +59,6 @@ public class AdminController {
         return "redirect:/";
     }
 
-
     @GetMapping("/admin/suspend")
     @ResponseBody
     public String suspendUser(@RequestParam Long userId) {
@@ -77,6 +75,26 @@ public class AdminController {
 
         return """
                 <a href="" th:hx-get="@{/admin/active(userId = ${user.id})}" hx-boost="true">계정 활성화</a>
+                """;
+    }
+    @GetMapping("/admin/active")
+    @ResponseBody
+    public String activateUser(@RequestParam Long userId) {
+        // 관리자 역할을 가지고 있는지 확인
+        if (!adminService.isAdmin()) {
+            throw new AccessDeniedException("관리자 권한이 필요합니다.");
+        }
+
+        // 사용자 활성화 로직 구현
+        UserDto userToActivateDto = userService.getUserDtoById(userId);
+
+        // 사용자를 활성 상태로 변경
+        userToActivateDto.setSuspended(false);
+
+        userService.save(userToActivateDto); // 변경된 정보 저장
+
+        return """
+                <a href="" th:hx-get="@{/admin/suspend(userId = ${user.id})}" hx-boost="true">계정 정지</a>
                 """;
     }
 }

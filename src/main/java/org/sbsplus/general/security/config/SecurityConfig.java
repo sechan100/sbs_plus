@@ -2,6 +2,8 @@ package org.sbsplus.general.security.config;
 
 
 import lombok.RequiredArgsConstructor;
+import org.sbsplus.domain.user.repository.UserRepository;
+import org.sbsplus.general.security.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.reactive.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -12,6 +14,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
@@ -31,7 +34,6 @@ public class SecurityConfig {
     public void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(customAuthenticationProvider);
     }
-
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
@@ -62,7 +64,7 @@ public class SecurityConfig {
 
                         .anyRequest().authenticated()
                 )
-                
+
                 .formLogin(form -> form
                         .loginPage("/login")
                         .loginProcessingUrl("/login")
@@ -83,40 +85,9 @@ public class SecurityConfig {
         return http.build();
     }
 
-
-
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return web -> web
                 .ignoring().requestMatchers("/css/**", "/js/**");
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
