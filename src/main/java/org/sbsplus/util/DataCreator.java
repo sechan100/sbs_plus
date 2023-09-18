@@ -36,7 +36,7 @@ public class DataCreator {
     AnswerRepository answerRepository;
 
     // 생성되는 유저 개수
-    protected Integer userNum = 50;
+    protected Integer userNum = 20;
 
     // 생성되는 게시글 개수
     protected Integer articleNum = 500;

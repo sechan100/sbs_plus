@@ -3,6 +3,7 @@ package org.sbsplus.domain.admin;
 
 import lombok.RequiredArgsConstructor;
 import org.sbsplus.domain.qna.entity.Question;
+import org.sbsplus.domain.qna.form.AnswerForm;
 import org.sbsplus.domain.user.dto.UserDto;
 import org.sbsplus.domain.user.entity.User;
 import org.sbsplus.domain.user.service.UserService;
@@ -11,14 +12,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/admin")
 public class AdminController {
     
     
@@ -26,7 +23,7 @@ public class AdminController {
     private final UserService userService;
     private final Rq rq;
 
-    @GetMapping("")
+    @GetMapping("/admin")
     public String list(Model model, @RequestParam(value="page", defaultValue = "0") int page) {
         Page<User> paging = this.userService.getList(page);
         model.addAttribute("paging", paging);
@@ -63,12 +60,9 @@ public class AdminController {
         return "redirect:/";
     }
 
-    @GetMapping("/admin/suspendUser")
-    public String suspendUserForm() {
-        return "admin/suspendUser_Form";
-    }
 
-    @PostMapping("/admin/suspendUser")
+    @GetMapping("/admin/suspend")
+    @ResponseBody
     public String suspendUser(@RequestParam Long userId) {
         // 관리자 역할을 가지고 있는지 확인
         if (!adminService.isAdmin()) {
@@ -81,6 +75,8 @@ public class AdminController {
 
         userService.save(userToSuspendDto); // 변경된 정보 저장
 
-        return "redirect:/admin/users"; // 사용자 목록 페이지로 리다이렉트
+        return """
+                <a href="" th:hx-get="@{/admin/active(userId = ${user.id})}" hx-boost="true">계정 활성화</a>
+                """;
     }
 }
