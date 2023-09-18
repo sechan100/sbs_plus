@@ -1,6 +1,20 @@
 <html layout:decorate="~{/common/layout}">
 <head>
     <title>커뮤니티</title>
+    <style>
+    .article-thumbNail {
+        width:380px;
+        height:220px;
+        overflow:hidden;
+        margin:0 auto;
+    }
+
+    .article-thumbNail > img {
+        width:100%;
+        height:100%;
+        object-fit:cover;
+    }
+    </style>
 </head>
 <main layout:fragment="main">
 
@@ -66,38 +80,45 @@
 
 
                     <!-- category badge -->
-                    <div th:classappend="${article.category.tailwindBgColor}" class="absolute top-3 left-3 px-3 rounded-full" th:text="${article.category.name}"></div>
+                    <div th:classappend="${article.category.tailwindBadge}" class="absolute top-3 left-3 px-3" th:text="${article.category.name}"></div>
 
                     <!--조회수 100 미만-->
-                    <div th:unless="${article.hit} >= 100" class="absolute rounded-full bg-white top-3 left-3/4 px-3">
+                    <div th:unless="${article.hit} >= 100" class="absolute w-auto rounded-full bg-gray-200 top-3 left-3/4 px-3">
                         <i class="fas fa-bolt"></i>
                         <span th:text="${article.hit}"></span>
                     </div>
 
                     <!--조회수 100 이상-->
-                    <div th:if="${article.hit} >= 100" class="absolute rounded-full bg-red-200 top-3 left-48 px-3">
+                    <div th:if="${article.hit} >= 100" class="absolute w-auto rounded-full bg-red-200 top-3 left-48 px-3">
                         <i class="fas fa-fire"></i>
                         <span th:text="${article.hit}"></span>
                     </div>
 
                     <!-- img -->
-                    <a th:href="|/article/${article.id}|">
-                        <img alt="Placeholder" class="block h-auto w-full" src="https://picsum.photos/600/400/?random">
+                    <a class="block" th:href="|/article/${article.id}|">
+                        <div class="article-thumbNail" th:utext="${article.extractThumbNail()}"></div>
                     </a>
 
 
                     <header class="flex items-center justify-between leading-tight p-2 md:p-4">
-                        <h1 class="truncate w-48 h-5 inline-block text-medium">
+
+                        <!-- title -->
+                        <h1 class="truncate w-40 h-5 inline-block text-medium">
                             <a class="no-underline hover:underline text-black" th:href="|/article/${article.id}|">
                                 [[ ${article.title} ]]
                             </a>
                         </h1>
+
+                        <!-- createAt -->
                         <p class="text-grey-darker text-sm">
                             [[ ${article.convertRelativeTime()} ]]
                         </p>
+
                     </header>
 
                     <footer class="flex items-center justify-between leading-none p-2 md:p-4">
+
+                        <!-- user -->
                         <a class="flex items-center no-underline hover:underline text-black" th:href="|/${article.user.username}|">
                             <img alt="Placeholder" class="block rounded-full" src="https://picsum.photos/32/32/?random">
                             <p class="truncate w-36 h-5 ml-2 text-sm">
@@ -105,14 +126,13 @@
                             </p>
                         </a>
 
+                        <!-- liks -->
                     <th:block th:unless="${@rq.login}">
                         <a like-bok class="cursor-pointer no-underline text-grey-darker" th:href="@{/article/like(id=${article.id})}">
                     </th:block>
-
                     <th:block th:if="${@rq.login}">
                         <a like-bok class="cursor-pointer no-underline text-grey-darker" th:hx-get="@{/ajax/article/like(id=${article.id})}">
                     </th:block>
-
                             <span class="">[[ ${article.likes.size()} ]]</span>
                             <i th:if="${@articleServiceImpl.hasUserLiked(article.id)}" like-icon class="fa fa-heart"></i>
                             <i th:unless="${@articleServiceImpl.hasUserLiked(article.id)}" like-icon class="fa-regular fa-heart"></i>

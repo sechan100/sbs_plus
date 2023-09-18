@@ -1,12 +1,8 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html layout:decorate="~{/common/layout}">
 <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
-    <title>Title</title>
+    <title>게시글</title>
 </head>
-<body>
+<main layout:fragment="main">
     <div th:text="|${article.likes.size()}개의 좋아요|"></div>
     <div th:text="|카테고리: ${article.category.name}|"></div>
     <div th:text="|작성자: ${article.user.nickname}|"></div>
@@ -106,6 +102,5 @@
 
     /*]]>*/
 </script>
-
-</body>
+</main>
 </html>
