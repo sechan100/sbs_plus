@@ -58,43 +58,15 @@ public class AdminController {
         
         return "redirect:/";
     }
-
-    @GetMapping("/admin/suspend")
-    @ResponseBody
-    public String suspendUser(@RequestParam Long userId) {
-        // 관리자 역할을 가지고 있는지 확인
-        if (!adminService.isAdmin()) {
-            throw new AccessDeniedException("관리자 권한이 필요합니다.");
-        }
-
-        // 사용자 정지 로직 구현
-        UserDto userToSuspendDto = userService.getUserDtoById(userId);
-        userToSuspendDto.setSuspended(true); // 사용자를 정지 상태로 변경
-
-        userService.save(userToSuspendDto); // 변경된 정보 저장
-
-        return """
-                <a href="" th:hx-get="@{/admin/active(userId = ${user.id})}" hx-boost="true">계정 활성화</a>
-                """;
+    @GetMapping("/suspend/{userId}")
+    public String suspendUser(@PathVariable Long userId) {
+        adminService.suspendUser(userId);
+        return "redirect:/admin"; // 사용자 목록 페이지로 리다이렉트
     }
-    @GetMapping("/admin/active")
-    @ResponseBody
-    public String activateUser(@RequestParam Long userId) {
-        // 관리자 역할을 가지고 있는지 확인
-        if (!adminService.isAdmin()) {
-            throw new AccessDeniedException("관리자 권한이 필요합니다.");
-        }
 
-        // 사용자 활성화 로직 구현
-        UserDto userToActivateDto = userService.getUserDtoById(userId);
-
-        // 사용자를 활성 상태로 변경
-        userToActivateDto.setSuspended(false);
-
-        userService.save(userToActivateDto); // 변경된 정보 저장
-
-        return """
-                <a href="" th:hx-get="@{/admin/suspend(userId = ${user.id})}" hx-boost="true">계정 정지</a>
-                """;
+    @GetMapping("/activate/{userId}")
+    public String activateUser(@PathVariable Long userId) {
+        adminService.activateUser(userId);
+        return "redirect:/admin"; // 사용자 목록 페이지로 리다이렉트
     }
 }

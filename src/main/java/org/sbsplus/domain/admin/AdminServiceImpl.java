@@ -2,9 +2,12 @@ package org.sbsplus.domain.admin;
 
 
 import lombok.RequiredArgsConstructor;
+import org.sbsplus.domain.user.dto.UserDto;
 import org.sbsplus.domain.user.entity.User;
+import org.sbsplus.domain.user.service.UserService;
 import org.sbsplus.general.security.principal.UserContext;
 import org.sbsplus.util.Rq;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,7 +22,30 @@ public class AdminServiceImpl implements AdminService {
     // Spring Security와 사용자 권한 관리를 다루는 서비스 클래스
     
     private final Rq rq;
-    
+    private final UserService userService;
+
+    public void suspendUser(Long userId) {
+        // 관리자 역할을 가지고 있는지 확인
+        if (!isAdmin()) {
+            throw new AccessDeniedException("관리자 권한이 필요합니다.");
+        }
+
+        // 사용자를 정지 상태로 변경
+        UserDto userDto = userService.getUserDtoById(userId);
+        userDto.setSuspended(true);
+        userService.save(userDto);
+    }
+    public void activateUser(Long userId) {
+        // 관리자 역할을 가지고 있는지 확인
+        if (!isAdmin()) {
+            throw new AccessDeniedException("관리자 권한이 필요합니다.");
+        }
+
+        // 사용자를 활성 상태로 변경
+        UserDto userDto = userService.getUserDtoById(userId);
+        userDto.setSuspended(false);
+        userService.save(userDto);
+    }
     @Override
     public boolean isAdmin() {
         return rq.isAdmin();

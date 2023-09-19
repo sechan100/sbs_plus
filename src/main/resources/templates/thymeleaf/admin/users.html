@@ -1,66 +1,97 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
 
-    <meta charset="UTF-8">
+<html layout:decorate="~{/common/layout}">
+<head>
     <title>사용자 목록</title>
-    <script src="https://unpkg.com/htmx.org@1.9.5" integrity="sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO" crossorigin="anonymous"></script>
 </head>
 
-<body>
-<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
-<div class="container my-3">
-    <table class="table">
-        <thead class="table-dark">
-        <tr class="text-center">
-            <th>번호</th>
-            <th>아이디</th>
-            <th>포인트</th>
-            <th>이메일</th>
-            <th>이름</th>
-            <th>닉네임</th>
-            <th>수업유형</th>
-            <th>권한</th>
-            <th>가입날짜</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr class="text-center" th:each="user, loop : ${paging}">
-            <td th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"></td>
-            <td th:text="${user.username}"></td>
-            <td th:text="${user.point}"></td>
-            <td th:text="${user.email}"></td>
-            <td th:text="${user.name}"></td>
-            <td th:text="${user.nickname}"></td>
-            <td th:text="${user.category}"></td>
-            <td th:text="${user.role}"></td>
-            <td th:text="${#temporals.format(user.createAt, 'yyyy-MM-dd HH:mm')}"></td>
-            <td><a href="" th:hx-get="@{/admin/suspend(userId = ${user.id})}" hx-boost="true">계정 정지</a></td>
-        </tr>
-        </tbody>
-    </table>
-    <!--  페이징 처리  -->
-    <div th:if="${!paging.isEmpty()}">
-        <ul class="pagination justify-content-center">
-            <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
-                <a class="page-link"
-                   th:href="@{|?page=${paging.number-1}|}">
-                    <span>이전</span>
-                </a>
-            </li>
-            <li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
-                th:if="${page >= paging.number-5 and page <= paging.number+5}"
-                th:classappend="${page == paging.number} ? 'active'"
-                class="page-item">
-                <a th:text="${page}" class="page-link" th:href="@{|?page=${page}|}"></a>
-            </li>
-            <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
-                <a class="page-link" th:href="@{|?page=${paging.number+1}|}">
-                    <span>다음</span>
-                </a>
-            </li>
-        </ul>
+<main layout:fragment="main">
+    <div class="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 pr-10 lg:px-8">
+
+        <!--    검색기능    -->
+        <!--        <div class="align-middle rounded-tl-lg rounded-tr-lg inline-block w-full py-4 overflow-hidden bg-white shadow-lg px-12">-->
+        <!--            <div class="flex justify-between">-->
+        <!--                <div class="inline-flex border rounded w-7/12 px-2 lg:px-6 h-12 bg-transparent">-->
+        <!--                    <div class="flex flex-wrap items-stretch w-full h-full mb-6 relative">-->
+        <!--                        <div class="flex">-->
+        <!--                                    <span class="flex items-center leading-normal bg-transparent rounded rounded-r-none border border-r-0 border-none lg:px-3 py-2 whitespace-no-wrap text-grey-dark text-sm">-->
+        <!--                                        <svg width="18" height="18" class="w-4 lg:w-auto" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">-->
+        <!--                                            <path d="M8.11086 15.2217C12.0381 15.2217 15.2217 12.0381 15.2217 8.11086C15.2217 4.18364 12.0381 1 8.11086 1C4.18364 1 1 4.18364 1 8.11086C1 12.0381 4.18364 15.2217 8.11086 15.2217Z" stroke="#455A64" stroke-linecap="round" stroke-linejoin="round" />-->
+        <!--                                            <path d="M16.9993 16.9993L13.1328 13.1328" stroke="#455A64" stroke-linecap="round" stroke-linejoin="round" />-->
+        <!--                                        </svg>-->
+        <!--                                    </span>-->
+        <!--                        </div>-->
+        <!--                        <input type="text" class="flex-shrink flex-grow flex-auto leading-normal tracking-wide w-px flex-1 border border-none border-l-0 rounded rounded-l-none px-3 relative focus:outline-none text-xxs lg:text-xs lg:text-base text-gray-500 font-thin" placeholder="Search">-->
+        <!--                    </div>-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--        </div>-->
+
+        <div class="align-middle inline-block min-w-full shadow overflow-hidden bg-white shadow-dashboard px-8 pt-3 rounded-bl-lg rounded-br-lg">
+            <table class="min-w-full">
+                <thead>
+                <thead class="table-dark">
+                <tr>
+                    <th class="px-6 py-3 border-b-2 border-gray-300 text-left leading-4 text-blue-500 tracking-wider">번호</th>
+                    <th class="px-6 py-3 border-b-2 border-gray-300 text-left leading-4 text-blue-500 tracking-wider">아이디</th>
+                    <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-blue-500 tracking-wider">이름</th>
+                    <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-blue-500 tracking-wider">상태</th>
+                    <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-blue-500 tracking-wider">조치</th>
+                    <th class="px-6 py-3 border-b-2 border-gray-300"></th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <td></td>
+
+                <td></td>
+                <td ></td>
+                </tr>
+                </tbody>
+            <table>
+                <tbody>
+                <tr th:each="user, loop : ${paging}">
+                    <td th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"
+                        class="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
+                    </td>
+                    <td class="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
+                        <span th:text="${user.username}"></span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
+                        <span th:text="${user.name}"></span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
+                        <span th:if="${user.suspended}">정지됨</span>
+                        <span th:unless="${user.suspended}">활성화됨</span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
+                        <span th:if="${user.suspended}"><a th:href="@{/activate/{userId}(userId=${user.id})}">계정 활성화</a></span>
+                        <span th:unless="${user.suspended}"><a th:href="@{/suspend/{userId}(userId=${user.id})}">계정 정지</a></span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="text-center max-w-2xl mx-auto my-3">
+            <nav th:if="${!paging.isEmpty()}" aria-label="Page navigation example">
+                <ul class="inline-flex -space-x-px">
+                    <li th:classappend="${!paging.hasPrevious} ? 'disabled'">
+                        <a  th:href="@{|?page=${paging.number-1}|}"
+                            class="bg-white border border-gray-300 text-gray-500 hover:bg-gray-100 hover:text-gray-700 ml-0 rounded-l-lg leading-tight py-2 px-3 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><span>previous</span></a>
+                    </li>
+                    <li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
+                        th:if="${page >= paging.number-5 and page <= paging.number+5}"
+                        th:classappend="${page == paging.number} ? 'active'">
+                        <a th:text="${page}"
+                           th:href="@{|?page=${page}|}"
+                           class="bg-white border border-gray-300 text-gray-500 hover:bg-gray-100 hover:text-gray-700 leading-tight py-2 px-3 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"></a>
+                    </li>
+                    <li th:classappend="${!paging.hasNext} ? 'disabled'">
+                        <a th:href="@{|?page=${paging.number+1}|}"
+                           class="bg-white border border-gray-300 text-gray-500 hover:bg-gray-100 hover:text-gray-700 leading-tight py-2 px-3 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><span>next</span></a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
     </div>
-</div>
-</body>
+</main>
 </html>

@@ -27,9 +27,9 @@ public interface UserService {
     User convertToEntityWithRole(UserDto accountDto, String role);
     
     void save(UserDto userDto);
-    
+
     User findByUsername(String username);
-    
+
     User findByEmail(String email);
 
     User findById(Long userId);
@@ -37,4 +37,5 @@ public interface UserService {
     UserDto getUserDtoById(Long userId);
 
     Page<User> getList(int page);
+
 }

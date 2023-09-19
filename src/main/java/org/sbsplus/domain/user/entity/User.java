@@ -42,6 +42,7 @@ public class User extends Datetime {
     private List<Article> articles;
 
     private boolean suspended = false;
+
     @Override
     public boolean equals(Object o) {
         if(this == o)
