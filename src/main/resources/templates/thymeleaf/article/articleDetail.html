@@ -1,36 +1,90 @@
 <html layout:decorate="~{/common/layout}">
 <head>
     <title>게시글</title>
+    <style>
+        #content  img {
+            width: 50% !important;
+            text-align: center
+        }
+    </style>
 </head>
 <main layout:fragment="main">
-    <div th:text="|${article.likes.size()}개의 좋아요|"></div>
-    <div th:text="|카테고리: ${article.category.name}|"></div>
-    <div th:text="|작성자: ${article.user.nickname}|"></div>
-    <div th:text="${article.createAt}"></div>
-    <div th:text="|조회수: ${article.hit}|"></div>
-    <h1 th:text="|제목: ${article.title}|"></h1>
-    <div class="white-space: pre-line" th:utext="${article.content}"></div>
-    <br><br><br>
+    <div class="container lg:px-32 md:mx-auto mx-auto py-8">
+        <div class="bg-white p-12 shadow-md rounded-lg relative">
 
-    <div>
-        <span>
-            <a th:href="|/article/write?id=${article.id}|">게시글 수정</a>
-        </span>
+            <div class="flex items-center justify-start mb-3">
+                <!-- category badge  -->
+                <div th:classappend="${article.category.tailwindBadge}" class="px-3 mr-3" th:text="${article.category.name}"></div>
 
-        <br>
-        <br>
+                <!--조회수 100 미만-->
+                <div th:unless="${article.hit} >= 100" class="w-auto rounded-full bg-gray-200 px-3">
+                    <i class="fas fa-bolt"></i>
+                    <span th:text="${article.hit}"></span>
+                </div>
 
-        <span>
-            <a th:href="|/article/delete?id=${article.id}|">게시글 삭제</a>
-        </span>
+                <!--조회수 100 이상-->
+                <div th:if="${article.hit} >= 100" class="w-auto rounded-full bg-red-200 px-3">
+                    <i class="fas fa-fire"></i>
+                    <span th:text="${article.hit}"></span>
+                </div>
+            </div>
 
-        <br>
-        <br>
+            <!-- title -->
+            <h1 class="text-2xl font-semibold mb-7">[[ ${article.title} ]]</h1>
 
-        <span>
-            <a th:href="|/article/like?id=${article.id}|">추천</a>
-        </span>
+                <div class="flex justify-between items-center mb-16">
+
+                    <div class="inline-flex items-center">
+                        <!-- user -->
+                        <a class="flex items-center no-underline hover:underline text-black" th:href="|/${article.user.username}|">
+                            <img alt="Placeholder" class="block rounded-full" src="https://picsum.photos/32/32/?random">
+                            <p class="truncate w-auto h-5 ml-2 text-sm">
+                                [[ ${article.user.nickname} ]]
+                            </p>
+                        </a>
+
+                        <div class="mx-2">•</div>
+
+                        <!-- createAt -->
+                        <p class="text-grey-darker text-sm">
+                            [[ ${article.convertRelativeTime()} ]]
+                        </p>
+
+                        <div class="mx-2">•</div>
+
+                        <!-- liks -->
+                        <th:block th:unless="${@rq.login}">
+                            <a like-bok class="cursor-pointer no-underline text-grey-darker" th:href="@{/article/like(id=${article.id})}">
+                        </th:block>
+                        <th:block th:if="${@rq.login}">
+                            <a like-bok class="cursor-pointer no-underline text-grey-darker" th:hx-get="@{/ajax/article/like(id=${article.id})}">
+                        </th:block>
+                        <span class="">[[ ${article.likes.size()} ]]</span>
+                        <i th:if="${@articleServiceImpl.hasUserLiked(article.id)}" like-icon class="fa fa-heart"></i>
+                        <i th:unless="${@articleServiceImpl.hasUserLiked(article.id)}" like-icon class="fa-regular fa-heart"></i>
+                        </a>
+                    </div>
+
+                    <div>
+                        <a th:if="${@rq.user.id == article.user.id}" class="hover:text-sbs mr-3" th:href="|/article/write?id=${article.id}|">수정</a>
+                        <a th:if="${@rq.user.id == article.user.id}" class="hover:text-sbs" th:href="|/article/delete?id=${article.id}|">삭제</a>
+                    </div>
+
+                </div>
+
+            <!-- content -->
+            <div id="content" class="white-space: pre-line" th:utext="${article.content}"></div>
+        </div>
     </div>
+
+
+
+
+
+
+
+
+
 
     <br><br>
     <h1>댓글 작성 폼</h1>
@@ -70,6 +124,16 @@
 
 <script th:inline="javascript">
     /*<![CDATA[*/
+
+    // 좋아요 아이콘 hover
+        $('a[like-bok]').each(function() {
+            const likeBox = $(this);
+            likeBox.hover( () => {
+                const likeIcon = likeBox.find('i');
+                likeIcon.toggleClass("fa-regular");
+                likeIcon.toggleClass("fa");
+            });
+        });
 
     $(document).ready( () => {
         $(".commentModifyForm > textarea").prop("disabled", true);
