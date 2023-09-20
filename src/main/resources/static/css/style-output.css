@@ -569,6 +569,7 @@ video {
 }
 
 .btn-sbs {
+  cursor: pointer;
   border-radius: 9999px;
   border-width: 2px;
   padding-left: 1rem;
@@ -601,6 +602,7 @@ video {
 }
 
 .btn-sbs-outline {
+  cursor: pointer;
   border-radius: 9999px;
   border-width: 2px;
   padding-left: 1rem;

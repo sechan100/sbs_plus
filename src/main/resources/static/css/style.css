@@ -32,11 +32,11 @@
 }
 
 .btn-sbs{
-    @apply text-white bg-sbs hover:text-sbs border-2 border-sbs hover:border-2 hover:bg-white font-medium rounded-full text-sm px-4 lg:px-5 py-2 lg:py-2;
+    @apply cursor-pointer text-white bg-sbs hover:text-sbs border-2 border-sbs hover:border-2 hover:bg-white font-medium rounded-full text-sm px-4 lg:px-5 py-2 lg:py-2;
 }
 
 .btn-sbs-outline{
-    @apply text-sbs hover:text-white border-2 border-sbs hover:border-2 hover:bg-sbs font-medium rounded-full text-sm px-4 lg:px-5 py-2 lg:py-2;
+    @apply cursor-pointer text-sbs hover:text-white border-2 border-sbs hover:border-2 hover:bg-sbs font-medium rounded-full text-sm px-4 lg:px-5 py-2 lg:py-2;
 }
 
 .pagination-num{
