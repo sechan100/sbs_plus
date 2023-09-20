@@ -10,6 +10,8 @@ import org.sbsplus.general.type.Category;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Data
 public class ArticleDto {
@@ -33,6 +35,22 @@ public class ArticleDto {
     private LocalDateTime createAt;
     
     private LocalDateTime updateAt;
+    
+    
+
+    public String extractThumbNail(){
+            Pattern pattern = Pattern.compile("<img[^>]*>");
+            Matcher matcher = pattern.matcher(content);
+        
+        if (matcher.find()) {
+            
+            return matcher.group();
+            
+        } else {
+            return "<img class='w-1/16 h-1/16' src='https://ifh.cc/g/9AqA7q.png' />";
+        }
+    }
+    
     public String convertRelativeTime(){
         int SEC = 60;
         int MIN = 60;

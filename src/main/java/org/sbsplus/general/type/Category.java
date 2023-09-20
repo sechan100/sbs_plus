@@ -22,25 +22,25 @@ public enum Category {
     ,  ALL("ALL", "전체 카테고리", "bg-white")
 
     // 자격증
-    , CERTIFICATE("CERTIFICATE", "자격증", "bg-gray-300")
+    , CERTIFICATE("CERTIFICATE", "자격증", "badge-gray")
 
     // 모션, CG쪽 편집 툴
-    , MAYA("MAYA", "영상/모션/유튜브", "bg-red-300")
+    , MAYA("MAYA", "영상/모션/유튜브", "badge-red")
 
     // 인테리어
-    , INTERIOR("INTERIOR", "건축/인테리어디자인", "bg-yellow-400")
+    , INTERIOR("INTERIOR", "건축/인테리어디자인", "badge-yellow")
 
     // IT, 개발
-    , IT("IT", "웹디자인/IT", "bg-purple-300")
+    , IT("IT", "웹디자인/IT", "badge-purple")
 
     // Desk Top Publishing: 데스크톱 출판 디자인
-    , DTP("DTP", "광고편집디자인", "bg-orange-300")
+    , DTP("DTP", "광고편집디자인", "badge-pink")
 
     // 제품 디자인
-    , PRODUCT("PRODUCT", "제품디자인", "bg-green-300")
+    , PRODUCT("PRODUCT", "제품디자인", "badge-green")
 
     // 아트웍, 디자인
-    , DESIGN("DESIGN", "아트웍", "bg-blue-300");
+    , DESIGN("DESIGN", "아트웍", "badge-blue");
 
 
 
@@ -48,7 +48,7 @@ public enum Category {
 
     private final String value;
     private final String name;
-    private final String tailwindBgColor;
+    private final String tailwindBadge;
     
     @Getter
     private static List<Category> categories = new ArrayList<>();

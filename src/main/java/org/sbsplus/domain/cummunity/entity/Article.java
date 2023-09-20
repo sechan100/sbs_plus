@@ -45,6 +45,7 @@ public class Article extends Datetime {
     
     private String title;
     
+    @Column(columnDefinition = "LONGTEXT")
     private String content;
     
     private int hit;

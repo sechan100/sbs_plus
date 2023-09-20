@@ -15,7 +15,7 @@ public class CommentController {
     
     private final ArticleService articleService;
     
-    
+    // 댓글 작성 & 수정
     @PostMapping("/comment/write")
     public String commentWrite
             ( @RequestParam Integer articleId
@@ -23,15 +23,17 @@ public class CommentController {
             , CommentDto commentDto){
         
         
-        // 아이디 여부에 따라서 서비스 로직에서 분기
+        // 아이디 있음 -> 수정
+        // 아이디 없음 -> 등록
         commentDto.setId(commentId);
-        articleService.saveComment(articleId, commentDto);
         
+        articleService.saveComment(articleId, commentDto);
         
         
         return "redirect:/article/" + articleId;
     }
-
+    
+    // 댓글 삭제
     @GetMapping("/comment/delete")
     public String deleteComment(@RequestParam Integer articleId, @RequestParam Integer commentId){
         
@@ -40,6 +42,7 @@ public class CommentController {
         return "redirect:/article/" + articleId;
     }
   
+    
     // 댓글 좋아요
     @GetMapping("/comment/like")
     public String commentLike(@RequestParam Integer articleId, @RequestParam Integer commentId){

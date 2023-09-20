@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.sbsplus.domain.cummunity.entity.Article;
 import org.sbsplus.domain.user.repository.UserRepository;
+import org.sbsplus.domain.cummunity.entity.Comment;
+import org.sbsplus.domain.cummunity.entity.like.Like;
 import org.sbsplus.general.type.Category;
 import org.sbsplus.util.Datetime;
 
@@ -39,8 +41,18 @@ public class User extends Datetime {
     
     private int accumulatedPoint;
     
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Article> articles;
+    
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Comment> comments;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Like> likes;
+
+
+
+
 
     private boolean suspended = false;
 
