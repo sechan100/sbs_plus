@@ -46,6 +46,17 @@ public class AdminServiceImpl implements AdminService {
         userDto.setSuspended(false);
         userService.save(userDto);
     }
+    public void deleteUser(String username) {
+        // 관리자 역할을 가지고 있는지 확인
+        if (!isAdmin()) {
+            throw new AccessDeniedException("관리자 권한이 필요합니다.");
+        }
+
+        // 사용자를 활성 상태로 변경
+        User user = userService.findByUsername(username);
+        userService.delete(user);
+    }
+
     @Override
     public boolean isAdmin() {
         return rq.isAdmin();

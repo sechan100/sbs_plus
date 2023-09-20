@@ -36,6 +36,7 @@
                     <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-blue-500 tracking-wider">이름</th>
                     <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-blue-500 tracking-wider">상태</th>
                     <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-blue-500 tracking-wider">조치</th>
+                    <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-blue-500 tracking-wider">탈퇴</th>
                     <th class="px-6 py-3 border-b-2 border-gray-300"></th>
                 </tr>
                 </thead>
@@ -66,6 +67,9 @@
                     <td class="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
                         <span th:if="${user.suspended}"><a th:href="@{/activate/{userId}(userId=${user.id})}">계정 활성화</a></span>
                         <span th:unless="${user.suspended}"><a th:href="@{/suspend/{userId}(userId=${user.id})}">계정 정지</a></span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
+                        <span><a th:href="@{/delete/{username}(username=${user.username})}" >회원 탈퇴</a></span>
                     </td>
                 </tr>
                 </tbody>

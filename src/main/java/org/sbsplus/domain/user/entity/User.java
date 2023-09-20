@@ -4,6 +4,7 @@ package org.sbsplus.domain.user.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.sbsplus.domain.cummunity.entity.Article;
+import org.sbsplus.domain.user.repository.UserRepository;
 import org.sbsplus.general.type.Category;
 import org.sbsplus.util.Datetime;
 

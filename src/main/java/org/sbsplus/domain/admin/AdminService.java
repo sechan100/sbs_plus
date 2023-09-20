@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public interface AdminService {
 
+    void deleteUser(String username);
     void suspendUser(Long userId);
     void activateUser(Long userId);
     boolean isAdmin();
