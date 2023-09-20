@@ -42,11 +42,6 @@ spring:
     ansi:
       enabled: always
 
-  security:
-    user:
-      username: user
-      password: user
-
   mail:
     host: smtp.gmail.com
     port: 587
