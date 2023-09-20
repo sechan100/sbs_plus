@@ -32,11 +32,11 @@
 }
 
 .btn-sbs{
-    @apply text-white bg-sbs hover:text-sbs border-2 border-sbs hover:border-2 hover:bg-white font-medium rounded-full text-sm px-4 lg:px-5 py-2 lg:py-2;
+    @apply cursor-pointer text-white bg-sbs hover:text-sbs border-2 border-sbs hover:border-2 hover:bg-white font-medium rounded-full text-sm px-4 lg:px-5 py-2 lg:py-2;
 }
 
 .btn-sbs-outline{
-    @apply text-sbs hover:text-white border-2 border-sbs hover:border-2 hover:bg-sbs font-medium rounded-full text-sm px-4 lg:px-5 py-2 lg:py-2;
+    @apply cursor-pointer text-sbs hover:text-white border-2 border-sbs hover:border-2 hover:bg-sbs font-medium rounded-full text-sm px-4 lg:px-5 py-2 lg:py-2;
 }
 
 .pagination-num{
@@ -50,4 +50,36 @@
 
 .bg-orange-300 {
   background-color: #fbd38d;
+}
+
+.badge-gray {
+    @apply inline-flex items-center rounded-full bg-gray-50 px-2 py-1 font-medium text-xs text-gray-600 ring-1 ring-inset ring-gray-500/10
+}
+
+.badge-red {
+    @apply inline-flex items-center rounded-full bg-red-50 px-2 py-1 font-medium text-xs text-red-700 ring-1 ring-inset ring-red-600/10
+}
+
+.badge-yellow {
+    @apply inline-flex items-center rounded-full bg-yellow-50 px-2 py-1 font-medium text-xs text-yellow-800 ring-1 ring-inset ring-yellow-600/20
+}
+
+.badge-green {
+    @apply inline-flex items-center rounded-full bg-green-50 px-2 py-1 font-medium text-xs text-green-700 ring-1 ring-inset ring-green-600/20
+}
+
+.badge-blue {
+    @apply inline-flex items-center rounded-full bg-blue-50 px-2 py-1 font-medium text-xs text-blue-700 ring-1 ring-inset ring-blue-700/10
+}
+
+.badge-indigo {
+    @apply inline-flex items-center rounded-full bg-indigo-50 px-2 py-1 font-medium text-xs text-indigo-700 ring-1 ring-inset ring-indigo-700/10
+}
+
+.badge-purple {
+    @apply inline-flex items-center rounded-full bg-purple-50 px-2 py-1 font-medium text-xs text-purple-700 ring-1 ring-inset ring-purple-700/10
+}
+
+.badge-pink {
+    @apply inline-flex items-center rounded-md bg-pink-50 px-2 py-1 font-medium text-xs text-pink-700 ring-1 ring-inset ring-pink-700/10
 }
