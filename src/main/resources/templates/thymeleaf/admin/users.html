@@ -69,7 +69,7 @@
                         <span th:unless="${user.suspended}"><a th:href="@{/suspend/{userId}(userId=${user.id})}">계정 정지</a></span>
                     </td>
                     <td class="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
-                        <span><a th:href="@{/delete/{username}(username=${user.username})}" >회원 탈퇴</a></span>
+                        <span><a th:href="@{/delete/{userId}(userId=${user.id})}" >회원 탈퇴</a></span>
                     </td>
                 </tr>
                 </tbody>

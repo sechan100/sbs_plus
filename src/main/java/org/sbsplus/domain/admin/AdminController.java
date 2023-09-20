@@ -69,9 +69,9 @@ public class AdminController {
         adminService.activateUser(userId);
         return "redirect:/admin"; // 사용자 목록 페이지로 리다이렉트
     }
-    @GetMapping("/delete/{username}")
-    public String deleteUser(@PathVariable String username) {
-        adminService.deleteUser(username);
+    @GetMapping("/delete/{userId}")
+    public String deleteUser(@PathVariable Long userId) {
+        adminService.deleteUser(userId);
         return "redirect:/admin";
     }
 }

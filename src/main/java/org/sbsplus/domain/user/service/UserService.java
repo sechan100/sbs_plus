@@ -28,7 +28,7 @@ public interface UserService {
     
     void save(UserDto userDto);
 
-    void delete(User user);
+    void delete(UserDto userDto);
 
     User findByUsername(String username);
 

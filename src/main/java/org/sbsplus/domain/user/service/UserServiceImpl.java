@@ -4,7 +4,12 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.sbsplus.domain.cummunity.repository.ArticleRepository;
+import org.sbsplus.domain.cummunity.repository.CommentRepository;
+import org.sbsplus.domain.notice.NoticeRepository;
 import org.sbsplus.domain.qna.entity.Question;
+import org.sbsplus.domain.qna.repository.AnswerRepository;
+import org.sbsplus.domain.qna.repository.QuestionRepository;
 import org.sbsplus.domain.user.dto.UserDto;
 import org.sbsplus.domain.user.entity.User;
 import org.sbsplus.domain.user.repository.UserRepository;
@@ -27,6 +32,12 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final ArticleRepository articleRepository;
+    private final CommentRepository commentRepository;
+    private final QuestionRepository questionRepository;
+    private final AnswerRepository answerRepository;
+    private final NoticeRepository noticeRepository;
+
     private final PasswordEncoder passwordEncoder;
 
     
@@ -89,7 +100,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void delete(User user) {
+    public void delete(UserDto userDto) {
+        User user = dtoToUser.map(userDto, User.class);
         userRepository.delete(user);
     }
 
