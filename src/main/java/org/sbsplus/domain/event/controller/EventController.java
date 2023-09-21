@@ -6,6 +6,7 @@ import org.sbsplus.domain.event.service.EventService;
 import org.sbsplus.util.Ut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -68,7 +69,7 @@ public class EventController {
         return "/calendar/calendar";
     }
 
-    @GetMapping("/calendar/{year}/{month}/{eventId}")
+    @GetMapping("/event/detail/{eventId}")
     public String eventDetail(@PathVariable Long eventId, Model model){
 
         EventDto event = eventService.findById(eventId);
@@ -90,7 +91,7 @@ public class EventController {
         }
         model.addAttribute("event", eventDto);
 
-        return "/calender/eventWriteForm";
+        return "/calendar/eventWriteForm";
     }
 
     @PostMapping("/event/write")
@@ -98,7 +99,7 @@ public class EventController {
 
         eventService.save(eventDto);
 
-        return "redirect:/calendar/calendar";
+        return "redirect:/calendar";
     }
 
     @GetMapping("/event/delete")
@@ -106,7 +107,7 @@ public class EventController {
 
         eventService.delete(id);
 
-        return "redirect:/calendar/calendar";
+        return "redirect:/calendar";
     }
 
 

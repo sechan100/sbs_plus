@@ -1,10 +1,94 @@
-<!DOCTYPE html>
-<html lang="en">
+<html layout:decorate="~{/common/layout}">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>이벤트 작성</title>
+    <script type="text/javascript" th:src="@{/js/summernote/summernote-lite.js}"></script>
+    <script type="text/javascript" th:src="@{/js/summernote/lang/summernote-ko-KR.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/summernote/summernote-lite.css}">
 </head>
-<body>
+<main layout:fragment="main">
+    <div class="container mx-auto py-8">
+        <div class="bg-white p-6 shadow-md rounded-lg">
 
-</body>
+            <h1 class="text-2xl font-semi-bold mb-4">이벤트 작성</h1>
+
+            <form th:object="${event}" th:action="@{/event/write}" method="post">
+
+                <input type="hidden" name="id" th:value="${param.id}" th:unless="${param.id == null}">
+
+                <div class="mb-4">
+                    <label for="eventDate" class="block text-gray-700 font-semi-bold mb-2">날짜</label>
+                    <input type="date" name="eventDate" id="eventDate" th:value="*{eventDate}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring focus:ring-blue-500" placeholder="날짜를 입력하세요(ex: xxxx-xx-xx)" required>
+                </div>
+
+                <div class="mb-4">
+                    <label for="title" class="block text-gray-700 font-semi-bold mb-2">제목</label>
+                    <input type="text" th:field="*{title}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring focus:ring-blue-500" placeholder="제목을 입력하세요" required>
+                </div>
+
+                <div class="mb-4">
+                    <label for="summernote" class="block text-gray-700 font-semi-bold mb-2">내용</label>
+                    <textarea id="summernote" th:field="*{comment}" rows="5" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring focus:ring-blue-500" placeholder="내용을 입력하세요" required></textarea>
+                </div>
+
+                <div class="flex justify-end">
+                    <button th:if="${param.id == null}" type="submit" class="px-10 py-2 btn-sbs">게시하기</button>
+                    <button th:unless="${param.id == null}" type="submit" class="px-10 py-2 btn-sbs">수정하기</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+
+    <script th:inline="javascript">
+        /* <![CDATA[ */
+
+        // summernote 설정
+            $('#summernote').summernote({
+                toolbar: [
+                    // [groupName, [list of button]]
+                    ['fontname', ['fontname']],
+                    ['fontsize', ['fontsize']],
+                    ['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
+                    ['color', ['forecolor','color']],
+                    ['table', ['table']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['height', ['height']],
+                    ['insert',['picture','link','video']],
+                    ['view', ['fullscreen', 'help']]
+                  ],
+                fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋움체','바탕체'],
+                fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72'],
+                height: 400,
+                maxHeight: 400,
+                callbacks: {
+                    onImageUpload: function(files) {
+                         uploadImage(files[0]);
+                    }
+                }
+          });
+
+          function uploadImage(file) {
+            var formData = new FormData();
+            formData.append('file', file);
+
+            $.ajax({
+              url: '/upload',
+              method: 'POST',
+              data: formData,
+              processData: false,
+              contentType: false,
+              success: function(url) {
+                // 업로드된 이미지 URL을 Summernote 에디터에 삽입
+                $('#summernote').summernote('insertImage', url);
+              },
+              error: function(xhr, status, error) {
+                alert('이미지 업로드에 실패했습니다.');
+              }
+            });
+          }
+
+        /* ]]> */
+    </script>
+</main>
 </html>
