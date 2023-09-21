@@ -1,10 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
+<html layout:decorate="~{/common/layout}">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>이벤트 글</title>
+    <style>
+        #content  img {
+            width: 50% !important;
+        }
+    </style>
 </head>
-<body>
-    zzz
-</body>
+<main layout:fragment="main">
+    <div class="container lg:px-32 md:mx-auto mx-auto py-8">
+        <div class="bg-white p-12 shadow-md rounded-lg relative">
+
+            <!-- title -->
+            <h1 class="text-2xl font-semi-bold mb-7">[[ ${event.title} ]]</h1>
+
+            <div class="flex justify-between items-center mb-16">
+
+                <div>
+                    <a th:if="${@rq.isAdmin == true}" class="hover:text-sbs mr-3" th:href="|/event/write?id=${event.id}|">수정</a>
+                    <a th:if="${@rq.isAdmin == true}" class="hover:text-sbs" th:href="|/event/delete?id=${event.id}|">삭제</a>
+                </div>
+
+            </div>
+
+            <div id="content" class="white-space: pre-line" th:utext="${event.comment}"></div>
+
+        </div>
+    </div>
+</main>
 </html>
