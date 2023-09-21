@@ -31,44 +31,44 @@
             <!-- title -->
             <h1 class="text-2xl font-semibold mb-7">[[ ${article.title} ]]</h1>
 
-                <div class="flex justify-between items-center mb-16">
+            <div class="flex justify-between items-center mb-16">
 
-                    <div class="inline-flex items-center">
-                        <!-- user -->
-                        <a class="flex items-center no-underline hover:underline text-black" th:href="|/${article.user.username}|">
-                            <p class="truncate w-auto h-5 ml-2 text-sm">
-                                [[ ${article.user.nickname} ]]
-                            </p>
-                        </a>
-
-                        <div class="mx-2">•</div>
-
-                        <!-- createAt -->
-                        <p class="text-grey-darker text-sm">
-                            [[ ${article.convertRelativeTime()} ]]
+                <div class="inline-flex items-center">
+                    <!-- user -->
+                    <a class="flex items-center no-underline hover:underline text-black" th:href="|/${article.user.username}|">
+                        <p class="truncate w-auto h-5 ml-2 text-sm">
+                            [[ ${article.user.nickname} ]]
                         </p>
+                    </a>
 
-                        <div class="mx-2">•</div>
+                    <div class="mx-2">•</div>
 
-                        <!-- liks -->
-                        <th:block th:unless="${@rq.login}">
-                            <a like-bok class="cursor-pointer no-underline text-grey-darker" th:href="@{/article/like(id=${article.id})}">
-                        </th:block>
-                        <th:block th:if="${@rq.login}">
-                            <a like-bok class="cursor-pointer no-underline text-grey-darker" th:hx-get="@{/ajax/article/like(id=${article.id})}">
-                        </th:block>
-                        <span class="">[[ ${article.likes.size()} ]]</span>
-                        <i th:if="${@articleServiceImpl.hasUserLiked(article.id)}" like-icon class="fa fa-heart"></i>
-                        <i th:unless="${@articleServiceImpl.hasUserLiked(article.id)}" like-icon class="fa-regular fa-heart"></i>
-                        </a>
-                    </div>
+                    <!-- createAt -->
+                    <p class="text-grey-darker text-sm">
+                        [[ ${article.convertRelativeTime()} ]]
+                    </p>
 
-                    <div>
-                        <a th:if="${@rq.user.id == article.user.id}" class="hover:text-sbs mr-3" th:href="|/article/write?id=${article.id}|">수정</a>
-                        <a th:if="${@rq.user.id == article.user.id}" class="hover:text-sbs" th:href="|/article/delete?id=${article.id}|">삭제</a>
-                    </div>
+                    <div class="mx-2">•</div>
 
+                    <!-- liks -->
+                    <th:block th:unless="${@rq.login}">
+                        <a like-bok class="cursor-pointer no-underline text-grey-darker" th:href="@{/article/like(id=${article.id})}">
+                    </th:block>
+                    <th:block th:if="${@rq.login}">
+                        <a like-bok class="cursor-pointer no-underline text-grey-darker" th:hx-get="@{/ajax/article/like(id=${article.id})}">
+                    </th:block>
+                    <span class="">[[ ${article.likes.size()} ]]</span>
+                    <i th:if="${@articleServiceImpl.hasUserLiked(article.id)}" like-icon class="fa fa-heart"></i>
+                    <i th:unless="${@articleServiceImpl.hasUserLiked(article.id)}" like-icon class="fa-regular fa-heart"></i>
+                    </a>
                 </div>
+
+                <div>
+                    <a th:if="${@rq.user.id == article.user.id}" class="hover:text-sbs mr-3" th:href="|/article/write?id=${article.id}|">수정</a>
+                    <a th:if="${@rq.user.id == article.user.id}" class="hover:text-sbs" th:href="|/article/delete?id=${article.id}|">삭제</a>
+                </div>
+
+            </div>
 
             <!-- content -->
             <div id="content" class="white-space: pre-line" th:utext="${article.content}"></div>
@@ -104,79 +104,91 @@
             </div>
             <div th:if="${article.comments.size()} == 0" th:text="|작성된 댓글이 없습니다.|"></div>
             <ul>
-                <li th:each="comment : ${article.comments}">
+                <!-- 이 부분은 Tailwind CSS를 사용하여 댓글 목록의 각 항목에 스타일을 적용하는 부분입니다. -->
+                <li th:each="comment : ${article.comments}" class="bg-white border border-gray-200 p-4 mb-4 rounded-lg shadow-md">
+                    <div class="flex justify-between items-center mb-2">
+                        <div>
+                            <!-- 좋아요 버튼 -->
+                            <a like-btn class="cursor-pointer no-underline text-gray-darker" th:href="|/comment/like?articleId=${article.id}&commentId=${comment.id}|">
+                                <span class="text-sm">[[ ${comment.likes.size()} ]]</span>
+                                <i th:if="${@articleServiceImpl.hasUserLikedComment(article.id, comment.id)}" class="fas fa-heart"></i>
+                                <i th:unless="${@articleServiceImpl.hasUserLikedComment(article.id, comment.id)}" class="far fa-heart"></i>
+                            </a>
+                            <span class="ml-2 text-gray-600" th:text="${comment.user.nickname}"></span>
+                        </div>
 
-                    <!-- liks -->
-                    <a like-bok class="cursor-pointer no-underline text-grey-darker" th:href="|/comment/like?articleId=${article.id}&commentId=${comment.id}|">
-                    <span class="">[[ ${comment.likes.size()} ]]</span>
-                    <i th:if="${@articleServiceImpl.hasUserLikedComment(article.id, comment.id)}" like-icon class="fa fa-heart"></i>
-                    <i th:unless="${@articleServiceImpl.hasUserLikedComment(article.id, comment.id)}" like-icon class="fa-regular fa-heart"></i>
-                    </a>
+                        <div>
+                            <!-- 등록 날짜 -->
+                            <div class="text-gray-600" th:text="${comment.convertRelativeTime()}"></div>
 
+                            <!-- 수정 및 삭제 버튼 -->
+                            <div class="mt-2">
+                                <button th:if="${@rq.user.id} == ${comment.user.id}" th:id="|modifyModeBtn${comment.id}|" th:comment_id="${comment.id}" onclick="commentModifyMode(this)" class="hover:text-sbs">수정</button>
+                                <button th:if="${@rq.user.id} == ${comment.user.id} or ${@rq.isAdmin()}" th:comment_id="${comment.id}" onclick="deleteComment(this)" class="hover:text-sbs">삭제</button>
+                            </div>
+                        </div>
 
-                    <div th:text="${comment.user.nickname}"></div>
-                    <div th:text="${comment.convertRelativeTime()}"></div>
+                    </div>
+
+                    <!-- 수정 폼 -->
                     <form class="commentModifyForm" th:action="|/comment/write?articleId=${article.id}&commentId=${comment.id}|" method="post" th:id="|commentModifyForm${comment.id}|">
-                        <textarea name="content" th:text="${comment.content}" rows="2" required></textarea>
-                        <button style="display: none" th:comment_id="${comment.id}" onclick="commentReadMode(this)">수정하기</button>
+                        <textarea name="content" th:text="${comment.content}" rows="2" required class="w-full p-2 border border-gray-200 rounded-lg" style="resize: none;"></textarea>
+                        <button style="display: none" th:comment_id="${comment.id}" onclick="commentReadMode(this)" class="btn-sbs-outline">수정하기</button>
                     </form>
-                    <span></span>
-                    <button th:if="${@rq.user.id} == ${comment.user.id}" th:id="|modifyModeBtn${comment.id}|" th:comment_id="${comment.id}" onclick="commentModifyMode(this)">수정</button>
-                    <button th:if="${@rq.user.id} == ${comment.user.id} or ${@rq.isAdmin()}" th:comment_id="${comment.id}" onclick="deleteComment(this)">삭제</button>
-                    <br><br>
                 </li>
+
             </ul>
         </div>
     </div>
 
 
 
-<script th:inline="javascript">
-    /*<![CDATA[*/
+    <script th:inline="javascript">
+        /*<![CDATA[*/
 
-    // 좋아요 아이콘 hover
-        $('a[like-bok]').each(function() {
-            const likeBox = $(this);
-            likeBox.hover( () => {
-                const likeIcon = likeBox.find('i');
-                likeIcon.toggleClass("fa-regular");
-                likeIcon.toggleClass("fa");
+        // 좋아요 아이콘 hover
+            $('a[like-bok]').each(function() {
+                const likeBox = $(this);
+                likeBox.hover( () => {
+                    const likeIcon = likeBox.find('i');
+                    likeIcon.toggleClass("fa-regular");
+                    likeIcon.toggleClass("fa");
+                });
             });
-        });
 
 
 
 
-    $(document).ready( () => {
-        $(".commentModifyForm > textarea").prop("disabled", true);
-    })
+        $(document).ready( () => {
+            $(".commentModifyForm > textarea").prop("disabled", true);
+        })
 
 
 
 
-    function commentModifyMode(e){
-        const commentId = e.getAttribute("comment_id");
-        $("#commentModifyForm" + commentId + " > textarea").prop("disabled", false);
-        $("#commentModifyForm" + commentId + " > button").css('display', 'inline');
-        $("#modifyModeBtn" + commentId).css('display', 'none');
-    }
+        function commentModifyMode(e){
+            const commentId = e.getAttribute("comment_id");
+            $("#commentModifyForm" + commentId + " > textarea").prop("disabled", false);
+            $("#commentModifyForm" + commentId + " > button").css('display', 'inline');
+            $("#modifyModeBtn" + commentId).css('display', 'none');
+        }
 
-    function commentReadMode(e){
-        const commentId = e.getAttribute("comment_id");
+        function commentReadMode(e){
+            const commentId = e.getAttribute("comment_id");
 
-        // form 데이터 submit
-        $("#commentModifyForm" + commentId).submit();
-    }
+            // form 데이터 submit
+            $("#commentModifyForm" + commentId).submit();
+        }
 
-    function deleteComment(e){
-        const commentId = e.getAttribute("comment_id");
-        const articleId = [[ ${article.id} ]];
-        location.href = "/comment/delete?articleId=" + articleId + "&commentId=" + commentId;
-    }
+        function deleteComment(e){
+            const commentId = e.getAttribute("comment_id");
+            const articleId = [[ ${article.id} ]];
+            location.href = "/comment/delete?articleId=" + articleId + "&commentId=" + commentId;
+        }
 
 
 
-    /*]]>*/
-</script>
+        /*]]>*/
+    </script>
 </main>
 </html>
