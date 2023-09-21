@@ -1,59 +1,75 @@
 <html layout:decorate="~{/common/layout}">
 <head>
     <title>커뮤니티</title>
+    <style>
+        @font-face {
+            font-family: 'SUIT-Regular';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Regular.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        * {
+            font-family: 'SUIT-Regular';
+        }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
+
 <main layout:fragment="main">
-    <div class="container my-3">
-    <table class="table">
+    <div class="container my-3 m-auto bg-white shadow-md rounded-lg border" style="width: 950px; height: 850px;">
+        <section class="main_title text-2xl text-center p-6 bg-gray-200 font-semibold">QnA</section>
+    <table class="table m-auto mt-12">
         <thead class="table-dark">
         <tr class="text-center">
-            <th>번호</th>
-            <th>카테고리</th>
-            <th style="50%">제목</th>
-            <th>글쓴이</th>
-            <th>작성일시</th>
+            <th class="border-b border-gray-500 p-2 border-r">번호</th>
+            <th class="border-b border-gray-500 p-2">카테고리</th>
+            <th class="border-b border-gray-500 p-2" style="50%">제목</th>
+            <th class="border-b border-gray-500 p-2">글쓴이</th>
+            <th class="border-b border-gray-500 p-2">작성일시</th>
         </tr>
         </thead>
         <tbody>
-        <tr class="text-center" th:each="question, loop : ${paging}">
-            <td th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"></td>
-            <td th:text="${question.category}"></td>
-            <td class="text-start">
+        <tr class="text-center " th:each="question, loop : ${paging}">
+            <td class="border-r p-4 border-b border-gray-400 px-8" th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"></td>
+            <td class="p-4 border-b border-gray-400" th:text="${question.category}"></td>
+            <td class="text-start p-4 border-b border-gray-400 px-20" >
                 <a th:href="@{|/question/detail/${question.id}|}" th:text="${question.subject}"></a>
                 <span class="text-danger small ms-2"
                       th:if="${question.answers.size() > 0}"
                       th:text="${question.answers.size()}">
                 </span>
             </td>
-            <td><span th:if="${question.user != null}" th:text="${question.user.username}"></span></td>
-            <td th:text="${#temporals.format(question.createAt, 'yyyy-MM-dd HH:mm')}"></td>
+            <td class="p-4 border-b border-gray-400 px-8"><span  th:if="${question.user != null}" th:text="${question.user.username}"></span></td>
+            <td class="p-4 border-b border-gray-400" th:text="${#temporals.format(question.createAt, 'yyyy-MM-dd HH:mm')}"></td>
         </tr>
         </tbody>
     </table>
     <!--  페이징 처리  -->
         <div th:if="${!paging.isEmpty()}">
-            <ul class="pagination justify-content-center">
-                <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
+            <ul class="flex px-4 pagination justify-center mt-4 ml-52">
+                <li class="page-item mt-2" th:classappend="${!paging.hasPrevious} ? 'disabled'">
                     <a class="page-link"
                        th:href="@{|?page=${paging.number-1}|}">
-                        <span>이전</span>
+                        <span class="p-4">이전</span>
                     </a>
                 </li>
                 <li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
                     th:if="${page >= paging.number-5 and page <= paging.number+5}"
                     th:classappend="${page == paging.number} ? 'active'"
-                    class="page-item">
+                    class="page-item p-2">
                     <a th:text="${page}" class="page-link" th:href="@{|?page=${page}|}"></a>
                 </li>
-                <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
+                <li class="page-item mt-2" th:classappend="${!paging.hasNext} ? 'disabled'">
                     <a class="page-link" th:href="@{|?page=${paging.number+1}|}">
-                        <span>다음</span>
+                        <span class="p-4 ">다음</span>
                     </a>
                 </li>
+                <a th:href="@{/question/create}" class="btn btn-primary border-2 border-gray-200 p-2 rounded-sm hover:bg-gray-200 ml-28">질문 등록하기</a>
             </ul>
+
         </div>
     <!--  페이징 처리 끝  -->
-        <a th:href="@{/question/create}" class="btn btn-primary">질문 등록하기</a>
     </div>
 
     <script type="javascript">

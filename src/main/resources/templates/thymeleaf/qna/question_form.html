@@ -3,6 +3,19 @@
 <head>
     <title>질문 작성</title>
     <!-- 부트스트랩 CSS 링크 추가 -->
+    <style>
+        @font-face {
+            font-family: 'SUIT-Regular';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Regular.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        * {
+            font-family: 'SUIT-Regular';
+        }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script type="text/javascript" th:src="@{/js/summernote/summernote-lite.js}"></script>
@@ -11,39 +24,47 @@
 </head>
 
 <body>
-<div class="container">
-    <h5 class="my-3 border-bottom pb-2">질문작성</h5>
+<div class="container bg-white p-6 shadow-md rounded-lg mx-auto py-8" style="width: 700px;">
+    <h1 class="my-3 pb-2 text-2xl font-bold">QnA > 글작성</h1>
 
     <form th:action="@{/question/create}" th:object="${questionForm}" method="post">
 
         <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
             <div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
         </div>
+
+        <!--    제목 입력    -->
+        <div class="mb-3">
+<!--            <label for="subject" class="form-label">제목</label>-->
+            <input type="text" th:field="*{subject}" placeholder="제목을 입력하세요" class="form-control">
+        </div>
+<!--    내용 입력    -->
+        <div class="mb-3">
+<!--            <label for="content">내용</label>-->
+            <textarea id="summernote" th:field="*{content}" rows="5" required></textarea>
+        </div>
+    </form>
+
+    <form th:action="@{/question/create}" th:object="${questionForm}" method="post">
+
+      <div class="flex ml-2">
+        <!--    포인트 입력    -->
+        <div class="mb-3 flex ml-6">
+            <label for="point" class="form-label mr-3 mt-2" >포인트</label>
+            <input type="number" th:field="*{point}" class="form-control" style="width: 150px;">
+        </div>
+
         <!--    카테고리 입력    -->
-        <div class="form-group">
-            <label for="category">카테고리</label>
-            <select class="form-control" id="category" name="category">
+        <div class="form-group flex ml-3">
+            <label for="category" class="mr-3 mt-2">카테고리</label>
+            <select class="form-control "style="width: 150px;" id="category" name="category">
                 <option value="NONE">과정 없음</option>
                 <option th:each="category : ${categories}" th:value="${category.value}">[[ ${category.name} ]]</option>
             </select>
         </div>
-        <!--    포인트 입력    -->
-        <div class="mb-3">
-            <label for="point" class="form-label">포인트</label>
-            <input type="number" th:field="*{point}" class="form-control">
-        </div>
-        <!--    제목 입력    -->
-        <div class="mb-3">
-            <label for="subject" class="form-label">제목</label>
-            <input type="text" th:field="*{subject}" class="form-control">
-        </div>
-<!--    내용 입력    -->
-        <div class="mb-3">
-            <label for="content">내용</label>
-            <textarea id="summernote" th:field="*{content}" rows="5" required></textarea>
-        </div>
+        <input type="submit" value="게시하기" style="height: 40px;" class=" ml-24 p-2 border border-2 rounded-sm hover:bg-gray-200">
+      </div>
 
-        <input type="submit" value="저장하기" class="btn btn-primary my-2">
     </form>
 </div>
 
