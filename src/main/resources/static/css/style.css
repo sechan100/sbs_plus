@@ -81,5 +81,5 @@
 }
 
 .badge-pink {
-    @apply inline-flex items-center rounded-md bg-pink-50 px-2 py-1 font-medium text-xs text-pink-700 ring-1 ring-inset ring-pink-700/10
+    @apply inline-flex items-center rounded-full bg-pink-50 px-2 py-1 font-medium text-xs text-pink-700 ring-1 ring-inset ring-pink-700/10
 }
