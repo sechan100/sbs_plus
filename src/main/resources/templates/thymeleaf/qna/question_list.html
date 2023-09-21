@@ -58,7 +58,7 @@
                         class="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
                     </td>
                     <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
-                        <span th:classappend="${question.category.tailwindBgColor}" class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight rounded-full">
+                        <span th:classappend="${question.category.tailwindBadge}" class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight rounded-full">
                                         <span aria-hidden ></span>
                                         <span th:text="${question.category.name}"></span>
                                     </span>
@@ -109,7 +109,7 @@
                            class="bg-white border border-gray-300 text-gray-500 hover:bg-gray-100 hover:text-gray-700 leading-tight py-2 px-3 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><span>next</span></a>
                     </li>
                 </ul>
-                <a th:href="@{/question/create}" class="btn my-3 btn-primary">질문 등록하기</a>
+                <a th:href="@{/question/create}" class="btn-sbs my-3">질문 등록하기</a>
             </nav>
         </div>
     </div>

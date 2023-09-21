@@ -1,6 +1,7 @@
 package org.sbsplus.domain.admin;
 
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.sbsplus.domain.user.dto.UserDto;
 import org.sbsplus.domain.user.entity.User;
@@ -24,6 +25,7 @@ public class AdminServiceImpl implements AdminService {
     private final Rq rq;
     private final UserService userService;
 
+    @Transactional
     public void suspendUser(Long userId) {
         // 관리자 역할을 가지고 있는지 확인
         if (!isAdmin()) {
@@ -31,10 +33,10 @@ public class AdminServiceImpl implements AdminService {
         }
 
         // 사용자를 정지 상태로 변경
-        UserDto userDto = userService.getUserDtoById(userId);
-        userDto.setSuspended(true);
-        userService.save(userDto);
+        User user = userService.findById(userId);
+        user.setSuspended(true);
     }
+
     public void activateUser(Long userId) {
         // 관리자 역할을 가지고 있는지 확인
         if (!isAdmin()) {

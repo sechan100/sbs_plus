@@ -101,8 +101,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void delete(UserDto userDto) {
-        User user = dtoToUser.map(userDto, User.class);
-        userRepository.delete(user);
+        Long userId = userDto.getId();
+        User deleteTargetuser = userRepository.findById(userId).orElseThrow();
+        userRepository.delete(deleteTargetuser);
     }
 
     @Override
@@ -124,7 +125,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findById(Long userId) {
-        return null;
+        return userRepository.findById(userId).orElseThrow();
     }
     public Page<User> getList(int page) {
         List<Sort.Order> sorts = new ArrayList<>();
