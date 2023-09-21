@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Calendar</title>
+</head>
+<body>
+<a th:href="@{'/calendar/' + ${prevYear} + '/' + ${prevMonth}}">
+    <span th:text="|이전달(${prevYear}/${prevMonth})|"></span>
+</a>
+
+<h1 th:text="'Calendar for ' + ${year} + ' ' + ${month}"></h1>
+
+<div class="calendar">
+    <div class="day">일</div>
+    <div class="day">월</div>
+    <div class="day">화</div>
+    <div class="day">수</div>
+    <div class="day">목</div>
+    <div class="day">금</div>
+    <div class="day">토</div>
+
+    <!-- Fill empty days before the start -->
+    <div th:each="n: ${#numbers.sequence(1, firstDayOfMonth - 1)}" class="day"></div>
+
+    <!-- Days of the month -->
+    <div th:each="n: ${#numbers.sequence(1, daysInMonth)}" class="day">
+        <span th:text="|${n}일|"></span>
+        <ul>
+            <li th:each="event : ${forCalendarEvents.get(n)}" th:text="|${event.id}, ${event.title}|"></li>
+        </ul>
+    </div>
+</div>
+
+<a th:href="@{'/calendar/' + ${nextYear} + '/' + ${nextMonth}}">
+    <span th:text="|다음달(${nextYear}/${nextMonth})|"></span>
+</a>
+
+<style>
+    .calendar {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 10px;
+    }
+
+    .day {
+        padding: 10px;
+        border: 1px solid #ddd;
+        text-align: center;
+    }
+</style>
+</body>
+</html>

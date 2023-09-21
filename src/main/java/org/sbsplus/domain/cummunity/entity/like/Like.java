@@ -21,7 +21,6 @@ public class Like {
     }
     
     
-    
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Integer id;
