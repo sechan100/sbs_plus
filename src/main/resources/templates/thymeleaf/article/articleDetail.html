@@ -104,39 +104,27 @@
             </div>
             <div th:if="${article.comments.size()} == 0" th:text="|작성된 댓글이 없습니다.|"></div>
             <ul>
-                <!-- 이 부분은 Tailwind CSS를 사용하여 댓글 목록의 각 항목에 스타일을 적용하는 부분입니다. -->
-                <li th:each="comment : ${article.comments}" class="bg-white border border-gray-200 p-4 mb-4 rounded-lg shadow-md">
-                    <div class="flex justify-between items-center mb-2">
-                        <div>
-                            <!-- 좋아요 버튼 -->
-                            <a like-btn class="cursor-pointer no-underline text-gray-darker" th:href="|/comment/like?articleId=${article.id}&commentId=${comment.id}|">
-                                <span class="text-sm">[[ ${comment.likes.size()} ]]</span>
-                                <i th:if="${@articleServiceImpl.hasUserLikedComment(article.id, comment.id)}" class="fas fa-heart"></i>
-                                <i th:unless="${@articleServiceImpl.hasUserLikedComment(article.id, comment.id)}" class="far fa-heart"></i>
-                            </a>
-                            <span class="ml-2 text-gray-600" th:text="${comment.user.nickname}"></span>
-                        </div>
+                <li th:each="comment : ${article.comments}">
 
-                        <div>
-                            <!-- 등록 날짜 -->
-                            <div class="text-gray-600" th:text="${comment.convertRelativeTime()}"></div>
+                    <!-- liks -->
+                    <a like-bok class="cursor-pointer no-underline text-grey-darker" th:href="|/comment/like?articleId=${article.id}&commentId=${comment.id}|">
+                    <span class="">[[ ${comment.likes.size()} ]]</span>
+                    <i th:if="${@articleServiceImpl.hasUserLikedComment(article.id, comment.id)}" like-icon class="fa fa-heart"></i>
+                    <i th:unless="${@articleServiceImpl.hasUserLikedComment(article.id, comment.id)}" like-icon class="fa-regular fa-heart"></i>
+                    </a>
 
-                            <!-- 수정 및 삭제 버튼 -->
-                            <div class="mt-2">
-                                <button th:if="${@rq.user.id} == ${comment.user.id}" th:id="|modifyModeBtn${comment.id}|" th:comment_id="${comment.id}" onclick="commentModifyMode(this)" class="hover:text-sbs">수정</button>
-                                <button th:if="${@rq.user.id} == ${comment.user.id} or ${@rq.isAdmin()}" th:comment_id="${comment.id}" onclick="deleteComment(this)" class="hover:text-sbs">삭제</button>
-                            </div>
-                        </div>
 
-                    </div>
-
-                    <!-- 수정 폼 -->
+                    <div th:text="${comment.user.nickname}"></div>
+                    <div th:text="${comment.convertRelativeTime()}"></div>
                     <form class="commentModifyForm" th:action="|/comment/write?articleId=${article.id}&commentId=${comment.id}|" method="post" th:id="|commentModifyForm${comment.id}|">
-                        <textarea name="content" th:text="${comment.content}" rows="2" required class="w-full p-2 border border-gray-200 rounded-lg" style="resize: none;"></textarea>
-                        <button style="display: none" th:comment_id="${comment.id}" onclick="commentReadMode(this)" class="btn-sbs-outline">수정하기</button>
+                        <textarea name="content" th:text="${comment.content}" rows="2" required></textarea>
+                        <button style="display: none" th:comment_id="${comment.id}" onclick="commentReadMode(this)">수정하기</button>
                     </form>
+                    <span></span>
+                    <button th:if="${@rq.user.id} == ${comment.user.id}" th:id="|modifyModeBtn${comment.id}|" th:comment_id="${comment.id}" onclick="commentModifyMode(this)">수정</button>
+                    <button th:if="${@rq.user.id} == ${comment.user.id} or ${@rq.isAdmin()}" th:comment_id="${comment.id}" onclick="deleteComment(this)">삭제</button>
+                    <br><br>
                 </li>
-
             </ul>
         </div>
     </div>

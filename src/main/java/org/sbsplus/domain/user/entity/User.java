@@ -49,7 +49,6 @@ public class User {
     private List<Like> likes;
     
     
-    
     @Override
     public boolean equals(Object o) {
         if(this == o)
