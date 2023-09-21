@@ -1,0 +1,11 @@
+<html layout:decorate="~{/common/layout}">
+<head>
+    <title>mypage</title>
+</head>
+<main layout:fragment="main">
+    <div th:text="|${@rq.user.nickname}님|"></div>
+    <div th:text="|이메일: ${@rq.user.email}|"></div>
+    <a th:href="|/${@rq.user.username}/modification|">계정 정보 수정</a>
+
+</main>
+</html>

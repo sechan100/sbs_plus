@@ -40,8 +40,8 @@
                 </a>
 
                 <div th:unless="${@rq.login}" class="flex items-center lg:order-2">
-                    <a href="/login" hx-boost="true" class="btn-sbs mr-2">로그인</a>
-                    <a href="/register" hx-boost="true" class="btn-sbs mr-2">회원가입</a>
+                    <a href="/login"  class="btn-sbs mr-2">로그인</a>
+                    <a href="/register"  class="btn-sbs mr-2">회원가입</a>
                     <button btn="burger" data-collapse-toggle="mobile-menu" type="button" class="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100" aria-controls="mobile-menu" aria-expanded="false">
                         <span class="sr-only">Open main menu</span>
                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
@@ -51,21 +51,21 @@
 
                 <div id="user-menu" th:if="${@rq.login}" class="cursor-pointer relative flex items-center lg:order-2">
                     <div class="rounded-full overflow-hidden w-10 mr-2"><img src="https://velog.velcdn.com/images/hw00/post/3549bf8e-3970-4c2f-a4cc-b5409b1cc968/image.gif" /></div>
-                    <a th:text="|${user.username}님 환영합니다|" hx-boost="true" class="mr-2 font-medium"></a>
+                    <a th:text="|${user.nickname}님 환영합니다|"  class="mr-2 font-medium"></a>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
                     <div class="hidden z-10 absolute px-5 top-10 bg-white justify-between items-center w-44" id="user-down-menu">
                         <ul class="flex flex-col content-evenly mt-4 font-xs">
                             <li>
-                                <a th:href="|/${user.username}|" class="nav-domain h-10" hx-boost="true">내 정보</a>
+                                <a th:href="|/@${user.username}|" class="nav-domain h-10" >내 정보</a>
                             </li>
                             <li>
-                                <a href="#" class="nav-domain h-10" hx-boost="true">내 게시글</a>
+                                <a th:href="|/@${user.username}/article|" class="nav-domain h-10" >내 게시글</a>
                             </li>
                             <li>
-                                <a href="#" class="nav-domain h-10" hx-boost="true">내 질문</a>
+                                <a href="#" class="nav-domain h-10" >내 질문</a>
                             </li>
                             <li>
-                                <a href="/logout" class="nav-domain h-10" hx-boost="true">로그아웃</a>
+                                <a href="/logout" class="nav-domain h-10" >로그아웃</a>
                             </li>
                         </ul>
                     </div>
@@ -83,13 +83,13 @@
                             <a href="/article?page=1&category=ALL" class="nav-domain">커뮤니티</a>
                         </li>
                         <li>
-                            <a href="/question" class="nav-domain" hx-boost="true">QnA</a>
+                            <a href="/question" class="nav-domain" >QnA</a>
                         </li>
                         <li>
-                            <a href="#" class="nav-domain" hx-boost="true">스케줄</a>
+                            <a href="/calendar" class="nav-domain" >캘린더</a>
                         </li>
                         <li>
-                            <a href="/point" class="nav-domain" hx-boost="true">포인트</a>
+                            <a href="/point" class="nav-domain" >포인트</a>
                         </li>
                         <li>
                             <a href="#" class="nav-domain" hx-boost="true">공지사항</a>
