@@ -7,10 +7,13 @@ import org.sbsplus.domain.qna.form.AnswerForm;
 import org.sbsplus.domain.qna.form.QuestionForm;
 import org.sbsplus.domain.qna.service.QuestionService;
 import org.sbsplus.domain.qna.entity.Question;
+import org.sbsplus.domain.user.entity.User;
+import org.sbsplus.domain.user.service.UserService;
 import org.sbsplus.general.type.Category;
 import org.sbsplus.util.Rq;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,11 +31,18 @@ public class QuestionController {
 
     private final AnswerService answerService;
 
+    private final UserService userService;
+
 
     @GetMapping("")
-    public String list(Model model, @RequestParam(value="page", defaultValue = "0") int page) {
-        Page<Question> paging = this.questionService.getList(page);
+    public String list(Model model
+            , @RequestParam(value="page", defaultValue = "0") int page
+            , @RequestParam(value = "kw", defaultValue = "") String kw) {
+
+        Page<Question> paging = this.questionService.getList(page, kw);
+
         model.addAttribute("paging", paging);
+        model.addAttribute("kw", kw);
         return "/qna/question_list";
     }
     @GetMapping(value="/detail/{id}")
