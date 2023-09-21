@@ -46,7 +46,7 @@ public class RegisterController {
         
         
         if(!emailAuthentication.isAuthenticatedEmail(userDto.getEmail())) {
-            return "redirect:/register?error=true&type=email";
+            return "redirect:/register?error=true&type=emailAuth";
             
         // username invalid
         } else if(!userService.isValidUsername(userDto.getUsername())){
@@ -80,12 +80,24 @@ public class RegisterController {
             // 인증된 이메일에 추가
             emailAuthentication.addAuthenticatedEmail(email);
             
+            return String.format("""
+                <div class="color-info">인증이 완료되었습니다.</div>
+                <input id="hiddenAuthedEmail" type="hidden" name="email" value="%s"/>
+                """, email);
+            
         }
         
         return String.format("""
-                <div class="color-info">인증이 완료되었습니다.</div>
-                <input type="hidden" name="email" value="%s"/>
+                <div style='color: red'>인증번호가 일치하지 않습니다.</div>
+                <input hx-get="/email/confirm?email=%s" hx-trigger="emailConfirm" hx-target="#target" type="text" class="form-control" name="authKey" placeholder="인증번호를 입력해주세요." required>
+                <button type="button" id="confirmBtn">인증완료</button>
+                <script>
+                    $('#confirmBtn').on('click', () => {
+                        htmx.trigger(document.querySelector('[hx-trigger="emailConfirm"]'), 'emailConfirm');
+                    });
+                </script>
                 """, email);
+        
     }
     
     @GetMapping("/email/sendAuthKey")
