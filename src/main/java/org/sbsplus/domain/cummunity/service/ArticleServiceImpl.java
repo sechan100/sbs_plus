@@ -146,7 +146,6 @@ public class ArticleServiceImpl implements ArticleService {
         return articles_.map(article -> (new ModelMapper()).map(article, ArticleDto.class));
     }
     
-    
     @Override
     public ArticleDto findById(Integer articleId) {
         
@@ -379,6 +378,12 @@ public class ArticleServiceImpl implements ArticleService {
         
         // 매칭 X: 좋아요 없음 -> false
         return false;
+    }
+    
+    @Override
+    public List<Article> findByUser(User user) {
+        
+        return articleRepository.findByUser(user);
     }
     
     @Override

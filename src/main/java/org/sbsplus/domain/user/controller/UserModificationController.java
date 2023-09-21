@@ -75,25 +75,6 @@ public class UserModificationController {
             }
             
         }
-        
-
-        /*
-         *************************
-         * email 변동 체크
-         *************************
-         */
-        // 기존 email과 dto email이 다른 경우: 수정이 발생
-        if(!user.getEmail().equals(userDto.getEmail())){
-            
-            // 겹치지 않는 email인 경우
-            if(userService.isValidEmail(userDto.getEmail())){
-                // Entity 수정
-                user.setEmail(userDto.getEmail());
-            } else {
-                return String.format("redirect:/%s/modification?error=true&type=email", rq.getUser().getUsername());
-            }
-            
-        }
        
         
         /*

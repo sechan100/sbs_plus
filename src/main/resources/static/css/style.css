@@ -26,7 +26,6 @@
 
 }
 
-
 .nav-domain {
     @apply block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-sbs lg:p-0;
 }
@@ -81,5 +80,5 @@
 }
 
 .badge-pink {
-    @apply inline-flex items-center rounded-md bg-pink-50 px-2 py-1 font-medium text-xs text-pink-700 ring-1 ring-inset ring-pink-700/10
+    @apply inline-flex items-center rounded-full bg-pink-50 px-2 py-1 font-medium text-xs text-pink-700 ring-1 ring-inset ring-pink-700/10
 }

@@ -1,71 +1,61 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html layout:decorate="~{/common/layout}">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <script src="https://code.jquery.com/jquery-latest.min.js"></script>
   <title>회원가입</title>
 </head>
-<body>
-<div class="container mt-5">
-  <h2>계정 정보 수정</h2>
+<main layout:fragment="main">
+  <div class="container mt-5">
+    <h2>계정 정보 수정</h2>
 
-    <h3 class="form-group">[[ ${user.username} ]]</h3>
+    <h3 class="form-group" th:text="|아이디: ${user.username}|"></h3>
+    <h3 class="form-group" th:text="|이메일: ${user.email}|"></h3>
 
-  <form th:action="@{/modification}" method="post" th:object="${user}">
+    <form th:action="@{/modification}" method="post" th:object="${user}">
 
-    <input type="hidden" th:field="*{username}">
+      <input type="hidden" th:field="*{username}">
 
-    <div class="form-group">
-      <label for="password">비밀번호</label>
-      <input type="password" class="form-control" id="password" th:field="*{password}">
-    </div>
+      <div class="form-group">
+        <label for="password">비밀번호</label>
+        <input type="password" class="form-control" id="password" th:field="*{password}">
+      </div>
 
-    <div class="form-group">
-      <label for="confirmPassword">비밀번호 확인</label>
-      <input type="password" class="form-control" id="confirmPassword" th:field="*{confirmPassword}">
-    </div>
+      <div class="form-group">
+        <label for="confirmPassword">비밀번호 확인</label>
+        <input type="password" class="form-control" id="confirmPassword" th:field="*{confirmPassword}">
+      </div>
 
-    <div th:if="${param.error} and ${#strings.equals(param.type, 'password')}">비밀번호 확인이 일치하지 않습니다.</div>
+      <div th:if="${param.error} and ${#strings.equals(param.type, 'password')}">비밀번호 확인이 일치하지 않습니다.</div>
 
 
-    <div class="form-group">
-      <label for="name">이름</label>
-      <input type="text" class="form-control" id="name" th:field="*{name}" required>
-    </div>
+      <div class="form-group">
+        <label for="name">이름</label>
+        <input type="text" class="form-control" id="name" th:field="*{name}" required>
+      </div>
 
-    <div class="form-group">
-      <label for="nickname">닉네임</label>
-      <input type="text" class="form-control" id="nickname" th:field="*{nickname}" required>
-    </div>
+      <div class="form-group">
+        <label for="nickname">닉네임</label>
+        <input type="text" class="form-control" id="nickname" th:field="*{nickname}" required>
+      </div>
 
-    <div class="form-group">
-      <label for="email">이메일</label>
-      <input type="email" class="form-control" id="email" th:field="*{email}" required>
-    </div>
 
-    <div th:if="${param.error} and ${#strings.equals(param.type, 'email')}">이미 사용중인 이메일입니다.</div>
+      <div class="form-group">
+        <label for="category">수업유형</label>
+        <select class="form-control" id="category" name="category">
+          <option value="NONE">과정 없음</option>
+          <option th:each="category : ${categories}" th:value="${category.value}">[[ ${category.name} ]]</option>
+        </select>
+      </div>
 
-    <div class="form-group">
-      <label for="category">수업유형</label>
-      <select class="form-control" id="category" name="category">
-        <option value="NONE">과정 없음</option>
-        <option th:each="category : ${categories}" th:value="${category.value}">[[ ${category.name} ]]</option>
-      </select>
-    </div>
+      <button type="submit" class="btn btn-primary">수정완료</button>
+    </form>
+  </div>
 
-    <button type="submit" class="btn btn-primary">수정완료</button>
-  </form>
-</div>
+  <script th:inline="javascript">
+    /* <![CDATA[ */
 
-<script th:inline="javascript">
-  /* <![CDATA[ */
+      const oldCategory = "[( ${user.category} )]";
+      $("#category > option[value="+oldCategory+"]").attr("selected", true);
 
-    const oldCategory = "[( ${user.category} )]";
-    $("#category > option[value="+oldCategory+"]").attr("selected", true);
-
-  /* ]]> */
-</script>
-</body>
+    /* ]]> */
+  </script>
+</main>
 </html>
