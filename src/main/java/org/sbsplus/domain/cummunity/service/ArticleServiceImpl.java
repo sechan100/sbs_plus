@@ -381,6 +381,12 @@ public class ArticleServiceImpl implements ArticleService {
     }
     
     @Override
+    public List<Article> findByUser(User user) {
+        
+        return articleRepository.findByUser(user);
+    }
+    
+    @Override
     @Transactional
     public void unlikeComment(Integer articleId, Integer commentId) {
         Article article = articleRepository.findById(articleId).orElseThrow();
