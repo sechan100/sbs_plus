@@ -24,7 +24,7 @@ spring:
 
   datasource:
     username: root
-    password:
+    password: dlqhfka
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/sbs_plus
 

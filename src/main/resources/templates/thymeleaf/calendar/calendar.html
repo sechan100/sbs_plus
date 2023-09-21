@@ -1,61 +1,61 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html layout:decorate="~{/common/layout}">
 <head>
-    <meta charset="UTF-8">
     <title>Calendar</title>
 </head>
-<a th:href="@{'/calendar/' + ${prevYear} + '/' + ${prevMonth}}">
-    <span th:text="|이전달(${prevYear}/${prevMonth})|"></span>
-</a>
+<main layout:fragment="main">
+    <a th:href="@{'/calendar/' + ${prevYear} + '/' + ${prevMonth}}">
+        <span th:text="|이전달(${prevYear}/${prevMonth})|"></span>
+    </a>
 
-<a th:href="@{'/calendar/' + ${nextYear} + '/' + ${nextMonth}}">
-    <span th:text="|다음달(${nextYear}/${nextMonth})|"></span>
-</a>
+    <a th:href="@{'/calendar/' + ${nextYear} + '/' + ${nextMonth}}">
+        <span th:text="|다음달(${nextYear}/${nextMonth})|"></span>
+    </a>
 
-<h1 th:text="'Calendar for ' + ${year} + ' ' + ${month}"></h1>
+    <h1 th:text="'Calendar for ' + ${year} + ' ' + ${month}"></h1>
 
-<div class="calendar">
-    <div class="day">일</div>
-    <div class="day">월</div>
-    <div class="day">화</div>
-    <div class="day">수</div>
-    <div class="day">목</div>
-    <div class="day">금</div>
-    <div class="day">토</div>
+    <div class="calendar">
+        <div class="day">일</div>
+        <div class="day">월</div>
+        <div class="day">화</div>
+        <div class="day">수</div>
+        <div class="day">목</div>
+        <div class="day">금</div>
+        <div class="day">토</div>
 
-    <!-- Fill empty days before the start -->
-    <div th:each="n: ${#numbers.sequence(1, firstDayOfMonth - 1)}" class="day"></div>
+        <!-- Fill empty days before the start -->
+        <div th:each="n: ${#numbers.sequence(1, firstDayOfMonth - 1)}" class="day"></div>
 
-    <!-- Days of the month -->
-    <div th:each="n: ${#numbers.sequence(1, daysInMonth)}" class="day">
-        <span th:text="|${n}일|"></span>
-        <div th:each="event : ${forCalendarEvents.get(n)}">
-            <ul>
-                <li>
-                    <a th:href="@{'/event/detail/' + ${event.id}}">
-                        <span th:text="${event.title}"></span>
-                    </a>
-                </li>
-            </ul>
+        <!-- Days of the month -->
+        <div th:each="n: ${#numbers.sequence(1, daysInMonth)}" class="day">
+            <span th:text="|${n}일|"></span>
+            <div th:each="event : ${forCalendarEvents.get(n)}">
+                <ul>
+                    <li>
+                        <a th:href="@{'/event/detail/' + ${event.id}}">
+                            <span th:text="${event.title}"></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
-</div>
 
-<a th:if="${@rq.isAdmin == true}" class="hover:text-sbs" th:href="@{/event/write}">
-    <span>글 작성</span>
-</a>
+    <a th:if="${@rq.isAdmin == true}" class="hover:text-sbs" th:href="@{/event/write}">
+        <span>글 작성</span>
+    </a>
 
-<style>
-    .calendar {
-        display: grid;
-        grid-template-columns: repeat(7, 1fr);
-        gap: 10px;
-    }
+    <style>
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+        }
 
-    .day {
-        padding: 10px;
-        border: 1px solid #ddd;
-        text-align: center;
-    }
-</style>
+        .day {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+    </style>
+</main>
 </html>
