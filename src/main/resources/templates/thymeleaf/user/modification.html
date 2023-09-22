@@ -3,49 +3,49 @@
   <title>회원가입</title>
 </head>
 <main layout:fragment="main">
-  <div class="container mt-5">
-    <h2>계정 정보 수정</h2>
-
-    <h3 class="form-group" th:text="|아이디: ${user.username}|"></h3>
-    <h3 class="form-group" th:text="|이메일: ${user.email}|"></h3>
+  <div class="container mt-5 bg-white p-6 shadow-md rounded-lg m-auto mt-12" style="width: 700px; height: 650px;">
+    <h2 class="bg-gray-200 p-4 text-2xl text-center">계정 정보 수정</h2>
+   <div class="w-96 m-auto mt-12">
+    <h3 class="form-group text-l p-2 ml-12" th:text="|아이디: ${user.username}|"></h3>
+    <h3 class="form-group text-l p-2 mt-2 ml-12" th:text="|이메일: ${user.email}|"></h3>
 
     <form th:action="@{/modification}" method="post" th:object="${user}">
 
       <input type="hidden" th:field="*{username}">
 
       <div class="form-group">
-        <label for="password">비밀번호</label>
-        <input type="password" class="form-control" id="password" th:field="*{password}">
+        <label for="password" class="text-l p-2 ml-8">비밀번호</label>
+        <input type="password" class="form-control p-1 border-2 mt-4" id="password" th:field="*{password}">
       </div>
 
       <div class="form-group">
-        <label for="confirmPassword">비밀번호 확인</label>
-        <input type="password" class="form-control" id="confirmPassword" th:field="*{confirmPassword}">
+        <label for="confirmPassword" class="text-l p-2 ">비밀번호 확인</label>
+        <input type="password" class="form-control p-1 border-2 mt-4" id="confirmPassword" th:field="*{confirmPassword}">
       </div>
 
       <div th:if="${param.error} and ${#strings.equals(param.type, 'password')}">비밀번호 확인이 일치하지 않습니다.</div>
 
 
       <div class="form-group">
-        <label for="name">이름</label>
-        <input type="text" class="form-control" id="name" th:field="*{name}" required>
+        <label for="name" class="text-l p-2 ml-16">이름</label>
+        <input type="text" class="form-control p-1 border-2 mt-4" id="name" th:field="*{name}" required>
       </div>
 
       <div class="form-group">
-        <label for="nickname">닉네임</label>
-        <input type="text" class="form-control" id="nickname" th:field="*{nickname}" required>
+        <label for="nickname" class="text-l p-2 ml-12">닉네임</label>
+        <input type="text" class="form-control p-1 border-2 mt-4" id="nickname" th:field="*{nickname}" required>
       </div>
 
 
-      <div class="form-group">
-        <label for="category">수업유형</label>
-        <select class="form-control" id="category" name="category">
+      <div class="form-group ml-8">
+        <label for="category "class="text-l p-2">수업유형</label>
+        <select class="form-control p-1 border-2 mt-4" id="category" name="category" style="width: 205px">
           <option value="NONE">과정 없음</option>
           <option th:each="category : ${categories}" th:value="${category.value}">[[ ${category.name} ]]</option>
         </select>
       </div>
-
-      <button type="submit" class="btn btn-primary">수정완료</button>
+  </div>
+      <button type="submit" class="btn btn-primary text-l p-2 border-2 ml-72 mt-12 hover:bg-gray-200">수정완료</button>
     </form>
   </div>
 

@@ -2,10 +2,12 @@
 <head>
     <title>mypage</title>
 </head>
-<main layout:fragment="main">
-    <div th:text="|${@rq.user.nickname}님|"></div>
-    <div th:text="|이메일: ${@rq.user.email}|"></div>
-    <a th:href="|/${@rq.user.username}/modification|">계정 정보 수정</a>
-
+<main layout:fragment="main" class="bg-white p-6 shadow-md rounded-lg m-auto mt-12" style="width: 350px; height: 350px;">
+    <div class="text-2xl border-b-2 p-2" th:text="|${@rq.user.nickname}님 반갑습니다.|"></div>
+    <div class="mt-6" th:text="|이메일: ${@rq.user.email}|"></div>
+    <div th:text="|이름: ${@rq.user.username}|"></div>
+    <div class="mt-36">
+    <a class="border-2 p-2 ml-24 hover:bg-gray-200" th:href="|/${@rq.user.username}/modification|">계정 정보 수정</a>
+    </div>
 </main>
 </html>
