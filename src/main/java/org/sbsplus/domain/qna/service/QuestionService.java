@@ -33,14 +33,14 @@ public class QuestionService {
             @Override
             public Predicate toPredicate(Root<Question> q, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 query.distinct(true); //중복 제거
-                Join<Question, User> u1 = q.join("author", JoinType.LEFT);
-                Join<Question, Answer> a = q.join("answerList", JoinType.LEFT);
-                Join<Answer, User> u2 = a.join("author", JoinType.LEFT);
+                Join<Question, User> u1 = q.join("user", JoinType.LEFT);
+                Join<Question, Answer> a = q.join("answers", JoinType.LEFT);
+                Join<Answer, User> u2 = a.join("user", JoinType.LEFT);
                 return cb.or(cb.like(q.get("subject"), "%" + kw + "%"),  //제목
                         cb.like(q.get("content"), "%" + kw + "%"),  //내용
                         cb.like(u1.get("username"), "%" + kw + "%"), //질문 작성자
                         cb.like(a.get("content"), "%" + kw + "%"), //답변 내용
-                        cb.like(a.get("username"), "%" + kw + "%")); //답변 작성자
+                        cb.like(a.get("user"), "%" + kw + "%")); //답변 작성자
             }
         };
     }
