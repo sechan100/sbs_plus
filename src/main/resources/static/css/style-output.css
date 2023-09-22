@@ -826,7 +826,7 @@ video {
 .badge-pink {
   display: inline-flex;
   align-items: center;
-  border-radius: 0.375rem;
+  border-radius: 9999px;
   --tw-bg-opacity: 1;
   background-color: rgb(253 242 248 / var(--tw-bg-opacity));
   padding-left: 0.5rem;

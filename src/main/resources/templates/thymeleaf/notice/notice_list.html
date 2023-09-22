@@ -1,26 +1,15 @@
 <html layout:decorate="~{/common/layout}">
 <head>
-    <title>커뮤니티</title>
-    <style>
-        @font-face {
-            font-family: 'SUIT-Regular';
-            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Regular.woff2') format('woff2');
-            font-weight: normal;
-            font-style: normal;
-        }
 
-        * {
-            font-family: 'SUIT-Regular';
-        }
-    </style>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <title>Title</title>
 </head>
+
 <main layout:fragment="main">
 
 
 
-
-    <div class="my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 pr-10 lg:px-8">
+    <div class="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 pr-10 lg:px-8">
 
 <!--    검색기능    -->
 <!--        <div class="align-middle rounded-tl-lg rounded-tr-lg inline-block w-full py-4 overflow-hidden bg-white shadow-lg px-12">-->
@@ -64,30 +53,26 @@
                 </tbody>
 
                 <tbody class="bg-white">
-                <tr th:each="question, loop : ${paging}">
+                <tr th:each="notice, loop : ${paging}">
                     <td th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"
                         class="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
                     </td>
                     <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
-                        <span th:classappend="${question.category.tailwindBadge}" class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight rounded-full">
+                        <span th:classappend="${notice.category.tailwindBgColor}" class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight rounded-full">
                                         <span aria-hidden ></span>
-                                        <span th:text="${question.category.name}"></span>
+                                        <span th:text="${notice.category.name}"></span>
                                     </span>
                     </td>
                     <td class="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
-                        <a th:href="@{|/question/detail/${question.id}|}" th:text="${question.subject}"></a>
-                        <span class="text-danger small ms-2"
-                              th:if="${question.answers.size() > 0}"
-                              th:text="${question.answers.size()}">
-                        </span>
+                        <a th:href="@{|/notice/detail/${notice.id}|}" th:text="${notice.subject}"></a>
                     </td>
                     <td class="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
-                        <span th:if="${question.user != null}" th:text="${question.user.username}"></span>
+                        <span th:if="{@rq.isAdmin();}" th:text="${notice.user.username}"></span>
                     </td>
                     <td class="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
                                         <span class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
                                         <span aria-hidden class="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
-                                        <span th:text="${#temporals.format(question.createAt, 'yyyy-MM-dd HH:mm')}"
+                                        <span th:text="${#temporals.format(notice.createAt, 'yyyy-MM-dd HH:mm')}"
                                               class="relative text-xs"></span>
                                     </span>
                     </td>
@@ -120,10 +105,9 @@
                            class="bg-white border border-gray-300 text-gray-500 hover:bg-gray-100 hover:text-gray-700 leading-tight py-2 px-3 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><span>next</span></a>
                     </li>
                 </ul>
-                <a th:href="@{/question/create}" class="btn-sbs my-3">질문 등록하기</a>
+                <a th:href="@{/notice/create}" class="btn my-3 btn-primary">공지 등록하기</a>
             </nav>
         </div>
     </div>
 </main>
 </html>
-

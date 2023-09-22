@@ -30,7 +30,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         if(user == null) {
             throw new UsernameNotFoundException("UsernameNotFoundException");
         }
-
         List<GrantedAuthority> roles = new ArrayList<>();
         roles.add(new SimpleGrantedAuthority("ROLE_" + user.getRole()));
 

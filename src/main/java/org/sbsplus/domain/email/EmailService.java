@@ -34,6 +34,7 @@ public class EmailService {
             mimeMessageHelper.setTo(emailMessage.getTo()); // address
             mimeMessageHelper.setSubject(emailMessage.getSubject()); // subject
             mimeMessageHelper.setText(setContext(authKey, type), true); // html page
+            mimeMessageHelper.setFrom("sbsplus100@gmail.com");
             javaMailSender.send(mimeMessageHelper.getMimeMessage());
             
             return authKey;
