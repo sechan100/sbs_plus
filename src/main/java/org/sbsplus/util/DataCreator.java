@@ -36,7 +36,7 @@ public class DataCreator {
     AnswerRepository answerRepository;
 
     // 생성되는 유저 개수
-    protected Integer userNum = 10;
+    protected Integer userNum = 20;
 
     // 생성되는 게시글 개수
     protected Integer articleNum = 500;
@@ -206,7 +206,7 @@ public class DataCreator {
     }
 
     protected User randomUser(){
-        return userRepository.findById(random.nextInt(userNum) + 1).orElse(null);
+        return userRepository.findById(random.nextLong(userNum) + 1).orElse(null);
     }
 
     protected Article randomArticle(){

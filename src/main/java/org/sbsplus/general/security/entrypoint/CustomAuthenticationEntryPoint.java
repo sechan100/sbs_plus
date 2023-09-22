@@ -4,6 +4,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.sbsplus.general.security.service.SuspendedUserException;
 import org.sbsplus.util.Rq;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -56,7 +57,16 @@ public class CustomAuthenticationEntryPoint extends LoginUrlAuthenticationEntryP
             response.sendRedirect(redirectUri + queryString);
             
             
-        } else if(authException instanceof InsufficientAuthenticationException) { // anonymous가 authenticated에 접근
+        } else if(authException instanceof SuspendedUserException) {
+
+            errorType = "suspend";
+            queryString = "?error=true&type=" + errorType;
+
+            response.sendRedirect(redirectUri + queryString);
+
+        }
+
+        else if(authException instanceof InsufficientAuthenticationException) { // anonymous가 authenticated에 접근
             
             request.getSession().setAttribute("msg", "로그인 후 이용해주세요");
             
