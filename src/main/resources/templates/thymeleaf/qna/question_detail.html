@@ -1,16 +1,30 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        @font-face {
+            font-family: 'SUIT-Regular';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Regular.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        * {
+            font-family: 'SUIT-Regular';
+        }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body>
 <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
-<div class="container my-3">
+<div class="container bg-white shadow-md rounded-lg" style="width: 700px;">
     <!-- 질문 -->
-    <h2 class="border-bottom py-2" th:text="${question.subject}"></h2>
-    <h4 class="border-bottom py-2" th:text="${question.category}"></h4>
+    <h3 class="text-center py-4 bg-gray-200" style="width: 700px;" th:text="${question.subject}"></h3>
+    <h5 class="py-2 p-4 mt-12" th:text="${question.category}"></h5>
     <div class="card my-3">
         <div class="card-body">
             <div class="card-text" style="white-space: pre-line;" th:utext="${question.content}"></div>
@@ -93,8 +107,8 @@
             <div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
         </div>
 
-        <textarea sec:authorize="isAnonymous()" disabled th:field="*{content}" class="form-control" rows="10"></textarea>
-        <textarea sec:authorize="isAuthenticated()" th:field="*{content}" class="form-control" rows="10"></textarea>
+        <textarea sec:authorize="isAnonymous()" disabled th:field="*{content}" class="form-control resize-none" rows="10"></textarea>
+        <textarea sec:authorize="isAuthenticated()" th:field="*{content}" class="form-control resize-none" rows="10"></textarea>
         <input type="submit" value="답변등록" class="btn btn-primary my-2">
     </form>
 </div>
