@@ -4,5 +4,57 @@
 </head>
 <main layout:fragment="main">
 
+    <div class="align-middle inline-block min-w-full shadow overflow-hidden bg-white shadow-dashboard px-8 pt-3 rounded-bl-lg rounded-br-lg">
+        <table class="min-w-full">
+            <thead>
+            <thead class="table-dark">
+            <tr>
+                <th class="px-6 py-3 border-b-2 border-gray-300 text-left leading-4 text-blue-500 tracking-wider">번호</th>
+                <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-blue-500 tracking-wider">카테고리</th>
+                <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-blue-500 tracking-wider">제목</th>
+                <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-blue-500 tracking-wider">글쓴이</th>
+                <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-blue-500 tracking-wider">Created At</th>
+                <th class="px-6 py-3 border-b-2 border-gray-300"></th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <td></td>
+
+            <td></td>
+            <td ></td>
+            </tr>
+            </tbody>
+
+            <tbody class="bg-white">
+            <tr th:each="question : ${questions}">
+                <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
+                        <span th:classappend="${question.category.tailwindBadge}" class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight rounded-full">
+                                        <span aria-hidden ></span>
+                                        <span th:text="${question.category.name}"></span>
+                                    </span>
+                </td>
+                <td class="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
+                    <a th:href="@{|/question/detail/${question.id}|}" th:text="${question.subject}"></a>
+                    <span class="text-danger small ms-2"
+                          th:if="${question.answers.size() > 0}"
+                          th:text="${question.answers.size()}">
+                        </span>
+                </td>
+                <td class="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
+                    <span th:if="${question.user != null}" th:text="${question.user.username}"></span>
+                </td>
+                <td class="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
+                                        <span class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
+                                        <span aria-hidden class="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
+                                        <span th:text="${#temporals.format(question.createAt, 'yyyy-MM-dd HH:mm')}"
+                                              class="relative text-xs"></span>
+                                    </span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
 </main>
 </html>

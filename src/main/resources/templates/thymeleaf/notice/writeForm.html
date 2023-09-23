@@ -1,0 +1,104 @@
+<html layout:decorate="~{/common/layout}">
+<head>
+    <title>게시글 작성</title>
+    <style>
+        @font-face {
+            font-family: 'SUIT-Regular';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Regular.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        * {
+            font-family: 'SUIT-Regular';
+        }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="text/javascript" th:src="@{/js/summernote/summernote-lite.js}"></script>
+    <script type="text/javascript" th:src="@{/js/summernote/lang/summernote-ko-KR.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/summernote/summernote-lite.css}">
+</head>
+<main layout:fragment="main">
+    <div class="container mx-auto py-8" style="width: 700px;">
+        <div class="bg-white p-6 shadow-md rounded-lg">
+
+            <h1 class="text-2xl font-semibold mb-4">공지게시판 > 글작성</h1>
+
+            <form th:object="${notice}" th:action="@{/notice/write}" method="post">
+
+                <input type="hidden" th:field="*{id}" >
+
+                <div class="mb-4">
+                    <!--                    <label for="title" class="block text-gray-700 font-semibold mb-2">제목</label>-->
+                    <input type="text" th:field="*{title}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring focus:ring-blue-500" placeholder="제목을 입력하세요" required>
+                </div>
+
+                <div class="mb-4">
+                    <!--                    <label for="summernote" class="block text-gray-700 font-semibold mb-2">내용</label>-->
+                    <textarea id="summernote" th:field="*{content}" rows="5" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring focus:ring-blue-500" placeholder="내용을 입력하세요" required></textarea>
+                </div>
+
+                <div class="btn-box flex ml-8">
+                    <div class="ml-12 ">
+                        <button th:if="${param.id == null}" type="submit" class="p-2 border border-2 rounded-sm hover:bg-gray-200">게시하기</button>
+                        <button th:unless="${param.id == null}" type="submit" class="p-2 ">수정하기</button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+
+    <script th:inline="javascript">
+        /* <![CDATA[ */
+
+        // summernote 설정
+            $('#summernote').summernote({
+                toolbar: [
+                    // [groupName, [list of button]]
+                    ['fontname', ['fontname']],
+                    ['fontsize', ['fontsize']],
+                    ['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
+                    ['color', ['forecolor','color']],
+                    ['table', ['table']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['height', ['height']],
+                    ['insert',['picture','link','video']],
+                    ['view', ['fullscreen', 'help']]
+                  ],
+                fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋움체','바탕체'],
+                fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72'],
+                height: 400,
+                maxHeight: 400,
+                callbacks: {
+                    onImageUpload: function(files) {
+                         uploadImage(files[0]);
+                    }
+                }
+          });
+
+          function uploadImage(file) {
+            var formData = new FormData();
+            formData.append('file', file);
+
+            $.ajax({
+              url: '/upload',
+              method: 'POST',
+              data: formData,
+              processData: false,
+              contentType: false,
+              success: function(url) {
+                // 업로드된 이미지 URL을 Summernote 에디터에 삽입
+                $('#summernote').summernote('insertImage', url);
+              },
+              error: function(xhr, status, error) {
+                alert('이미지 업로드에 실패했습니다.');
+              }
+            });
+          }
+
+        /* ]]> */
+    </script>
+</main>
+</html>

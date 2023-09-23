@@ -1,54 +1,29 @@
-package org.sbsplus.domain.qna.entity;
+package org.sbsplus.domain.notice.dto;
 
-import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import org.sbsplus.domain.user.entity.User;
-import org.sbsplus.general.type.Category;
-import org.sbsplus.util.Datetime;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static jakarta.persistence.CascadeType.ALL;
-import static jakarta.persistence.EnumType.STRING;
-import static jakarta.persistence.FetchType.LAZY;
-
-@Getter
-@Setter
-@Entity
-public class Question extends Datetime {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+@Data
+public class NoticeDto {
     private Integer id;
 
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "user_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private User user;
 
-    @Enumerated(STRING)
-    private Category category;
+    private String title;
 
-    @Column(length = 200)
-    private String subject;
-
-    @Column(columnDefinition = "TEXT")
     private String content;
 
-    @OneToMany( cascade = ALL, orphanRemoval = true)
-    @JoinColumn(name = "question_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
-    private List<Answer> answers = new ArrayList<>();
+    private int hit;
 
-    @OneToOne(fetch = LAZY)
-    private Answer acceptedAnswer;
+    private LocalDateTime createAt;
 
-    private int point;
+    private LocalDateTime updateAt;
+
+
 
     public String extractThumbNail(){
         Pattern pattern = Pattern.compile("<img[^>]*>");
@@ -72,7 +47,7 @@ public class Question extends Datetime {
 
         LocalDateTime now = LocalDateTime.now();
 
-        long diffTime = super.getCreateAt().until(now, ChronoUnit.SECONDS); // now보다 이후면 +, 전이면 -
+        long diffTime = this.createAt.until(now, ChronoUnit.SECONDS); // now보다 이후면 +, 전이면 -
 
         String msg = null;
         if (diffTime < SEC){

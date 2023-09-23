@@ -1,0 +1,72 @@
+<html layout:decorate="~{/common/layout}">
+<head>
+    <title>게시글</title>
+    <style>
+        #content  img {
+            width: 50% !important;
+        }
+    </style>
+</head>
+<main layout:fragment="main">
+    <div class="container lg:px-32 md:mx-auto mx-auto py-8">
+        <div class="bg-white p-12 shadow-md rounded-lg relative">
+
+            <div class="flex items-center justify-start mb-3">
+                <!--조회수 100 미만-->
+                <div th:unless="${notice.hit} >= 100" class="w-auto rounded-full bg-gray-200 px-3">
+                    <i class="fas fa-bolt"></i>
+                    <span th:text="${notice.hit}"></span>
+                </div>
+
+                <!--조회수 100 이상-->
+                <div th:if="${notice.hit} >= 100" class="w-auto rounded-full bg-red-200 px-3">
+                    <i class="fas fa-fire"></i>
+                    <span th:text="${notice.hit}"></span>
+                </div>
+            </div>
+
+            <!-- title -->
+            <h1 class="text-2xl font-semibold mb-7">[[ ${notice.title} ]]</h1>
+
+            <div class="flex justify-between items-center mb-16">
+
+                <div class="inline-flex items-center">
+                    <!-- user -->
+                    <a class="flex items-center no-underline hover:underline text-black"
+                       th:href="|/${notice.user.username}|">
+                        <p class="truncate w-auto h-5 ml-2 text-sm">
+                            [[ ${notice.user.nickname} ]]
+                        </p>
+                    </a>
+
+                    <div class="mx-2">•</div>
+
+                    <!-- createAt -->
+                    <p class="text-grey-darker text-sm">
+                        [[ ${notice.convertRelativeTime()} ]]
+                    </p>
+
+                    <div class="mx-2">•</div>
+                </div>
+
+                <div>
+                    <a th:if="${@rq.isAdmin == true}" class="hover:text-sbs mr-3"
+                       th:href="|/notice/write?id=${notice.id}|">수정</a>
+                    <a th:if="${@rq.isAdmin == true}" class="hover:text-sbs" th:href="|/notice/delete?id=${notice.id}|">삭제</a>
+                </div>
+
+            </div>
+
+            <!-- content -->
+            <div id="content" class="white-space: pre-line" th:utext="${notice.content}"></div>
+
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+
+        /*]]>*/
+    </script>
+</main>
+</html>

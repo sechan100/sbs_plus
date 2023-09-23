@@ -2,14 +2,15 @@ package org.sbsplus.domain.user.entity;
 
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.sbsplus.domain.cummunity.entity.Article;
-import org.sbsplus.domain.notice.Notice;
-import org.sbsplus.domain.qna.entity.Answer;
-import org.sbsplus.domain.qna.entity.Question;
-import org.sbsplus.domain.user.repository.UserRepository;
 import org.sbsplus.domain.cummunity.entity.Comment;
 import org.sbsplus.domain.cummunity.entity.like.Like;
+import org.sbsplus.domain.notice.entity.Notice;
+import org.sbsplus.domain.qna.entity.Answer;
+import org.sbsplus.domain.qna.entity.Question;
 import org.sbsplus.general.type.Category;
 import org.sbsplus.util.Datetime;
 
