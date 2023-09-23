@@ -6,6 +6,8 @@ import lombok.Setter;
 import org.sbsplus.domain.user.entity.User;
 import org.sbsplus.util.Datetime;
 
+import java.util.Set;
+
 import static jakarta.persistence.FetchType.LAZY;
 
 @Getter
@@ -25,4 +27,5 @@ public class Answer extends Datetime {
     private String content;
 
     private boolean accepted;
+
 }
