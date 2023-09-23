@@ -4,13 +4,17 @@ package org.sbsplus.domain.user.controller;
 import lombok.RequiredArgsConstructor;
 import org.sbsplus.domain.cummunity.entity.Article;
 import org.sbsplus.domain.cummunity.service.ArticleService;
+import org.sbsplus.domain.qna.entity.Question;
+import org.sbsplus.domain.qna.service.QuestionService;
 import org.sbsplus.domain.user.entity.User;
 import org.sbsplus.util.Rq;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -20,6 +24,7 @@ public class MypageController {
     
     private final Rq rq;
     private final ArticleService articleService;
+    private final QuestionService questionService;
     
     
     @GetMapping("/@{username}")
@@ -43,5 +48,16 @@ public class MypageController {
         
         
         return "/user/myArticle";
+    }
+
+    @GetMapping("/@{username}/question")
+    public String myQuestion(@PathVariable String username, Model model){
+        User user = rq.getUser();
+        List<Question> questions = questionService.findByUser(user);
+
+        model.addAttribute("questions", questions);
+
+
+        return "/user/myQuestion";
     }
 }

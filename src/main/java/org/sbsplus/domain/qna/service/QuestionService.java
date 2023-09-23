@@ -2,11 +2,14 @@ package org.sbsplus.domain.qna.service;
 
 import jakarta.persistence.criteria.*;
 import lombok.RequiredArgsConstructor;
+import org.sbsplus.domain.admin.AdminService;
+import org.sbsplus.domain.cummunity.entity.Article;
 import org.sbsplus.domain.qna.entity.Answer;
 import org.sbsplus.domain.qna.entity.Question;
 import org.sbsplus.domain.qna.repository.QuestionRepository;
 import org.sbsplus.domain.qna.DataNotFoundException;
 import org.sbsplus.domain.user.entity.User;
+import org.sbsplus.domain.user.service.UserService;
 import org.sbsplus.general.type.Category;
 import org.sbsplus.util.Rq;
 import org.springframework.data.domain.Page;
@@ -14,7 +17,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +30,8 @@ import java.util.Optional;
 public class QuestionService {
 
     private final QuestionRepository questionRepository;
+    private final UserService userService;
+    private final AdminService adminService;
     private final Rq rq;
 
     private Specification<Question> search(String kw) {
@@ -78,8 +85,35 @@ public class QuestionService {
         this.questionRepository.save(question);
     }
 
-    public void delete(Question question) {
-        this.questionRepository.delete(question);
+    @Transactional
+    public boolean checkQuestionOwnership(Integer questionId){
+
+        Question question = questionRepository.findById(questionId).orElseThrow();
+
+
+        // admin도 수정은 못함
+        if(rq.getUser() == null){
+            return false;
+        }
+
+
+
+        User user_ = rq.getUser();
+        User user = userService.findByUsername(user_.getUsername());
+
+        return question.getUser() == user;
+    }
+    public void delete(Integer id) throws AccessDeniedException{
+        if(checkQuestionOwnership(id) || adminService.isAdmin()){
+            questionRepository.deleteById(id);
+        } else {
+            throw new AccessDeniedException("게시물에 대한 삭제 권한이 없습니다.");
+        }
     }
 
+    public List<Question> findByUser(User user) {
+
+
+        return questionRepository.findByUser(user);
+    }
 }
