@@ -3,42 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <title>withdrawal form</title>
-</head>
-<body>
-  <div class="container mt-5">
-    <h2>회원 탈퇴</h2>
+  <style>
+    @font-face {
+      font-family: 'SUIT-Regular';
+      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Regular.woff2') format('woff2');
+      font-weight: normal;
+      font-style: normal;
+    }
 
-    <h3 class="form-group">[[ ${@rq.user.username} ]]님</h3>
+    * {
+      font-family: 'SUIT-Regular';
+    }
+  </style>
+</head>
+<!--  tailwind  -->
+<link rel="stylesheet" type="text/css" th:href="@{/css/output.css}"/>
+<link rel="stylesheet" type="text/css" th:href="@{/css/style-output.css}"/>
+<body>
+  <div style="width: 450px;" class="container mt-24 m-auto">
+    <h2 class="text-3xl text-center ml-6">회원 탈퇴</h2>
+   <div class="ml-28">
 
     <form th:action="@{/withdrawal}" method="post">
 
-      <div class="form-group">
-        <label for="password">비밀번호</label>
-        <input type="password" class="form-control" id="password" name="password">
-      </div>
-      <br><br><br>
-      <div class="form-group">
+      <br><br>
+      <div class="form-group ">
         <div class="form-check">
-          <div>
-            탈퇴약관탈퇴약관<br>
+          <div style="width: 300px;" class="border-gray-200 border-b-2 border-t-2 py-4">
+            탈퇴약관탈퇴약관탈퇴약관탈퇴약관탈퇴약관<br>
             탈퇴약관탈퇴약관탈퇴약관<br>
-            탈퇴약관탈퇴<br>
+            탈퇴약관탈퇴탈퇴약관탈퇴약관탈퇴약관<br>
             약관탈퇴약관탈퇴약관<br>
-            탈퇴약관탈퇴약관<br>
-            탈퇴약관탈퇴약관탈퇴약관<br>
-          </div>
-          <input class="form-check-input" type="checkbox" id="agreeCheckbox" required>
-          <label class="form-check-label" for="agreeCheckbox">
+            탈퇴약관탈퇴약관탈퇴약관탈퇴약관<br>
+            탈퇴약관탈퇴약관탈퇴약관탈퇴약관탈퇴약관<br>
+
+          <input class="form-check-input mt-6 mr-2" type="checkbox" id="agreeCheckbox" required>
+          <label class="form-check-label mt-6 " for="agreeCheckbox">
             필수 약관에 동의합니다.
           </label>
+         </div>
+          <h3 class="form-group mt-12">[[ ${@rq.user.username} ]]님</h3>
+
+          <div class="form-group">
+            <label class="mr-3" for="password">비밀번호</label>
+            <input type="password" style="width: 150px; height: 35px;" class="rounded-md form-control border-2 border-gray-300" id="password" name="password">
+          </div>
         </div>
       </div>
 
-      <br><br><br><br>
+      <br><br>
 
 
-      <button type="submit" class="btn btn-primary">회원탈퇴</button>
+      <button type="submit" class="border-2 border-gray-400 hover:bg-gray-400 rounded-md p-1 px-2 ml-24">회원탈퇴</button>
     </form>
+   </div>
   </div>
 </body>
 </html>
