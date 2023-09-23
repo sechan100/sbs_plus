@@ -1,6 +1,7 @@
 package org.sbsplus.domain.qna.repository;
 
 import org.sbsplus.domain.qna.entity.Question;
+import org.sbsplus.domain.user.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -16,4 +17,6 @@ public interface QuestionRepository extends JpaRepository<Question, Integer> {
     @Override
     Page<Question> findAll(Pageable pageable);
     Page<Question> findAll(Specification<Question> spec, Pageable pageable);
+
+    List<Question> findByUser(User user);
 }

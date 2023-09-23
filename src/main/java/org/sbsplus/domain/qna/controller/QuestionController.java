@@ -2,6 +2,7 @@ package org.sbsplus.domain.qna.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.sbsplus.domain.admin.AdminService;
 import org.sbsplus.domain.qna.service.AnswerService;
 import org.sbsplus.domain.qna.form.AnswerForm;
 import org.sbsplus.domain.qna.form.QuestionForm;
@@ -13,6 +14,7 @@ import org.sbsplus.general.type.Category;
 import org.sbsplus.util.Rq;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,6 +34,8 @@ public class QuestionController {
     private final AnswerService answerService;
 
     private final UserService userService;
+
+    private final AdminService adminService;
 
 
     @GetMapping("")
@@ -104,12 +108,12 @@ public class QuestionController {
     }
 
     @GetMapping("/delete/{id}")
-    public String questionDelete(Rq rq, @PathVariable("id") Integer id) {
-        Question question = this.questionService.getQuestion(id);
-        if (!question.getUser().getUsername().equals(rq.getUser().getUsername())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제권한이 없습니다.");
-        }
-        this.questionService.delete(question);
+    public String questionDelete(Rq rq, @PathVariable("id") Integer id) throws AccessDeniedException {
+//        Question question = this.questionService.getQuestion(id);
+//        if (!question.getUser().getUsername().equals(rq.getUser().getUsername())||!rq.isAdmin()) {
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제권한이 없습니다.");
+//        }
+        this.questionService.delete(id);
         return "redirect:/";
     }
 }
