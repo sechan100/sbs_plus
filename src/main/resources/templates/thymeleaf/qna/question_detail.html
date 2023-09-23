@@ -17,62 +17,79 @@
         }
     </style>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>
 <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
-<div class="container bg-white shadow-md rounded-lg" style="width: 700px;">
+
+<div class="container" style="width: 700px;">
+  <div class="bg-white shadow-md rounded-lg" >
     <!-- 질문 -->
-    <h3 class="text-center py-4 bg-gray-200" style="width: 700px;" th:text="${question.subject}"></h3>
+   <div class="flex bg-gray-200 justify-center">
+    <h2 class="mx-4 mt-4">Q</h2>
+    <h3 class="text-center py-4 mt-1" th:text="${question.subject}"></h3>
+   </div>
     <h5 class="py-2 p-4 mt-12" th:text="${question.category}"></h5>
-    <div class="card my-3">
-        <div class="card-body">
-            <div class="card-text" style="white-space: pre-line;" th:utext="${question.content}"></div>
+    <div class="card my-3 border-white">
+        <div class="card-body ">
+            <div class="card-text" th:utext="${question.content}"></div>
             <div class="d-flex justify-content-end">
-                <div th:if="${question.updateAt != null}" class="badge bg-light text-dark p-2 text-start mx-3">
-                    <div class="mb-2">modified at</div>
-                    <div th:text="${#temporals.format(question.updateAt, 'yyyy-MM-dd HH:mm')}"></div>
-                </div>
-                <div class="badge bg-light text-dark p-2 text-start">
-                    <div class="mb-2">
-                        <span th:if="${question.user != null}" th:text="${question.user.username}"></span>
-                    </div>
-                    <div th:text="${#temporals.format(question.createAt, 'yyyy-MM-dd HH:mm')}"></div>
-                </div>
-                <div class="badge bg-light text-dark p-2 text-start">
-                    <div th:text="${question.point}"></div>
+
+
+<!--                <div class="badge  text-dark p-2 text-start">-->
+<!--                    <div class="mb-2">-->
+<!--                        <span th:if="${question.user != null}" th:text="${question.user.username}"></span>-->
+<!--                    </div>-->
+<!--                    <div th:text="${#temporals.format(question.createAt, 'MM-dd HH:mm')}"></div>-->
+<!--                </div>-->
+
                 </div>
             </div>
-            <div class="my-3">
-                <a th:href="@{|/question/modify/${question.id}|}" class="btn btn-sm btn-outline-secondary"
+            <div style="margin-left: 480px; " class="my-3 flex">
+                <div th:if="${question.updateAt != null}" class="badge text-dark p-2 text-start ">
+                    <div th:text="${#temporals.format(question.updateAt, 'MM-dd HH:mm')}"></div>
+                </div>
+                 <a th:href="@{|/question/modify/${question.id}|}" class="btn btn-sm btn-secondary"
                    sec:authorize="isAuthenticated()"
                    th:if="${question.user != null and @rq.user.username == question.user.username}"
                    th:text="수정"></a>
 
-                <a href="javascript:void(0);" th:data-uri="@{|/question/delete/${question.id}|}"
-                   class="delete btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()"
+                 <a href="javascript:void(0);" th:data-uri="@{|/question/delete/${question.id}|}"
+                   class="delete btn btn-sm btn-secondary ml-3" sec:authorize="isAuthenticated()"
                    th:if="${@rq.isAdmin() or @rq.user.username == question.user.username}"
                    th:text="삭제"></a>
             </div>
         </div>
+  </div>
+  <div class="bg-white shadow-md rounded-lg ml-3 mr-3">
+    <div class="text-box bg-gray-100 p-2 rounded-lg ">
+          <div class="  text-dark text-start flex mt-2">
+            <p class="mt-1 ml-3">답변 채택 시 지급 포인트:</p><div class="ml-3 mt-1 font-semibold" th:text="${question.point}">
+          </div>
+        </div>
     </div>
+  </div>
+  <div class="bg-white shadow-md rounded-lg mt-3">
     <!-- 답변의 갯수 표시 -->
-    <h5 class="border-bottom my-3 py-2"
-        th:text="|${#lists.size(question.answers)}개의 답변이 있습니다.|"></h5>
+    <div class="flex">
+      <h5 class="my-3 py-2 ml-3"
+        th:text="|${#lists.size(question.answers)}개의 답변이 있습니다.|">
+    </div>
     <!-- 답변 반복 시작 -->
-    <div class="card my-3" th:each="answer : ${question.answers}">
+    <div class="card my-3 ml-3 mr-3" th:each="answer : ${question.answers}">
         <div class="card-body">
             <div class="card-text" style="white-space: pre-line;" th:text="${answer.content}"></div>
             <div class="d-flex justify-content-end">
                 <div th:if="${answer.updateAt != null}" class="badge bg-light text-dark p-2 text-start mx-3">
                     <div class="mb-2">modified at</div>
-                    <div th:text="${#temporals.format(answer.updateAt, 'yyyy-MM-dd HH:mm')}"></div>
+                    <div th:text="${#temporals.format(answer.updateAt, 'MM-dd HH:mm')}"></div>
                 </div>
                 <div class="badge bg-light text-dark p-2 text-start">
                     <div class="mb-2">
                         <span th:if="${answer.user != null}" th:text="${answer.user.username}"></span>
                     </div>
-                    <div th:text="${#temporals.format(answer.createAt, 'yyyy-MM-dd HH:mm')}"></div>
+                    <div th:text="${#temporals.format(answer.createAt, 'MM-dd HH:mm')}"></div>
                 </div>
 
 <!--       댓글 채택 버튼         -->
@@ -80,20 +97,20 @@
                 <div th:if="${#authorization.expression(question.user.id == @rq.user.id)}">
                     <div th:unless="${answer.user.id == @rq.user.id}">
                         <form th:action="@{|/question/${question.id}/accept/${answer.id}|}" method="post">
-                            <input type="submit" value="댓글 채택" class="btn btn-primary ml-2">
+                            <input type="submit" value="답변 채택" class="btn btn-secondary ml-2">
                         </form>
                     </div>
                 </div>
 
             </div>
-            <div class="my-3">
-                <a th:href="|/answer/modify/${answer.id}?questionId=${question.id}" class="btn btn-sm btn-outline-secondary"
+            <div style="margin-left: 500px;" class="my-3">
+                <a th:href="|/answer/modify/${answer.id}?questionId=${question.id}" class="btn btn-sm btn-secondary"
                    sec:authorize="isAuthenticated()"
                    th:if="${answer.user != null and @rq.user.username == answer.user.username}"
                    th:text="수정"></a>
 
                 <a href="javascript:void(0);" th:data-uri="@{|/answer/delete/${answer.id}?questionId=${question.id}|}"
-                   class="delete btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()"
+                   class="delete btn btn-sm btn-secondary" sec:authorize="isAuthenticated()"
                    th:if="${answer.user != null and @rq.user.username == answer.user.username}"
                    th:text="삭제"></a>
             </div>
@@ -101,16 +118,17 @@
     </div>
     <!-- 답변 반복 끝  -->
     <!-- 답변 작성 -->
-    <form th:action="@{|/answer/create/${question.id}|}" th:object="${answerForm}" method="post" class="my-3">
+    <form th:action="@{|/answer/create/${question.id}|}" th:object="${answerForm}" method="post" class="my-3  ml-3 mr-3">
 
         <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
             <div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
         </div>
 
-        <textarea sec:authorize="isAnonymous()" disabled th:field="*{content}" class="form-control resize-none" rows="10"></textarea>
-        <textarea sec:authorize="isAuthenticated()" th:field="*{content}" class="form-control resize-none" rows="10"></textarea>
-        <input type="submit" value="답변등록" class="btn btn-primary my-2">
+        <textarea sec:authorize="isAnonymous()" disabled th:field="*{content}" class="form-control resize-none" rows="8"></textarea>
+        <textarea sec:authorize="isAuthenticated()" th:field="*{content}" class="form-control resize-none" rows="8"></textarea>
+        <input style="margin-left: 570px;" type="submit" value="답변 등록" class="btn btn-secondary my-2">
     </form>
+  </div>
 </div>
 
 <script type='text/javascript'>
@@ -122,6 +140,18 @@
             };
         });
     });
+
+    function toggleComment(button) {
+        const content = button.nextElementSibling;
+
+        if (content.style.display === 'block') {
+            content.style.display = 'none'; // 열려있을 때 닫습니다.
+            event.preventDefault();
+        } else {
+            content.style.display = 'block'; // 닫혀있을 때 엽니다.
+            event.preventDefault(); // 탭했을때 맨위로 안가게 하기
+        }
+    }
 </script>
 </body>
 </html>
