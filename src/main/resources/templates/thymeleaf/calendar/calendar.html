@@ -42,8 +42,8 @@
         </div>
     </div>
 
-    <a th:if="${@rq.isAdmin == true}" class="hover:text-sbs" th:href="@{/event/write}">
-        <span>글 작성</span>
+    <a th:if="${@rq.isAdmin == true}" class="" th:href="@{/event/write}">
+        <span class="p-2 px-3 mt-6 inline-block border-2 border-gray-200 hover:bg-gray-200" style="margin-left:700px;">글 작성</span>
     </a>
 
     <style>
