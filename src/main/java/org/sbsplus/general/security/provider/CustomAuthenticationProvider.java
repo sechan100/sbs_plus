@@ -2,6 +2,7 @@ package org.sbsplus.general.security.provider;
 
 import org.sbsplus.domain.user.entity.User;
 import org.sbsplus.general.security.principal.UserContext;
+import org.sbsplus.general.security.service.SuspendedUserException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -39,6 +40,10 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         // password matche
         if(!passwordEncoder.matches(password, user.getPassword())){
             throw new BadCredentialsException("BadCredentialsException");
+        }
+
+        if(user.isSuspended()) {
+            throw new SuspendedUserException("user is suspended");
         }
 
         UsernamePasswordAuthenticationToken authenticationToken =

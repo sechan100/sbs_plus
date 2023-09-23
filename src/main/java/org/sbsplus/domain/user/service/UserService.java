@@ -2,6 +2,7 @@ package org.sbsplus.domain.user.service;
 
 import org.sbsplus.domain.user.dto.UserDto;
 import org.sbsplus.domain.user.entity.User;
+import org.springframework.data.domain.Page;
 
 public interface UserService {
 
@@ -26,8 +27,17 @@ public interface UserService {
     User convertToEntityWithRole(UserDto accountDto, String role);
     
     void save(UserDto userDto);
-    
+
+    void delete(UserDto userDto);
+
     User findByUsername(String username);
-    
+
     User findByEmail(String email);
+
+    User findById(Long userId);
+
+    UserDto getUserDtoById(Long userId);
+
+    Page<User> getList(int page);
+
 }

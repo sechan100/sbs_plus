@@ -7,6 +7,7 @@
         <div class="bg-white p-8 rounded-lg shadow-md w-96 mt-10">
             <img src="https://ifh.cc/g/9AqA7q.png" alt="" class="mt-4 mb-7">
             <div class="text-center text-red-500 text-lg mb-5" th:text="${msg}"></div>
+            <div class="text-center text-red-500" th:text="|정지된 회원입니다.|" th:if="${param.error} and ${#strings.equals(param.type, 'suspend')}"></div>
             <form method="post" th:action="@{/login}">
                 <div class="mb-5">
                     <label for="username" class="font-mono block text-gray-700 font-medium mb-2">아이디</label>

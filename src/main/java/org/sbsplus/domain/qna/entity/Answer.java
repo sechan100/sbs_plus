@@ -6,6 +6,8 @@ import lombok.Setter;
 import org.sbsplus.domain.user.entity.User;
 import org.sbsplus.util.Datetime;
 
+import java.util.Set;
+
 import static jakarta.persistence.FetchType.LAZY;
 
 @Getter
@@ -18,11 +20,12 @@ public class Answer extends Datetime {
     private Integer id;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private User user;
 
     @Column(columnDefinition = "TEXT")
     private String content;
 
     private boolean accepted;
+
 }

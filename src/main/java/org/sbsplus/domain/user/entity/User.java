@@ -4,28 +4,34 @@ package org.sbsplus.domain.user.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.sbsplus.domain.cummunity.entity.Article;
+import org.sbsplus.domain.notice.Notice;
+import org.sbsplus.domain.qna.entity.Answer;
+import org.sbsplus.domain.qna.entity.Question;
+import org.sbsplus.domain.user.repository.UserRepository;
 import org.sbsplus.domain.cummunity.entity.Comment;
 import org.sbsplus.domain.cummunity.entity.like.Like;
 import org.sbsplus.general.type.Category;
+import org.sbsplus.util.Datetime;
 
 import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Getter @Setter
+@Getter
+@Setter
 @NoArgsConstructor
-public class User {
-    
+public class User extends Datetime {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     private String username;
 
     private String password;
 
     private String nickname;
-    
+
     private String name;
 
     private String email;
@@ -36,31 +42,41 @@ public class User {
     private String role;
 
     private int point;
-    
+
     private int accumulatedPoint;
-    
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Article> articles;
-    
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments;
-    
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Like> likes;
-    
-    
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Question> questions;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Answer> answers;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Notice> notices;
+
+    private boolean suspended = false;
+
     @Override
     public boolean equals(Object o) {
-        if(this == o)
+        if (this == o)
             return true;
-        if(o == null || getClass() != o.getClass())
+        if (o == null || getClass() != o.getClass())
             return false;
         User user = (User) o;
         return Objects.equals(id, user.id) && Objects.equals(username, user.username);
     }
 
     public void addPoints(int point) {
-        if (point < 0){
+        if (point < 0) {
             throw new IllegalArgumentException("음수의 포인트를 더할 수 없습니다.");
         }
         this.point += point;
@@ -68,11 +84,12 @@ public class User {
     }
 
     public void subtractPoints(int point) {
-        if (point < 0){
+        if (point < 0) {
             throw new IllegalArgumentException("음수의 포인트를 뺄 수 없습니다.");
         }
         this.point -= point;
     }
+
 
     @Override
     public int hashCode() {

@@ -4,12 +4,9 @@
     <meta charset="UTF-8">
     <title>Calendar</title>
 </head>
+<body>
 <a th:href="@{'/calendar/' + ${prevYear} + '/' + ${prevMonth}}">
     <span th:text="|이전달(${prevYear}/${prevMonth})|"></span>
-</a>
-
-<a th:href="@{'/calendar/' + ${nextYear} + '/' + ${nextMonth}}">
-    <span th:text="|다음달(${nextYear}/${nextMonth})|"></span>
 </a>
 
 <h1 th:text="'Calendar for ' + ${year} + ' ' + ${month}"></h1>
@@ -29,20 +26,14 @@
     <!-- Days of the month -->
     <div th:each="n: ${#numbers.sequence(1, daysInMonth)}" class="day">
         <span th:text="|${n}일|"></span>
-        <div th:each="event : ${forCalendarEvents.get(n)}">
-            <ul>
-                <li>
-                    <a th:href="@{'/event/detail/' + ${event.id}}">
-                        <span th:text="${event.title}"></span>
-                    </a>
-                </li>
-            </ul>
-        </div>
+        <ul>
+            <li th:each="event : ${forCalendarEvents.get(n)}" th:text="|${event.id}, ${event.title}|"></li>
+        </ul>
     </div>
 </div>
 
-<a th:if="${@rq.isAdmin == true}" class="hover:text-sbs" th:href="@{/event/write}">
-    <span>글 작성</span>
+<a th:href="@{'/calendar/' + ${nextYear} + '/' + ${nextMonth}}">
+    <span th:text="|다음달(${nextYear}/${nextMonth})|"></span>
 </a>
 
 <style>
@@ -58,4 +49,5 @@
         text-align: center;
     }
 </style>
+</body>
 </html>
