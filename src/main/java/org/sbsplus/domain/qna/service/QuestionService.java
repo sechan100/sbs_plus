@@ -107,7 +107,7 @@ public class QuestionService {
         if(checkQuestionOwnership(id) || adminService.isAdmin()){
             questionRepository.deleteById(id);
         } else {
-            throw new AccessDeniedException("게시물에 대한 접근 권한이 없습니다.");
+            throw new AccessDeniedException("게시물에 대한 삭제 권한이 없습니다.");
         }
     }
 
