@@ -4,16 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>관리자 권한 부여 페이지</title>
+    <style>
+        @font-face {
+            font-family: 'SUIT-Regular';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Regular.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        * {
+            font-family: 'SUIT-Regular';
+        }
+        }
+    </style>
     <!-- 부트스트랩 CSS 링크 추가 -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!--  tailwind  -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/output.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style-output.css}"/>
 </head>
 <body>
 
-<div class="container">
-    <h2>관리자 권한 부여</h2>
+<div class="container w-96 mt-28">
+    <h1 class="text-3xl text-center">관리자 권한 부여</h1>
 
-    <div>
-        해당 로그인 계정의 세션이 만료되기 전까지 해당 계정에 관리자 권한을 부여합니다. <br>
+    <div class="mt-12 border-b-2 border-gray-200 border-t-2 py-2">
+        해당 로그인 계정의 세션이 만료되기 전까지 <br> 해당 계정에 관리자 권한을 부여합니다. <br>
         세션이 만료되면 해당 계정의 관리자 권한은 휘발됩니다. <br>
         <br><br>
         아이디: <span th:text="${@rq.user.username}"></span>
@@ -27,11 +43,11 @@
 
     <!-- 관리자 권한 부여 폼 -->
     <form th:action="@{/admin/grantAuthority}" method="post">
-        <div class="form-group">
-            <label for="securityCode">관리자 권한 보안 코드:</label>
-            <input type="password" class="form-control" id="adminCode" name="adminCode" required>
+        <div class="form-group flex">
+            <label class="mt-2 " for="securityCode">관리자 권한 보안 코드:</label>
+            <input type="password" class="form-control ml-3 border-2 border-gray-300" style="width: 180px;" id="adminCode" name="adminCode" required>
         </div>
-        <button type="submit" class="btn btn-primary">관리자 권한 부여</button>
+        <button type="submit" class="border-2 border-gray-400 ml-24 mt-12 hover:bg-gray-400 p-2 rounded-lg hover:text-white">관리자 권한 부여</button>
     </form>
 </div>
 
