@@ -23,11 +23,13 @@
 <body>
 <script src="https://unpkg.com/htmx.org@1.9.5" integrity="sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO" crossorigin="anonymous"></script>
 
-<div class="container mt-5 w-3/4">
+<div class="container mt-5 w-3/4 " >
     <h2 class="w-96 mt-32 m-auto"><img src="https://ifh.cc/g/2kCcF4.png" alt=""></h2>
   <div class="flex  justify-center mt-16">
+
         <label class="p-2 mr-2" for="email">이메일</label>
-        <input hx-get="/email/sendAuthKey" hx-target="#target" hx-indicator="#indicator" hx-trigger="emailSend" type="email" style="width: 16%; border: 2px solid #d9d9d9" class="form-control" id="email" name="email" required>
+
+        <input hx-get="/email/sendAuthKey" hx-target="#target" hx-indicator="#indicator" hx-trigger="emailSend" type="email" style="width: 16%; border: 2px solid #CECECE" class="form-control" id="email" name="email" required>
         <img class="htmx-indicator" id="indicator" style="
     position: absolute;
     top: 50%;
@@ -38,14 +40,16 @@
         <form th:action="@{/register}" method="post" th:object="${user}">
 
             <div id="target" class="ml-3">
-                <button class="p-2 rounded-sm " style="border: 2px solid #d9d9d9" type="button" id="sendBtn">이메일 인증번호 전송</button>
+                <button class="p-1 rounded-sm hover:bg-gray-300" style="border: 2px solid #CECECE " type="button" id="sendBtn">이메일 인증번호 전송</button>
             </div>
         </form>
   </div>
+
     <form id="registerForm" th:action="@{/register}" method="post" th:object="${user}">
+
     <div class="form-group flex justify-center ml-6">
         <label class="p-2 mt-2 mr-2"for="username">아이디</label>
-        <input type="text" class="form-control  mt-2 mr-48" style="width: 16%; border: 2px solid #d9d9d9" id="username" th:field="*{username}" required>
+        <input type="text" class="form-control  mt-2 mr-48" style="width: 16%; border: 2px solid #CECECE" id="username" th:field="*{username}" required>
         <div  th:if="${param.error} and ${#strings.equals(param.type, 'username')}" class="p-2 mt-2">이미 존재하는 아이디입니다.</div>
     </div>
 
@@ -53,12 +57,12 @@
 
     <div class="form-group flex justify-center mr-44">
         <label class="p-2 mr-2"for="password">비밀번호</label>
-        <input type="password" class="form-control" style="width: 18%; border: 2px solid #d9d9d9" id="password" th:field="*{password}" required>
+        <input type="password" class="form-control" style="width: 18%; border: 2px solid #CECECE" id="password" th:field="*{password}" required>
     </div>
 
     <div class="form-group flex justify-center ml-6">
         <label class="p-2 mr-2"for="confirmPassword">비밀번호 확인</label>
-        <input type="password" class="form-control mr-56" style="width: 16%; border: 2px solid #d9d9d9" id="confirmPassword" th:field="*{confirmPassword}" required>
+        <input type="password" class="form-control mr-56" style="width: 16%; border: 2px solid #CECECE" id="confirmPassword" th:field="*{confirmPassword}" required>
         <div th:if="${param.error} and ${#strings.equals(param.type, 'password')}" class="p-2">비밀번호 확인이 일치하지 않습니다.</div>
     </div>
 
@@ -67,24 +71,24 @@
 
     <div class="form-group flex justify-center mr-36">
         <label class="p-2 mr-2" for="name">이름</label>
-        <input type="text" class="form-control" style="width: 18%; border: 2px solid #d9d9d9" id="name" th:field="*{name}" required>
+        <input type="text" class="form-control" style="width: 18%; border: 2px solid #CECECE" id="name" th:field="*{name}" required>
     </div>
 
     <div class="form-group flex justify-center mr-40">
         <label class="p-2 mr-2"for="nickname">닉네임</label>
-        <input type="text" class="form-control" style="width: 18%; border: 2px solid #d9d9d9" id="nickname" th:field="*{nickname}" required>
+        <input type="text" class="form-control" style="width: 18%; border: 2px solid #CECECE" id="nickname" th:field="*{nickname}" required>
     </div>
 
 
     <div class="form-group flex justify-center mr-44">
         <label for="category" class="p-2 mr-2">수업유형</label>
-        <select class="form-control  " style="width: 18%; border: 2px solid #d9d9d9"  th:field="*{category}">
+        <select class="form-control  " style="width: 18%; border: 2px solid #CECECE"  th:field="*{category}">
             <option value="NONE">과정 없음</option>
             <option th:each="category : ${categories}" th:value="${category.value}">[[ ${category.name} ]]</option>
         </select>
     </div>
     <div class="ml-96">
-        <button type="submit" class="btn btn-outline-secondary mr-14 ml-96 mt-10 whitespace-nowrap " style="border: 2px solid #d9d9d9">가입하기</button>
+        <button type="submit" class=" mr-14 ml-56 mt-10 whitespace-nowrap hover:bg-gray-300 p-1 px-2 rounded-lg" style="border: 2px solid #CECECE ">가입하기</button>
     </div>
     </form>
 </div>
@@ -94,6 +98,8 @@
     $('#sendBtn').on('click', () => {
         htmx.trigger(document.querySelector('[hx-trigger="emailSend"]'), 'emailSend');
     });
+
+
 
 
     $("#registerForm").submit((e) => {
@@ -121,6 +127,7 @@
 
 
     })
+
 
 
 

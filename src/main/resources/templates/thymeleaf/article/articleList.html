@@ -18,17 +18,17 @@
 </head>
 <main layout:fragment="main">
 
-    <div class="container my-12 mx-auto px-4 md:px-12">
+    <div style="width: 1100px;" class="container my-12 mx-auto px-4 md:px-12 ml-72">
 
-        <div class="flex justify-between items-center">
+        <div style="width: 1000px;" class="flex justify-between items-center">
 
             <div class="flex justify-start items-center">
                 <!-- category select -->
                 <form id="filterForm" th:action="@{/article?page=1}" method="get" class="w-auto flex mr-3">
 
-                    <div class="mr-5">
+                    <div class="mr-5 mb-8">
                         <label for="order" class="sr-only">정렬</label>
-                        <select id="order" name="order" class="filter block py-2.5 px-0 w-full text-sm text-black bg-transparent border-0 border-b-2 border-sbs appearance-none focus:outline-none focus:ring-0 focus:border-gray-200 peer">
+                        <select id="order" name="order" class="filter block py-2.5 px-0 w-full text-sm text-black bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-gray-200 peer text-center">
                             <option value="createAt">최신</option>
                             <option value="hit">조회수</option>
                             <option value="likes">추천</option>
@@ -37,7 +37,7 @@
 
                     <div>
                         <label for="category" class="sr-only">카테고리</label>
-                        <select  id="category" name="category" class="filter block py-2.5 px-0 w-full text-sm text-black bg-transparent border-0 border-b-2 border-sbs appearance-none focus:outline-none focus:ring-0 focus:border-gray-200 peer">
+                        <select  id="category" name="category" class="filter block py-2.5 px-0 w-12 text-sm text-black bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-gray-200 peer text-center">
                             <option value="ALL">전체 글</option>
                             <option th:each="category : ${categories}" th:value="${category.value}">[[ ${category.name} ]]</option>
                         </select>
@@ -46,7 +46,7 @@
                 </form>
 
                 <!-- search   -->
-                <form th:action="@{/article}" method="get" class="block lg:inline-block">
+                <form th:action="@{/article}" method="get" class="block lg:inline-block mb-8 ml-12 border-gray-400">
                 <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only">Search</label>
                 <div class="relative">
                     <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
@@ -59,10 +59,7 @@
             </form>
             </div>
 
-            <a th:href="@{/article/write}" class="btn-sbs-outline flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
-                </svg>
+            <a th:href="@{/article/write}" class="btn-sbs flex items-center mb-6">
                 <span>글 작성</span>
             </a>
 
@@ -70,10 +67,10 @@
         <!-- 검색결과 없음       -->
         <div class="text-lg text-gray-500 mt-4 pb-4 border-b-2 text-center" th:if="${articles.getTotalElements()} == 0">검색 결과와 일치하는 게시글이 존재하지 않습니다.</div>
 
-        <div class="flex flex-wrap -mx-1 lg:-mx-4">
+        <div class="flex flex-wrap -mx-1 lg:-mx-4" style="width: 1050px;">
 
             <!-- Column -->
-            <div th:each="article : ${articles}" class="my-1 px-1 w-1/2 md:w-1/3 lg:my-4 lg:px-4 lg:w-1/4">
+            <div th:each="article : ${articles}" class="my-1 px-1 w-1/2 md:w-1/3 lg:my-4 lg:px-4">
 
                 <!-- Article -->
                 <article class="overflow-hidden rounded-lg shadow-lg relative">
@@ -152,7 +149,7 @@
         <ul class="inline-flex space-x-2">
 
             <li>
-                <button id="firstPageBtn" class="flex items-center justify-center w-10 h-10 text-indigo-600 transition-colors duration-150 rounded-full focus:shadow-outline hover:bg-indigo-100">
+                <button id="firstPageBtn" class="flex items-center justify-center w-10 h-10 text-gray-600 transition-colors duration-150 rounded-full focus:shadow-outline hover:bg-gray-100">
                     <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" fill-rule="evenodd"></path></svg>
                 </button>
             </li>
@@ -170,7 +167,7 @@
             </li>
 
             <li>
-                <button id="endPageBtn" class="flex items-center justify-center w-10 h-10 text-indigo-600 transition-colors duration-150 bg-gray-100 rounded-full focus:shadow-outline hover:bg-indigo-100">
+                <button id="endPageBtn" class="flex items-center justify-center w-10 h-10 text-gray-600 transition-colors duration-150 bg-gray-100 rounded-full focus:shadow-outline hover:bg-gray-100">
                     <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" fill-rule="evenodd"></path></svg>
                 </button>
             </li>
