@@ -3,8 +3,80 @@
     <title>SBS PLUS +</title>
 </head>
 <body>
-    <main layout:fragment="main">
-        메인메인메인
+    <main layout:fragment="main" class="flex">
+        <section class="box-1">
+          <div class="bg-white p-6 shadow-md rounded-lg ml-96 mt-16" style="width: 400px; height: 400px">
+              <main layout:fragment="main" class="bg-white p-6 shadow-md rounded-lg m-auto mt-12" style="height: 700px; width: 850px;">
+                  <div class="page p-2 flex justify-center bg-gray-100">
+
+                      <a class="mt-8 mr-60 text-gray-500" th:href="@{'/calendar/' + ${prevYear} + '/' + ${prevMonth}}">
+                          <span th:text="|<(${prevYear}/${prevMonth})|"></span>
+                      </a>
+
+                      <h1 class="text-2xl p-4 text-center mb-4 mt-4" th:text="'' + ${year} + ' ' + ${month}"></h1>
+
+                      <a class="mt-8 ml-60 text-gray-500" th:href="@{'/calendar/' + ${nextYear} + '/' + ${nextMonth}}">
+                          <span th:text="|(${nextYear}/${nextMonth})>|"></span>
+                      </a>
+                  </div>
+                  <div class="calendar mt-4">
+                      <div class="day">일</div>
+                      <div class="day">월</div>
+                      <div class="day">화</div>
+                      <div class="day">수</div>
+                      <div class="day">목</div>
+                      <div class="day">금</div>
+                      <div class="day">토</div>
+
+                      <!-- Fill empty days before the start -->
+                      <div th:each="n: ${#numbers.sequence(1, firstDayOfMonth - 1)}" class="day"></div>
+
+                      <!-- Days of the month -->
+                      <div th:each="n: ${#numbers.sequence(1, daysInMonth)}" class="day">
+                          <span class="flex justify-center " th:text="|${n}|"></span>
+                          <div th:each="event : ${forCalendarEvents.get(n)}">
+                              <ul>
+                                  <li>
+                                      <a th:href="@{'/event/detail/' + ${event.id}}">
+                                          <span th:text="${event.title}"></span>
+                                      </a>
+                                  </li>
+                              </ul>
+                          </div>
+                      </div>
+                  </div>
+              </main>
+          </div>
+            <style>
+                @font-face {
+                    font-family: 'SUIT-Regular';
+                    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Regular.woff2') format('woff2');
+                    font-weight: normal;
+                    font-style: normal;
+                }
+                * {
+                    font-family: 'SUIT-Regular';
+                }
+                .calendar {
+                    display: grid;
+                    grid-template-columns: repeat(7, 1fr);
+                    gap: 10px;
+                }
+
+                .day {
+                    padding: 20px;
+                    text-align: center;
+                    border-bottom: 1px solid #d9d9d9;
+                    border-left: 1px solid #d9d9d9;
+                    border-radius: 8px;
+                }
+            </style>
+          <div class="bg-white p-6 shadow-md rounded-lg ml-96 mt-16" style="width: 400px; height: 200px">
+          </div>
+        </section>
+        <section class="box-2">
+           <div class="bg-white p-6 shadow-md rounded-lg ml-12 mt-16" style="width: 500px; height: 665px">
+           </div>
+        </section>
     </main>
-</body>
 </html>

@@ -1,53 +1,75 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html layout:decorate="~{/common/layout}">
 <head>
-    <meta charset="UTF-8">
     <title>Calendar</title>
 </head>
-<body>
-<a th:href="@{'/calendar/' + ${prevYear} + '/' + ${prevMonth}}">
-    <span th:text="|이전달(${prevYear}/${prevMonth})|"></span>
-</a>
+<main layout:fragment="main" class="bg-white p-6 shadow-md rounded-lg m-auto mt-12" style="height: 700px; width: 850px;">
 
-<h1 th:text="'Calendar for ' + ${year} + ' ' + ${month}"></h1>
+    <div class="page p-2 flex justify-center bg-gray-100">
 
-<div class="calendar">
-    <div class="day">일</div>
-    <div class="day">월</div>
-    <div class="day">화</div>
-    <div class="day">수</div>
-    <div class="day">목</div>
-    <div class="day">금</div>
-    <div class="day">토</div>
+        <a class="mt-8 mr-60 text-gray-500" th:href="@{'/calendar/' + ${prevYear} + '/' + ${prevMonth}}">
+            <span th:text="|<(${prevYear}/${prevMonth})|"></span>
+        </a>
 
-    <!-- Fill empty days before the start -->
-    <div th:each="n: ${#numbers.sequence(1, firstDayOfMonth - 1)}" class="day"></div>
+        <h1 class="text-2xl p-4 text-center mb-4 mt-4" th:text="'' + ${year} + ' ' + ${month}"></h1>
 
-    <!-- Days of the month -->
-    <div th:each="n: ${#numbers.sequence(1, daysInMonth)}" class="day">
-        <span th:text="|${n}일|"></span>
-        <ul>
-            <li th:each="event : ${forCalendarEvents.get(n)}" th:text="|${event.id}, ${event.title}|"></li>
-        </ul>
+        <a class="mt-8 ml-60 text-gray-500" th:href="@{'/calendar/' + ${nextYear} + '/' + ${nextMonth}}">
+            <span th:text="|(${nextYear}/${nextMonth})>|"></span>
+        </a>
     </div>
-</div>
+    <div class="calendar mt-4">
+        <div class="day">일</div>
+        <div class="day">월</div>
+        <div class="day">화</div>
+        <div class="day">수</div>
+        <div class="day">목</div>
+        <div class="day">금</div>
+        <div class="day">토</div>
 
-<a th:href="@{'/calendar/' + ${nextYear} + '/' + ${nextMonth}}">
-    <span th:text="|다음달(${nextYear}/${nextMonth})|"></span>
-</a>
+        <!-- Fill empty days before the start -->
+        <div th:each="n: ${#numbers.sequence(1, firstDayOfMonth - 1)}" class="day"></div>
 
-<style>
-    .calendar {
-        display: grid;
-        grid-template-columns: repeat(7, 1fr);
-        gap: 10px;
-    }
+        <!-- Days of the month -->
+        <div th:each="n: ${#numbers.sequence(1, daysInMonth)}" class="day">
+            <span class="flex justify-center " th:text="|${n}|"></span>
+            <div th:each="event : ${forCalendarEvents.get(n)}">
+                <ul>
+                    <li>
+                        <a th:href="@{'/event/detail/' + ${event.id}}">
+                            <span th:text="${event.title}"></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
 
-    .day {
-        padding: 10px;
-        border: 1px solid #ddd;
-        text-align: center;
-    }
-</style>
-</body>
+    <a th:if="${@rq.isAdmin == true}" class="" th:href="@{/event/write}">
+        <span class="p-2 px-3 mt-6 inline-block btn-sbs" style="margin-left:700px;">글 작성</span>
+    </a>
+
+    <style>
+        @font-face {
+            font-family: 'SUIT-Regular';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Regular.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+        * {
+            font-family: 'SUIT-Regular';
+        }
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+        }
+
+        .day {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #d9d9d9;
+            border-left: 1px solid #d9d9d9;
+            border-radius: 8px;
+        }
+    </style>
+</main>
 </html>

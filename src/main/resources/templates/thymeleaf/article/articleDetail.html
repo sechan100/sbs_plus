@@ -9,9 +9,9 @@
 </head>
 <main layout:fragment="main">
     <div class="container lg:px-32 md:mx-auto mx-auto py-8">
-        <div class="bg-white p-12 shadow-md rounded-lg relative">
+        <div style="width: 850px;"class="bg-white p-12 shadow-md rounded-lg relative m-auto">
 
-            <div class="flex items-center justify-start mb-3">
+            <div class="flex items-center justify-start mb-3 ml-6">
                 <!-- category badge  -->
                 <div th:classappend="${article.category.tailwindBadge}" class="px-3 mr-3" th:text="${article.category.name}"></div>
 
@@ -29,11 +29,11 @@
             </div>
 
             <!-- title -->
-            <h1 class="text-2xl font-semibold mb-7">[[ ${article.title} ]]</h1>
+            <h1 class="text-2xl font-semibold mb-7 ml-6">[[ ${article.title} ]]</h1>
 
             <div class="flex justify-between items-center mb-16">
 
-                <div class="inline-flex items-center">
+                <div class="inline-flex items-center ml-4">
                     <!-- user -->
                     <a class="flex items-center no-underline hover:underline text-black" th:href="|/${article.user.username}|">
                         <p class="truncate w-auto h-5 ml-2 text-sm">
@@ -71,7 +71,7 @@
             </div>
 
             <!-- content -->
-            <div id="content" class="white-space: pre-line" th:utext="${article.content}"></div>
+            <div id="content" class="white-space: pre-line ml-6" th:utext="${article.content}"></div>
 
             <!-- comment form -->
             <div class="flex mx-auto items-center justify-center mt-12 mx-5 mb-4">
@@ -95,8 +95,8 @@
                                 <p class="text-xs md:text-sm pt-px">분란을 조장하는 댓글은 불시에 삭제될 수 있습니다.</p>
                             </div>
                             <div class="-mr-1">
-                                <input th:if="${@rq.login}" type='submit' class="btn-sbs-outline py-1 px-4tracking-wide mr-1" value='댓글 작성'>
-                                <a th:unless="${@rq.login}" href="/login" class="btn-sbs-outline py-1 px-4tracking-wide mr-1">댓글 작성</a>
+                                <input th:if="${@rq.login}" type='submit' class="border-2 p-2 hover:bg-gray-200 py-1 px-4tracking-wide mr-1 btn-sbs" value='댓글 작성'>
+                                <a th:unless="${@rq.login}" href="/login" class="border-2 p-2 py-1 px-4tracking-wide mr-1 ">댓글 작성</a>
                             </div>
                         </div>
                     </div>

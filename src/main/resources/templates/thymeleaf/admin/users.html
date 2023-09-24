@@ -5,7 +5,7 @@
 </head>
 
 <main layout:fragment="main">
-    <div class="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 pr-10 lg:px-8">
+    <div style="width: 850px;" class="m-auto mt-12">
 
         <!--    검색기능    -->
         <!--        <div class="align-middle rounded-tl-lg rounded-tr-lg inline-block w-full py-4 overflow-hidden bg-white shadow-lg px-12">-->
@@ -26,18 +26,19 @@
         <!--            </div>-->
         <!--        </div>-->
 
-        <div class="align-middle inline-block min-w-full shadow overflow-hidden bg-white shadow-dashboard px-8 pt-3 rounded-bl-lg rounded-br-lg">
-            <table class="min-w-full">
+        <div style="height: 700px;" class="align-middle inline-block  min-w-full shadow overflow-hidden bg-white shadow-dashboard px-8 pt-3 rounded-bl-lg rounded-br-lg">
+            <span class="p-2 ml-28 text-2xl mt-3 inline-block">관리자</span>
+            <table class="ml-32 mt-4">
                 <thead>
                 <thead class="table-dark">
                 <tr>
-                    <th class="px-6 py-3 border-b-2 border-gray-300 text-left leading-4 text-blue-500 tracking-wider">번호</th>
-                    <th class="px-6 py-3 border-b-2 border-gray-300 text-left leading-4 text-blue-500 tracking-wider">아이디</th>
-                    <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-blue-500 tracking-wider">이름</th>
-                    <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-blue-500 tracking-wider">상태</th>
-                    <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-blue-500 tracking-wider">조치</th>
-                    <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-blue-500 tracking-wider">탈퇴</th>
-                    <th class="px-6 py-3 border-b-2 border-gray-300"></th>
+                    <th class="px-4 mr-2 py-3 border-b-2 border-gray-300 text-left leading-4 text-gray-500 tracking-wider border-r">번호</th>
+                    <th class="px-6 py-3 border-b-2 border-gray-300 text-left leading-4 text-gray-500 tracking-wider">아이디</th>
+                    <th class="px-7 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-gray-500 tracking-wider">이름</th>
+                    <th class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-gray-500 tracking-wider">상태</th>
+                    <th class="px-16 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-gray-500 tracking-wider">조치</th>
+                    <th class="px-8 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-gray-500 tracking-wider">탈퇴</th>
+                    <th class="px-6 py-3 "></th>
                 </tr>
                 </thead>
 
@@ -48,54 +49,55 @@
                 <td ></td>
                 </tr>
                 </tbody>
-            <table>
+            <table class="m-auto ml-32">
                 <tbody>
                 <tr th:each="user, loop : ${paging}">
                     <td th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"
-                        class="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
+                        class="px-6 py-3 whitespace-no-wrap border-b border-gray-400 border-r">
                     </td>
-                    <td class="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
+                    <td class="px-12 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-400 text-sm leading-5">
                         <span th:text="${user.username}"></span>
                     </td>
-                    <td class="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
+                    <td class="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-400 text-sm leading-5">
                         <span th:text="${user.name}"></span>
                     </td>
-                    <td class="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
-                        <span th:if="${user.suspended}">정지됨</span>
-                        <span th:unless="${user.suspended}">활성화됨</span>
+                    <td class="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-400 text-sm leading-5">
+                        <span class=" bg-pink-200 rounded-3xl p-1 px-2" th:if="${user.suspended}">정지됨</span>
+                        <span class=" bg-purple-100 rounded-3xl p-1 px-2" th:unless="${user.suspended}">활성화됨</span>
                     </td>
-                    <td class="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
+                    <td class="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-400 text-sm leading-5">
                         <span th:if="${user.suspended}"><a th:href="@{/activate/{userId}(userId=${user.id})}">계정 활성화</a></span>
                         <span th:unless="${user.suspended}"><a th:href="@{/suspend/{userId}(userId=${user.id})}">계정 정지</a></span>
                     </td>
                     <td class="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
-                        <span><a th:href="@{/delete/{userId}(userId=${user.id})}" >회원 탈퇴</a></span>
+                        <span><a class="border-2 border-gray-100 bg-gray-100 rounded-3xl p-1 px-2" th:href="@{/delete/{userId}(userId=${user.id})}" >회원 탈퇴</a></span>
                     </td>
                 </tr>
                 </tbody>
             </table>
+                <div class="text-center mx-auto mt-8">
+                    <nav th:if="${!paging.isEmpty()}" aria-label="Page navigation example">
+                        <ul class="inline-flex -space-x-px">
+                            <li th:classappend="${!paging.hasPrevious} ? 'disabled'">
+                                <a  th:href="@{|?page=${paging.number-1}|}"
+                                    class="bg-white border border-gray-300 text-gray-500 hover:bg-gray-100 hover:text-gray-700 ml-0 rounded-l-lg leading-tight py-2 px-3 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><span>previous</span></a>
+                            </li>
+                            <li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
+                                th:if="${page >= paging.number-5 and page <= paging.number+5}"
+                                th:classappend="${page == paging.number} ? 'active'">
+                                <a th:text="${page}"
+                                   th:href="@{|?page=${page}|}"
+                                   class="bg-white border border-gray-300 text-gray-500 hover:bg-gray-100 hover:text-gray-700 leading-tight py-2 px-3 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"></a>
+                            </li>
+                            <li th:classappend="${!paging.hasNext} ? 'disabled'">
+                                <a th:href="@{|?page=${paging.number+1}|}"
+                                   class="bg-white border border-gray-300 text-gray-500 hover:bg-gray-100 hover:text-gray-700 leading-tight py-2 px-3 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><span>next</span></a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
         </div>
-        <div class="text-center max-w-2xl mx-auto my-3">
-            <nav th:if="${!paging.isEmpty()}" aria-label="Page navigation example">
-                <ul class="inline-flex -space-x-px">
-                    <li th:classappend="${!paging.hasPrevious} ? 'disabled'">
-                        <a  th:href="@{|?page=${paging.number-1}|}"
-                            class="bg-white border border-gray-300 text-gray-500 hover:bg-gray-100 hover:text-gray-700 ml-0 rounded-l-lg leading-tight py-2 px-3 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><span>previous</span></a>
-                    </li>
-                    <li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
-                        th:if="${page >= paging.number-5 and page <= paging.number+5}"
-                        th:classappend="${page == paging.number} ? 'active'">
-                        <a th:text="${page}"
-                           th:href="@{|?page=${page}|}"
-                           class="bg-white border border-gray-300 text-gray-500 hover:bg-gray-100 hover:text-gray-700 leading-tight py-2 px-3 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"></a>
-                    </li>
-                    <li th:classappend="${!paging.hasNext} ? 'disabled'">
-                        <a th:href="@{|?page=${paging.number+1}|}"
-                           class="bg-white border border-gray-300 text-gray-500 hover:bg-gray-100 hover:text-gray-700 leading-tight py-2 px-3 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><span>next</span></a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
+
     </div>
 </main>
 </html>

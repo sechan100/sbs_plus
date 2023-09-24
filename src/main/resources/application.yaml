@@ -1,14 +1,15 @@
 server:
-  port: 8080
+  port: 8011
 
 # 이미지 업로드 경로 설정
 upload:
-  directory: /users/sechan/upload/sbsplus/img/
+#  directory: /users/sechan/upload/sbsplus/img/
 
   # [사용법] <아래는 윈도우용>
   # 1. 계정명에는 사용자 디렉토리 경로보고 본인 로컬 폴더명 써주세요
   # 2. "C:\Users\계정명\" (사용자)폴더에 가서 upload 폴더 만들고 아래에 sbsplus 폴더 만들고 아래에 img 폴더 만든다.
-#  directory: C:\Users\계정명\upload\sbsplus\img\
+  directory: C:\Users\정지영\upload\sbsplus\img\
+
 
 
 spring:
@@ -25,6 +26,8 @@ spring:
   datasource:
     username: root
     password:
+
+
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/sbs_plus
 
