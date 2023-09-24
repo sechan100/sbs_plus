@@ -57,6 +57,7 @@ public class SecurityConfig {
                         .requestMatchers("/article/**", "/article*").permitAll()
 
                         // QnA
+                        .requestMatchers("/question/create").hasRole("USER")
                         .requestMatchers("/question/**").permitAll()
 
                         // admin 제한
