@@ -21,6 +21,9 @@
                 $.ajax({
                     url: "/point/purchase?id=" + itemId,
                     type: "GET",
+                    beforeSend: function () {
+                        alert("구매 요청을 처리중입니다...");
+                    },
                     success: function (data) {
                         if(data != -1) {
                             console.log("구매 성공, 남은 재고: " + data);
@@ -28,7 +31,6 @@
                         } else {
                             alert("구매에 실패했습니다.");
                         }
-
                     },
                     error: function (e) {
                         console.log(e);

@@ -62,4 +62,10 @@ public class PointStoreServiceImpl implements PointStoreService {
         
         return item.getQuantity();
     }
+    
+    @Override
+    public PointStoreItem findById(Integer id) {
+        
+        return pointStoreRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 아이템이 존재하지 않습니다."));
+    }
 }

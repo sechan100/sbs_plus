@@ -23,7 +23,7 @@ public class EmailService {
     private final SpringTemplateEngine templateEngine;
     private final UserService userService;
     
-    public String sendMail(EmailMsg emailMessage, String type) throws MessagingException {
+    public String sendEmailAuthenticationMail(EmailMsg emailMessage, String type) throws MessagingException {
         
         String authKey = createAuthKey();
         
@@ -47,6 +47,7 @@ public class EmailService {
             return null;
         }
     }
+    
     
     private String createAuthKey() {
         Random random = new Random();

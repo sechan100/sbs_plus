@@ -10,4 +10,6 @@ interface PointStoreService {
     boolean purchase(Integer itemId);
     
     Integer getQuantity(Integer itemId);
+    
+    PointStoreItem findById(Integer id);
 }
