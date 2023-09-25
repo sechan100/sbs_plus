@@ -1,0 +1,43 @@
+<html layout:decorate="~{/common/layout}">
+<head>
+    <title>point store</title>
+</head>
+<main layout:fragment="main">
+
+    <div th:each="item : ${storeItems}">
+        <div th:text="${item.name}"></div>
+        <div th:text="${item.price}"></div>
+        <div th:if="${item.quantity} == 0" th:itemQuantity="${item.id}" th:text="매진"></div>
+        <div th:unless="${item.quantity} == 0" th:itemQuantity="${item.id}" th:text="${item.quantity}"></div>
+        <div th:text="${item.description}"></div>
+        <button class="purchaseBtn" type="button" th:value="${item.id}">구매하기</button>
+    </div>
+
+
+    <script>
+        $(document).ready(function () {
+            $(".purchaseBtn").click(function () {
+                var itemId = $(this).val();
+                $.ajax({
+                    url: "/point/purchase?id=" + itemId,
+                    type: "GET",
+                    success: function (data) {
+                        if(data != -1) {
+                            console.log("구매 성공, 남은 재고: " + data);
+                            $("div[itemQuantity=" + itemId + "]").text(data);
+                        } else {
+                            alert("구매에 실패했습니다.");
+                        }
+
+                    },
+                    error: function (e) {
+                        console.log(e);
+                    }
+                });
+            });
+        });
+
+    </script>
+
+</main>
+</html>
