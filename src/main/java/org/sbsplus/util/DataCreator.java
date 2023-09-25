@@ -5,6 +5,8 @@ import org.sbsplus.domain.cummunity.entity.Comment;
 import org.sbsplus.domain.cummunity.entity.like.ArticleLike;
 import org.sbsplus.domain.cummunity.entity.like.CommentLike;
 import org.sbsplus.domain.cummunity.repository.ArticleRepository;
+import org.sbsplus.domain.point.PointStoreItem;
+import org.sbsplus.domain.point.PointStoreItemRepository;
 import org.sbsplus.domain.qna.entity.Answer;
 import org.sbsplus.domain.qna.entity.Question;
 import org.sbsplus.domain.qna.repository.AnswerRepository;
@@ -34,6 +36,9 @@ public class DataCreator {
 
     @Autowired
     AnswerRepository answerRepository;
+    
+    @Autowired
+    PointStoreItemRepository pointStoreItemRepository;
 
     // 생성되는 유저 개수
     protected Integer userNum = 20;
@@ -67,6 +72,7 @@ public class DataCreator {
         createCommentLike();
         createQuestions();
         createAnswers();
+        PointStoreItems();
     }
 
     public void createUser() {
@@ -204,6 +210,41 @@ public class DataCreator {
             }
         }
     }
+    
+    public void PointStoreItems(){
+        
+        PointStoreItem item = new PointStoreItem();
+            item.setName("메가커피 아이스아메리카노 기프티콘");
+            item.setPrice(2000);
+            item.setQuantity(2);
+            item.setDescription("메가커피 아이스아메리카노 기프티콘");
+        pointStoreItemRepository.save(item);
+        
+        item = new PointStoreItem();
+            item.setName("메가커피 기프티콘 만원권");
+            item.setPrice(10000);
+            item.setQuantity(3);
+            item.setDescription("메가커피 기프티콘 만원권");
+        pointStoreItemRepository.save(item);
+        
+        item = new PointStoreItem();
+            item.setName("메가커피 기프티콘 삼만원권");
+            item.setPrice(30000);
+            item.setQuantity(4);
+            item.setDescription("메가커피 기프티콘 삼만원권");
+        pointStoreItemRepository.save(item);
+        
+        item = new PointStoreItem();
+            item.setName("Gs25 기프티콘 오천원권");
+            item.setPrice(5000);
+            item.setQuantity(2);
+            item.setDescription("Gs25 기프티콘 오천원권");
+        pointStoreItemRepository.save(item);
+        
+        
+    }
+    
+    
 
     protected User randomUser(){
         return userRepository.findById(random.nextLong(userNum) + 1).orElse(null);
