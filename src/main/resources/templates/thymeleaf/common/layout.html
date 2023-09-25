@@ -71,18 +71,16 @@
                     <div class="submenu hidden z-10 absolute px-5 top-10 bg-gray-200 justify-between items-center w-32 ml-24" id="user-down-menu">
                         <ul class=" flex flex-col mt-6 font-xs h-48">
                             <li>
-
-                                <a th:href="|/${user.username}|" class=" h-10 p-2 inline-block" hx-boost="true">MY PAGE</a>
+                                <a th:href="|/@${user.username}|" class="nav-domain h-10" >내 정보</a>
                             </li>
                             <li>
-                                <a href="/myArticle" class=" h-10 p-2 inline-block" hx-boost="true ">내가 쓴 글</a>
+                                <a th:href="|/@${user.username}/article|" class="nav-domain h-10" >내 게시글</a>
                             </li>
                             <li>
-                                <a href="/myQuestion" class=" h-10 p-2 inline-block" hx-boost="true ">내 질문</a>
+                                <a th:href="|/@${user.username}/question|" class="nav-domain h-10" >내 질문</a>
                             </li>
                             <li>
-                                <a href="/logout" class=" h-10 p-2 inline-block" hx-boost="true ">로그아웃</a>
-
+                                <a href="/logout" class="nav-domain h-10" >로그아웃</a>
                             </li>
                         </ul>
                     </div>
