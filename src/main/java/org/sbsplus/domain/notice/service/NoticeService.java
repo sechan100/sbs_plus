@@ -21,4 +21,6 @@ public interface NoticeService {
     void delete(Integer noticeId) throws AccessDeniedException;
 
     List<Notice> findByUser(User user);
+
+    List<Notice> getAllNotices();
 }

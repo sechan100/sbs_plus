@@ -55,8 +55,8 @@
                 </a>
 
                 <div th:unless="${@rq.login}" class="flex items-center lg:order-2 mr-6">
-                    <a href="/login"  class="btn-sbs mr-2">로그인</a>
-                    <a href="/register"  class="btn-sbs mr-2">회원가입</a>
+                    <a href="/login"  class="btn-sbs mr-2 mt-6">로그인</a>
+                    <a href="/register"  class="btn-sbs mr-2 mt-6">회원가입</a>
                     <button btn="burger" data-collapse-toggle="mobile-menu" type="button" class="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100" aria-controls="mobile-menu" aria-expanded="false">
                         <span class="sr-only">Open main menu</span>
                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
@@ -69,7 +69,7 @@
                     <a th:text="|${user.nickname}님 환영합니다|"  class="mr-2 font-medium"></a>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
                     <div class="submenu hidden z-10 absolute px-5 top-10 bg-gray-200 justify-between items-center w-32 ml-24" id="user-down-menu">
-                        <ul class=" flex flex-col mt-6 font-xs h-48">
+                        <ul class=" flex flex-col mt-6 font-xs h-48 ml-3">
                             <li>
                                 <a th:href="|/@${user.username}|" class="nav-domain h-10" >내 정보</a>
                             </li>
@@ -95,7 +95,7 @@
                 <div class="nav-menu mt-9 mr-80 justify-between items-center w-full lg:flex lg:w-auto lg:order-1" id="mobile-menu">
                     <ul class="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
                         <li>
-                            <a href="/article?page=1&category=ALL" class=" mr-3 text-lg">커뮤니티</a>
+                            <a href="/article?page=1&category=ALL" class=" mr-3 nav-domain">커뮤니티</a>
                         </li>
                         <li>
 
