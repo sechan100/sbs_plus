@@ -20,4 +20,6 @@ public interface NoticeRepository extends JpaRepository<Notice, Integer> {
 
     List<Notice> findByUser(User user);
 
+    List<Notice> findAll();
+
 }

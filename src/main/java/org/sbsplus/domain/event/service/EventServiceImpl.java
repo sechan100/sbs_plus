@@ -81,4 +81,12 @@ public class EventServiceImpl implements EventService {
     public void delete(Long eventId) throws AccessDeniedException {
         eventRepository.deleteById(eventId);
     }
+
+    @Override
+    public List<Event> getCalendarEvents(int year, int month) {
+        // 해당 월의 달력 데이터를 가져오기 위해 EventRepository의 메서드를 호출합니다.
+        LocalDate startDate = LocalDate.of(year, month, 1);
+        LocalDate endDate = startDate.plusMonths(1).minusDays(1);
+        return eventRepository.findByEventDateBetween(startDate, endDate);
+    }
 }

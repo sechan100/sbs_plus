@@ -1,4 +1,5 @@
-<html layout:decorate="~{/common/layout}">
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>질문 작성</title>
     <!-- 부트스트랩 CSS 링크 추가 -->
@@ -22,7 +23,7 @@
     <link rel="stylesheet" th:href="@{/css/summernote/summernote-lite.css}">
 </head>
 
-<main layout:fragment="main">
+<body>
 <div class="container bg-white p-6 shadow-md rounded-lg mx-auto py-8" style="width: 700px;">
     <h1 class="my-3 pb-2 text-2xl font-bold">QnA > 글작성</h1>
 
@@ -43,23 +44,23 @@
             <textarea id="summernote" th:field="*{content}" rows="5" required></textarea>
         </div>
 
-        <div class="flex ml-2">
-            <!--    포인트 입력    -->
-            <div class="mb-3 flex ml-6">
-                <label for="point" class="form-label mr-3 mt-2" >포인트</label>
-                <input type="number" th:field="*{point}" class="form-control" style="width: 150px;">
-            </div>
-
-            <!--    카테고리 입력    -->
-            <div class="form-group flex ml-3">
-                <label for="category" class="mr-3 mt-2">카테고리</label>
-                <select class="form-control "style="width: 150px;" id="category" name="category">
-                    <option value="NONE">과정 없음</option>
-                    <option th:each="category : ${categories}" th:value="${category.value}">[[ ${category.name} ]]</option>
-                </select>
-            </div>
-            <input type="submit" value="게시하기" style="height: 40px;" class=" ml-24 p-2 border border-2 rounded-sm hover:bg-gray-200">
+      <div class="flex ml-2">
+        <!--    포인트 입력    -->
+        <div class="mb-3 flex ml-6">
+            <label for="point" class="form-label mr-3 mt-2" >포인트</label>
+            <input type="number" th:field="*{point}" class="form-control" style="width: 150px;">
         </div>
+
+        <!--    카테고리 입력    -->
+        <div class="form-group flex ml-3">
+            <label for="category" class="mr-3 mt-2">카테고리</label>
+            <select class="form-control "style="width: 150px;" id="category" name="category">
+                <option value="NONE">과정 없음</option>
+                <option th:each="category : ${categories}" th:value="${category.value}">[[ ${category.name} ]]</option>
+            </select>
+        </div>
+        <input type="submit" value="게시하기" style="height: 40px;" class=" ml-24 p-2 border border-2 rounded-sm hover:bg-gray-200">
+      </div>
 
     </form>
 </div>
@@ -120,5 +121,5 @@
     /* ]]> */
 </script>
 
-</main>
+</body>
 </html>

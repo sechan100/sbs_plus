@@ -1,6 +1,6 @@
 <html layout:decorate="~{/common/layout}">
 <head>
-    <title>QnA</title>
+    <title>커뮤니티</title>
     <style>
         @font-face {
             font-family: 'SUIT-Regular';
@@ -20,17 +20,7 @@
 
 
 
-        <div class="row my-3">
-            <div class="col-6">
-                <a th:href="@{/question/create}" class="btn-sbs my-3">질문 등록하기</a>
-            </div>
-            <div class="col-6 my-5">
-                <div class="input-group">
-                    <input type="text" id="search_kw" class="form-control" th:value="${kw}">
-                    <button class="btn btn-outline-secondary" type="button" id="btn_search">찾기</button>
-                </div>
-            </div>
-        </div>
+    <div class="ml-96 mt-12" style="width: 950px;">
 
 <!--    검색기능    -->
 <!--        <div class="align-middle rounded-tl-lg rounded-tr-lg inline-block w-full py-4 overflow-hidden bg-white shadow-lg px-12">-->
@@ -51,7 +41,7 @@
 <!--            </div>-->
 <!--        </div>-->
 
-        <div style="height: 850px;"class="align-middle inline-block min-w-full shadow overflow-hidden bg-white shadow-dashboard px-8 pt-3 rounded-bl-lg rounded-br-lg">
+        <div style="height: 900px;"class="align-middle inline-block min-w-full shadow overflow-hidden bg-white shadow-dashboard px-8 pt-3 rounded-bl-lg rounded-br-lg">
             <a class="ml-6 inline-block p-6 text-2xl "href="#">홈 > QNA</a>
             <table class="min-w-full ml-12 mt-4">
                 <thead>
@@ -115,48 +105,26 @@
                 <nav th:if="${!paging.isEmpty()}" aria-label="Page navigation example">
                     <ul class="inline-flex -space-x-px ml-18">
                         <li th:classappend="${!paging.hasPrevious} ? 'disabled'">
-                            <a th:if="${paging.number > 0}" th:href="@{|?page=${paging.number-1}|}"
-                                class="bg-white border border-gray-300 text-gray-500 hover:bg-gray-100 hover:text-gray-700 ml-0 rounded-l-lg leading-tight py-2 px-3 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><span>previous</span></a>
-                            <span th:if="${paging.number == 0}"
-                                  class="bg-white border border-gray-300 text-gray-500 hover:bg-gray-100 hover:text-gray-700 ml-0 rounded-l-lg leading-tight py-2 px-3 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><span>previous</span></span>
+                            <a  th:href="@{|?page=${paging.number-1}|}"
+                                class="bg-white border border-gray-300 text-gray-500 hover:bg-gray-100 hover:text-gray-700 ml-0 leading-tight py-2 px-3 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><span>previous</span></a>
                         </li>
                         <li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
-                            th:if="${page >= paging.number-3 and page <= paging.number+3}"
+                            th:if="${page >= paging.number-5 and page <= paging.number+5}"
                             th:classappend="${page == paging.number} ? 'active'">
-                            <a th:text="${page + 1}"
+                            <a th:text="${page}"
                                th:href="@{|?page=${page}|}"
                                class="bg-white border border-gray-300 text-gray-500 hover:bg-gray-100 hover:text-gray-700 leading-tight py-2 px-3 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"></a>
                         </li>
                         <li th:classappend="${!paging.hasNext} ? 'disabled'">
-                            <a th:if="${paging.hasNext}" th:href="@{|?page=${paging.number+1}|}"
-                               class="bg-white border border-gray-300 text-gray-500 hover:bg-gray-100 hover:text-gray-700 ml-0 rounded-r-lg leading-tight py-2 px-3 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><span>next</span></a>
-                            <span th:if="${!paging.hasNext}"
-                                  class="bg-white border border-gray-300 text-gray-500 hover:bg-gray-100 hover:text-gray-700 ml-0 rounded-r-lg leading-tight py-2 px-3 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><span>next</span></span>
+                            <a th:href="@{|?page=${paging.number+1}|}"
+                               class="bg-white border border-gray-300 text-gray-500 hover:bg-gray-100 hover:text-gray-700 leading-tight py-2 px-3 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><span>next</span></a>
                         </li>
                     </ul>
+                    <a th:href="@{/question/create}" class="p-2 btn-sbs sticky ml-24 ">질문 등록하기</a>
                 </nav>
             </div>
         </div>
     </div>
-    <form th:action="@{/question}" method="get" id="searchForm">
-        <input type="hidden" id="kw" name="kw" th:value="${kw}">
-        <input type="hidden" id="page" name="page" th:value="${paging.number}">
-    </form>
-    <script type='text/javascript'>
-        const page_elements = document.getElementsByClassName("page-link");
-        Array.from(page_elements).forEach(function(element) {
-            element.addEventListener('click', function() {
-                document.getElementById('page').value = this.dataset.page;
-                document.getElementById('searchForm').submit();
-            });
-        });
-        const btn_search = document.getElementById("btn_search");
-        btn_search.addEventListener('click', function() {
-            document.getElementById('kw').value = document.getElementById('search_kw').value;
-            document.getElementById('page').value = 0;  // 검색버튼을 클릭할 경우 0페이지부터 조회한다.
-            document.getElementById('searchForm').submit();
-        });
-    </script>
 </main>
 </html>
 

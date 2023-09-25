@@ -16,4 +16,6 @@ public interface EventService {
     List<Event> findByEventDateBetween(LocalDate startDate, LocalDate endDate);
     void save(EventDto eventDto);
     void delete(Long eventId) throws AccessDeniedException;
+
+    List<Event> getCalendarEvents(int year, int month);
 }
