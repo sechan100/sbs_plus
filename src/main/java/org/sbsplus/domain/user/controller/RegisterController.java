@@ -126,7 +126,7 @@ public class RegisterController {
                 emailAuthentication.removeEamilData(email);
             }
             
-            emailAuthentication.addAuthKey(email, emailService.sendMail(emailMessage, "/util/email"));
+            emailAuthentication.addAuthKey(email, emailService.sendEmailAuthenticationMail(emailMessage, "/util/email"));
             
         } catch(MessagingException e) {
             throw new RuntimeException(e);
