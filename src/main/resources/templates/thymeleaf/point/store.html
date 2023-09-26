@@ -4,14 +4,26 @@
 </head>
 <main layout:fragment="main">
 
-    <div th:each="item : ${storeItems}">
-        <div th:text="${item.name}"></div>
-        <div th:text="${item.price}"></div>
-        <div th:if="${item.quantity} == 0" th:itemQuantity="${item.id}" th:text="매진"></div>
-        <div th:unless="${item.quantity} == 0" th:itemQuantity="${item.id}" th:text="${item.quantity}"></div>
-        <div th:text="${item.description}"></div>
-        <button class="purchaseBtn" type="button" th:value="${item.id}">구매하기</button>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div th:each="item : ${storeItems}" class="p-4 border rounded-lg shadow-md">
+            <!-- 아이템 이미지 (예시) -->
+            <img th:src="${item.imgLink}" alt="상품 이미지" class="w-full h-40 object-cover">
+
+            <div class="mt-4">
+                <div class="text-lg font-semibold" th:text="${item.name}"></div>
+                <div class="text-gray-600" th:text="${item.description}"></div>
+                <div class="flex justify-between items-center mt-2">
+                    <div>
+                        <span class="text-xl font-bold text-gray-500" th:text="'₩' + ${item.price}"></span>
+                        <span class="ml-2 text-sm" th:if="${item.quantity} == 0">매진</span>
+                        <span class="ml-2 text-sm" th:unless="${item.quantity} == 0" th:text="${item.quantity + ' 재고'}"></span>
+                    </div>
+                    <button class="px-4 py-2 btn-sbs" type="button" th:value="${item.id}">구매하기</button>
+                </div>
+            </div>
+        </div>
     </div>
+
 
 
     <script>
