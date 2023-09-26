@@ -1,9 +1,6 @@
 package org.sbsplus.domain.point;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 import org.sbsplus.util.Datetime;
 
@@ -25,5 +22,7 @@ public class PointStoreItem extends Datetime {
     private int quantity;
     
     private String description;
-    
+
+    @Column(columnDefinition = "LONGTEXT")
+    private String imgLink;
 }

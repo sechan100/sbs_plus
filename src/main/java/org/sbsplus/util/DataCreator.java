@@ -218,6 +218,7 @@ public class DataCreator {
             item.setPrice(2000);
             item.setQuantity(2);
             item.setDescription("메가커피 아이스아메리카노 기프티콘");
+            item.setImgLink("https://contents.lotteon.com/itemimage/_v135754/LO/18/80/31/75/97/_1/88/03/17/59/8/LO1880317597_1880317598_1.jpg/dims/optimize/dims/resizemc/400x400");
         pointStoreItemRepository.save(item);
         
         item = new PointStoreItem();
@@ -225,6 +226,8 @@ public class DataCreator {
             item.setPrice(10000);
             item.setQuantity(3);
             item.setDescription("메가커피 기프티콘 만원권");
+            item.setImgLink("https://img.danawa.com/prod_img/500000/093/863/img/4863093_1.jpg?_v=20230410151340");
+
         pointStoreItemRepository.save(item);
         
         item = new PointStoreItem();
@@ -232,6 +235,7 @@ public class DataCreator {
             item.setPrice(30000);
             item.setQuantity(4);
             item.setDescription("메가커피 기프티콘 삼만원권");
+            item.setImgLink("https://gdimg.gmarket.co.kr/915972518/still/400?ver=0");
         pointStoreItemRepository.save(item);
         
         item = new PointStoreItem();
@@ -239,6 +243,7 @@ public class DataCreator {
             item.setPrice(5000);
             item.setQuantity(2);
             item.setDescription("Gs25 기프티콘 오천원권");
+            item.setImgLink("https://m.skylifeshop.co.kr/web/product/big/202210/ee36fc0ae755b344b74207ed26801d0f.jpg");
         pointStoreItemRepository.save(item);
         
         
